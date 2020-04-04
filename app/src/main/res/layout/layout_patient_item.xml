@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
+    style="@style/CommonRecyclerViewShape"
+    tools:layout_editor_absoluteX="20dp"
+    tools:layout_editor_absoluteY="5dp">
+
+    <ImageView
+        android:id="@+id/iv_item_patient"
+        style="@style/ThumbnailsItem"
+        android:contentDescription="@null"
+        android:src="@mipmap/patient_avatar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_item_patient_title"
+        style="@style/CommonItemTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/patient_item_title"
+        app:layout_constraintBottom_toTopOf="@+id/tv_item_patient_id"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/iv_item_patient"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_item_patient_id"
+        style="@style/CommonItemSubTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:text="@string/patient_item_id"
+        app:layout_constraintBottom_toTopOf="@+id/tv_item_patient_status"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/iv_item_patient"
+        app:layout_constraintTop_toBottomOf="@+id/tv_item_patient_title" />
+
+    <TextView
+        android:id="@+id/tv_item_patient_status"
+        style="@style/CommonItemSubTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/patient_item_status"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/tv_item_patient_date"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/iv_item_patient"
+        app:layout_constraintTop_toBottomOf="@+id/tv_item_patient_id" />
+
+    <TextView
+        android:id="@+id/tv_item_patient_date"
+        style="@style/CommonItemSubTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/patient_item_date"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/iv_item_patient"
+        app:layout_constraintTop_toBottomOf="@+id/tv_item_patient_status" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

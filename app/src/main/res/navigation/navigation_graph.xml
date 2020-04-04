@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_graph"
+    app:startDestination="@id/main_dest">
+
+    <fragment
+        android:id="@+id/main_dest"
+        android:name="com.mapx.kosten.mosimpa.presentation.fragments.patients.PatientsFragment"
+        android:label="@string/nav_label_patients">
+        <action
+            android:id="@+id/action_patientsFragment_to_sensorsFragment"
+            app:destination="@id/sensorsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/sensorsFragment"
+        android:name="com.mapx.kosten.mosimpa.presentation.fragments.sensors.SensorsFragment"
+        android:label="settings_dest"
+        tools:layout="@layout/fragment_sensors">
+        <action
+            android:id="@+id/action_sensorsFragment_to_sensorDetailFragment"
+            app:destination="@id/sensorDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/sensorDetailFragment"
+        android:name="com.mapx.kosten.mosimpa.presentation.fragments.sensorDetail.SensorDetailFragment"
+        android:label="fragment_sensor_detail"
+        tools:layout="@layout/fragment_sensor_detail" />
+</navigation>

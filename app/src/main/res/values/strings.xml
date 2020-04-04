@@ -1,3 +1,23 @@
 <resources>
     <string name="app_name">MoSimPa</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Bottom navigation -->
+    <string name="bottom_menu_main">Pacientes</string>
+    <string name="bottom_menu_settings">Configuración</string>
+
+    <!-- Navigation Graph-->
+    <string name="nav_label_patients">Pacientes</string>
+    <string name="nav_label_settings">Configuración</string>
+
+    <!-- Patient Adapter -->
+   <string name="patient_item_title">Paciente</string>
+   <string name="patient_item_id">"Id: 1234567890"</string>
+   <string name="patient_item_status">-----</string>
+   <string name="patient_item_date">"15 feb. 2020</string>
+
+    <!-- Patient Fragment -->
+   <string name="patients_progress">No hay pacientes cargados</string>
 </resources>
