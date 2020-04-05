@@ -10,11 +10,12 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mapx.kosten.mosimpa.R
-import com.mapx.kosten.mosimpa.domain.Patient
+import com.mapx.kosten.mosimpa.domain.PatientEntity
 import com.mapx.kosten.mosimpa.presentation.common.App
 import kotlinx.android.synthetic.main.fragment_settings.*
 
@@ -62,7 +63,7 @@ class SettingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         addButton = fab_settings_add_patient
         addButton.setOnClickListener{
-            goToAddPatient()
+            goToAddPatient(INVALID_PATIENT_ID)
         }
         progressBar = pb_settings
         adapter = SettingsAdapter{ node, view ->
@@ -87,14 +88,19 @@ class SettingsFragment : Fragment() {
     private fun handleViewState(state: SettingsViewState) {
         progressBar.visibility = if (state.isLoading) View.VISIBLE else View.GONE
         emptyMessage.visibility = if (!state.isLoading && state.isEmpty) View.VISIBLE else View.GONE
-        state.patients?.let { adapter.setPatients(it) }
+        state.patientEntities?.let { adapter.setPatients(it) }
     }
 
-    private fun goToAddPatient() {
-
+    private fun goToAddPatient(id: Long) {
+        val action = SettingsFragmentDirections.actionSettingsDestToSettingsPatientFragment(id)
+        findNavController().navigate(action)
     }
 
-    private fun goToDetailView(patient: Patient, view: View) {
-        Log.i(javaClass.simpleName, "goToDetailView(): $patient")
+    private fun goToDetailView(patientEntity: PatientEntity, view: View) {
+        Log.i(javaClass.simpleName, "goToDetailView(): $patientEntity")
+    }
+
+    companion object {
+        private const val INVALID_PATIENT_ID = -1L
     }
 }

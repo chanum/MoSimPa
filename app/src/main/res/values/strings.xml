@@ -11,21 +11,34 @@
     <!-- Navigation Graph-->
     <string name="nav_label_patients">MoSimPa</string>
     <string name="nav_label_settings">Configuración</string>
+    <string name="nav_label_settings_patient">Editar</string>
 
     <!-- Patient Adapter -->
-   <string name="patient_item_title">Paciente</string>
-   <string name="patient_item_id">"Id: 1234567890"</string>
-   <string name="patient_item_status">-----</string>
-   <string name="patient_item_date">"15 feb. 2020</string>
+    <string name="patient_item_title">Paciente</string>
+    <string name="patient_item_id">"Id: 1234567890"</string>
+    <string name="patient_item_status">-----</string>
+    <string name="patient_item_date">"15 feb. 2020</string>
 
     <!-- Patient Fragment -->
-   <string name="patients_progress">No hay pacientes cargados</string>
+    <string name="patients_progress">No hay pacientes cargados</string>
 
     <!-- Settings Item  -->
     <string name="settings_patient_item_name">Juan Carlos Perez</string>
     <string name="settings_patient_item_id">1234567890123</string>
 
-    !-- Settings  -->
+    <!-- Settings -->
     <string name="settings_progress">No hay pacientes cargados</string>
+
+    <!-- Settings Patient -->
+    <string name="settings_patient_title">Agregar Paciente</string>
+    <string name="settings_patient_hint_name">Nombre</string>
+    <string name="settings_patient_hint_id">Id</string>
+    <string name="settings_patient_save_btn">Guardar</string>
+    <string name="settings_patient_cancel_btn">Cancelar</string>
+    <string name="settings_patient_delete_btn">Eliminar</string>
+    <string name="settings_patient_error_name">Nombre inválido</string>
+    <string name="settings_patient_error_id">Id inválido</string>
+    <string name="settings_patient_error_save">Error Guardar Paciente</string>
+    <string name="settings_patient_error">Error</string>
 
 </resources>

@@ -9,12 +9,15 @@ import com.mapx.kosten.mosimpa.di.modules.patients.PatientsModule
 import com.mapx.kosten.mosimpa.di.modules.patients.PatientsSubComponent
 import com.mapx.kosten.mosimpa.di.modules.settings.SettingsModule
 import com.mapx.kosten.mosimpa.di.modules.settings.SettingsSubComponent
+import com.mapx.kosten.mosimpa.di.modules.settingsPatient.SettingsPatientModule
+import com.mapx.kosten.mosimpa.di.modules.settingsPatient.SettingsPatientSubComponent
 
 class App: Application() {
 
     lateinit var mainComponent: MainComponent
     private var patientsSubComponent: PatientsSubComponent? = null
     private var settingsSubComponent: SettingsSubComponent? = null
+    private var settingsPatientSubComponent: SettingsPatientSubComponent? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -47,6 +50,16 @@ class App: Application() {
 
     fun releaseSettingsComponent() {
         settingsSubComponent = null
+    }
+
+    // Settings Patient
+    fun createSettingsPatientComponent(): SettingsPatientSubComponent {
+        settingsPatientSubComponent = mainComponent.plus(SettingsPatientModule())
+        return settingsPatientSubComponent!!
+    }
+
+    fun releaseSettingsPatientComponent() {
+        settingsPatientSubComponent = null
     }
 
 }

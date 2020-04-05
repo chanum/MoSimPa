@@ -7,6 +7,8 @@ import com.mapx.kosten.mosimpa.di.modules.patients.PatientsModule
 import com.mapx.kosten.mosimpa.di.modules.patients.PatientsSubComponent
 import com.mapx.kosten.mosimpa.di.modules.settings.SettingsModule
 import com.mapx.kosten.mosimpa.di.modules.settings.SettingsSubComponent
+import com.mapx.kosten.mosimpa.di.modules.settingsPatient.SettingsPatientModule
+import com.mapx.kosten.mosimpa.di.modules.settingsPatient.SettingsPatientSubComponent
 import dagger.Component
 import javax.inject.Singleton
 
@@ -20,4 +22,5 @@ import javax.inject.Singleton
 interface MainComponent {
     fun plus(patientsModule: PatientsModule): PatientsSubComponent
     fun plus(settingsModule: SettingsModule): SettingsSubComponent
+    fun plus(settingsPatientModule: SettingsPatientModule): SettingsPatientSubComponent
 }

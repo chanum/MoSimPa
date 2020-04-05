@@ -5,14 +5,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mapx.kosten.mosimpa.R
-import com.mapx.kosten.mosimpa.domain.Patient
+import com.mapx.kosten.mosimpa.domain.PatientEntity
 import kotlinx.android.synthetic.main.layout_settings_patient_item.view.*
 
 class SettingsAdapter constructor(
-    private val onNodeSelected: (Patient, View) -> Unit
+    private val onNodeSelected: (PatientEntity, View) -> Unit
 ) : RecyclerView.Adapter<SettingsAdapter.PatientCellViewHolder>() {
 
-    private var patients: List<Patient> = listOf()
+    private var patientEntities: List<PatientEntity> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PatientCellViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(
@@ -23,25 +23,25 @@ class SettingsAdapter constructor(
     }
 
     override fun getItemCount(): Int {
-        return patients.size
+        return patientEntities.size
     }
 
     override fun onBindViewHolder(holder: PatientCellViewHolder, position: Int) {
-        val node = patients[position]
+        val node = patientEntities[position]
         holder.bind(node, onNodeSelected)
     }
 
-    fun setPatients(patients: List<Patient>) {
-        this.patients = patients
+    fun setPatients(patientEntities: List<PatientEntity>) {
+        this.patientEntities = patientEntities
         notifyDataSetChanged()
     }
 
     class PatientCellViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(patient: Patient, listener: (Patient, View) -> Unit) = with(itemView) {
-            tv_settings_patient_name.text = patient.name
-            tv_settings_patient_id.text = patient.id.toString()
+        fun bind(patientEntity: PatientEntity, listener: (PatientEntity, View) -> Unit) = with(itemView) {
+            tv_settings_patient_name.text = patientEntity.name
+            tv_settings_patient_id.text = patientEntity.id.toString()
 
-            setOnClickListener { listener(patient, itemView) }
+            setOnClickListener { listener(patientEntity, itemView) }
         }
     }
 }
