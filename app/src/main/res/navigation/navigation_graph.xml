@@ -27,4 +27,8 @@
         android:name="com.mapx.kosten.mosimpa.presentation.fragments.sensorDetail.SensorDetailFragment"
         android:label="fragment_sensor_detail"
         tools:layout="@layout/fragment_sensor_detail" />
+    <fragment
+        android:id="@+id/settings_dest"
+        android:name="com.mapx.kosten.mosimpa.presentation.fragments.settings.SettingsFragment"
+        android:label="@string/nav_label_settings" />
 </navigation>

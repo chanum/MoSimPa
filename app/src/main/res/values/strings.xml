@@ -9,7 +9,7 @@
     <string name="bottom_menu_settings">Configuración</string>
 
     <!-- Navigation Graph-->
-    <string name="nav_label_patients">Pacientes</string>
+    <string name="nav_label_patients">MoSimPa</string>
     <string name="nav_label_settings">Configuración</string>
 
     <!-- Patient Adapter -->
@@ -20,4 +20,12 @@
 
     <!-- Patient Fragment -->
    <string name="patients_progress">No hay pacientes cargados</string>
+
+    <!-- Settings Item  -->
+    <string name="settings_patient_item_name">Juan Carlos Perez</string>
+    <string name="settings_patient_item_id">1234567890123</string>
+
+    !-- Settings  -->
+    <string name="settings_progress">No hay pacientes cargados</string>
+
 </resources>

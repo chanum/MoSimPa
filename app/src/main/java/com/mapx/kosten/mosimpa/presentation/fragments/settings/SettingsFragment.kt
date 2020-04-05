@@ -1,4 +1,4 @@
-package com.mapx.kosten.mosimpa.presentation.fragments.patients
+package com.mapx.kosten.mosimpa.presentation.fragments.settings
 
 import android.os.Bundle
 import android.util.Log
@@ -16,32 +16,32 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mapx.kosten.mosimpa.R
 import com.mapx.kosten.mosimpa.domain.Patient
 import com.mapx.kosten.mosimpa.presentation.common.App
-import kotlinx.android.synthetic.main.fragment_patients.*
+import kotlinx.android.synthetic.main.fragment_settings.*
 
 import javax.inject.Inject
 
-class PatientsFragment : Fragment() {
+class SettingsFragment : Fragment() {
 
     @Inject
-    lateinit var factory: PatientsViewModelFactory
-    private lateinit var viewModel: PatientsViewModel
+    lateinit var factory: SettingsViewModelFactory
+    private lateinit var viewModel: SettingsViewModel
     private lateinit var recyclerView: RecyclerView
     private lateinit var progressBar: ProgressBar
     private lateinit var emptyMessage: TextView
-    private lateinit var adapter: PatientsAdapter
+    private lateinit var adapter: SettingsAdapter
     private lateinit var addButton: FloatingActionButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (activity?.application as App).createPatientsComponent().inject(this)
-        viewModel = ViewModelProvider(this, factory).get(PatientsViewModel::class.java)
+        (activity?.application as App).createSettingsComponent().inject(this)
+        viewModel = ViewModelProvider(this, factory).get(SettingsViewModel::class.java)
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_patients, container, false)
+        return inflater.inflate(R.layout.fragment_settings, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -60,16 +60,16 @@ class PatientsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        addButton = fab_add_patient
+        addButton = fab_settings_add_patient
         addButton.setOnClickListener{
             goToAddPatient()
         }
-        progressBar = pb_patients
-        adapter = PatientsAdapter{ node, view ->
+        progressBar = pb_settings
+        adapter = SettingsAdapter{ node, view ->
             goToDetailView(node, view)
         }
-        recyclerView = rv_patients
-        emptyMessage = tv_patients_empty
+        recyclerView = rv_settings_patients
+        emptyMessage = tv_settings_empty
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = adapter
     }
@@ -81,10 +81,10 @@ class PatientsFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        (activity?.application as App).releasePatientsComponent()
+        (activity?.application as App).releaseSettingsComponent()
     }
 
-    private fun handleViewState(state: PatientsViewState) {
+    private fun handleViewState(state: SettingsViewState) {
         progressBar.visibility = if (state.isLoading) View.VISIBLE else View.GONE
         emptyMessage.visibility = if (!state.isLoading && state.isEmpty) View.VISIBLE else View.GONE
         state.patients?.let { adapter.setPatients(it) }
