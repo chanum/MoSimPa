@@ -25,9 +25,11 @@ class SavePatientUseCase (
                     .subscribe(
                         {
                             newPatient = patient.copy()
+                            newPatient.id = it
                             compositeDisposable.clear()
                         },{
                             newPatient = patient.copy()
+                            newPatient.id = -1
                             compositeDisposable.clear()
                         })
                 compositeDisposable.add(disposable)

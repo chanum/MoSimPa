@@ -1,6 +1,7 @@
 package com.mapx.kosten.mosimpa.di.modules.settingsPatient
 
 import com.mapx.kosten.mosimpa.domain.data.PatientsRepository
+import com.mapx.kosten.mosimpa.domain.interactors.patient.DeletePatientUseCase
 import com.mapx.kosten.mosimpa.domain.interactors.patient.GetPatientUseCase
 import com.mapx.kosten.mosimpa.domain.interactors.patient.SavePatientUseCase
 import com.mapx.kosten.mosimpa.presentation.common.ASyncTransformer
@@ -28,11 +29,24 @@ class SettingsPatientModule {
     }
 
     @Provides
+    fun provideDeletePatientUseCase(patientsRepository: PatientsRepository): DeletePatientUseCase {
+        return DeletePatientUseCase(
+            ASyncTransformer(),
+            patientsRepository
+        )
+    }
+
+    @Provides
     fun provideSettingsPatientViewModelFactory(
         savePatientUseCase: SavePatientUseCase,
-        getPatientUseCase: GetPatientUseCase
+        getPatientUseCase: GetPatientUseCase,
+        deletePatientUseCase: DeletePatientUseCase
     ): SettingsPatientViewModelFactory {
-        return SettingsPatientViewModelFactory(savePatientUseCase, getPatientUseCase)
+        return SettingsPatientViewModelFactory(
+            savePatientUseCase,
+            getPatientUseCase,
+            deletePatientUseCase
+        )
     }
 
 }

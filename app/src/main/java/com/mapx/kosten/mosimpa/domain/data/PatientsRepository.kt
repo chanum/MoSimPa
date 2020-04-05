@@ -7,6 +7,6 @@ interface PatientsRepository {
     fun getAllPatients(): Observable<List<PatientEntity>>
     fun saveAllPatients()
     fun getPatientsById(id: Long): Observable<PatientEntity>
-    fun deletePatientById()
+    fun deletePatientById(id: Long)
     fun savePatient(patient: PatientEntity): Observable<Long>
 }

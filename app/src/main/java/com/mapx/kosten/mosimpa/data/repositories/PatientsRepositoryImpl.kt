@@ -32,8 +32,8 @@ class PatientsRepositoryImpl(
         }
     }
 
-    override fun deletePatientById() {
-        TODO("Not yet implemented")
+    override fun deletePatientById(id: Long) {
+        dao.removePatient(id)
     }
 
     override fun savePatient(patient: PatientEntity): Observable<Long> {

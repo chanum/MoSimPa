@@ -19,4 +19,7 @@ interface PatientsDao {
 
     @Query("DELETE FROM patientsTbl")
     fun clear()
+
+    @Query("DELETE FROM patientsTbl WHERE id=:id")
+    fun removePatient(id: Long)
 }
