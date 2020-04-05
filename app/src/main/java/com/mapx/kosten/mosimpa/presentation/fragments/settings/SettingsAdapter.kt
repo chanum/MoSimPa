@@ -9,7 +9,7 @@ import com.mapx.kosten.mosimpa.domain.entites.PatientEntity
 import kotlinx.android.synthetic.main.layout_settings_patient_item.view.*
 
 class SettingsAdapter constructor(
-    private val onNodeSelected: (PatientEntity, View) -> Unit
+    private val onSettingPatientSelected: (PatientEntity, View) -> Unit
 ) : RecyclerView.Adapter<SettingsAdapter.PatientCellViewHolder>() {
 
     private var patientEntities: List<PatientEntity> = listOf()
@@ -28,7 +28,7 @@ class SettingsAdapter constructor(
 
     override fun onBindViewHolder(holder: PatientCellViewHolder, position: Int) {
         val node = patientEntities[position]
-        holder.bind(node, onNodeSelected)
+        holder.bind(node, onSettingPatientSelected)
     }
 
     fun setPatients(patientEntities: List<PatientEntity>) {

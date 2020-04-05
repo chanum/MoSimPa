@@ -12,16 +12,20 @@
         tools:layout="@layout/activity_main">
         <action
             android:id="@+id/action_patientsFragment_to_sensorsFragment"
-            app:destination="@id/sensorsFragment" />
+            app:destination="@id/sensors_dest" />
     </fragment>
     <fragment
-        android:id="@+id/sensorsFragment"
+        android:id="@+id/sensors_dest"
         android:name="com.mapx.kosten.mosimpa.presentation.fragments.sensors.SensorsFragment"
-        android:label="settings_dest"
+        android:label="@string/nav_label_sensors"
         tools:layout="@layout/fragment_sensors">
         <action
             android:id="@+id/action_sensorsFragment_to_sensorDetailFragment"
             app:destination="@id/sensorDetailFragment" />
+        <argument
+            android:name="patientId"
+            android:defaultValue="-1L"
+            app:argType="long" />
     </fragment>
     <fragment
         android:id="@+id/sensorDetailFragment"

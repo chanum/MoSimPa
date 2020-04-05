@@ -1,62 +1,97 @@
 package com.mapx.kosten.mosimpa.presentation.fragments.sensors
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
+import android.widget.ProgressBar
+import android.widget.TextView
+import android.widget.Toast
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.mapx.kosten.mosimpa.R
+import com.mapx.kosten.mosimpa.domain.entites.SensorEntity
+import com.mapx.kosten.mosimpa.presentation.common.App
+import javax.inject.Inject
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [SensorsFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class SensorsFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    @Inject
+    lateinit var factory: SensorsViewModelFactory
+    private lateinit var viewModel: SensorsViewModel
+    private lateinit var rootLayout: CoordinatorLayout
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var progressBar: ProgressBar
+    private lateinit var emptyMessage: TextView
+    private lateinit var adapter: SensorsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+        (activity?.application as App).createSensorsComponent().inject(this)
+        viewModel = ViewModelProvider(this, factory).get(SensorsViewModel::class.java)
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_sensors, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment SensorsFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SensorsFragment()
-                .apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel.viewState.observe(viewLifecycleOwner, Observer {
+            if (it != null) handleViewState(it)
+        })
+        viewModel.errorState.observe(viewLifecycleOwner, Observer { throwable ->
+            throwable?.let {
+                Toast.makeText(activity, it.message, Toast.LENGTH_LONG).show()
             }
+        })
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        rootLayout = view.findViewById(R.id.frameLayoutSensors)
+        progressBar = rootLayout.findViewById(R.id.pb_sensors)
+        recyclerView = rootLayout.findViewById(R.id.rv_sensors)
+        emptyMessage = rootLayout.findViewById(R.id.tv_sensors_empty)
+
+        adapter = SensorsAdapter{ sensor, view ->
+            goToDetailView(sensor, view)
+        }
+
+        recyclerView.layoutManager = LinearLayoutManager(activity)
+        recyclerView.adapter = adapter
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.loadSensors()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        (activity?.application as App).releaseSensorsComponent()
+    }
+
+    private fun handleViewState(state: SensorsViewState) {
+        progressBar.visibility = if (state.isLoading) View.VISIBLE else View.GONE
+        emptyMessage.visibility = if (!state.isLoading && state.isEmpty) View.VISIBLE else View.GONE
+        state.sensors?.let { adapter.setSensors(it) }
+    }
+
+    private fun goToDetailView(sensorEntity: SensorEntity, view: View) {
+        Log.i(javaClass.simpleName, "goToDetailView(): $sensorEntity")
+        // TODO goto sensor detail
+    }
+
+    private fun goToAddPatient() {
+        // TODO
     }
 }
