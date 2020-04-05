@@ -8,7 +8,8 @@
     <fragment
         android:id="@+id/main_dest"
         android:name="com.mapx.kosten.mosimpa.presentation.fragments.patients.PatientsFragment"
-        android:label="@string/nav_label_patients">
+        android:label="@string/nav_label_patients"
+        tools:layout="@layout/activity_main">
         <action
             android:id="@+id/action_patientsFragment_to_sensorsFragment"
             app:destination="@id/sensorsFragment" />
@@ -30,5 +31,20 @@
     <fragment
         android:id="@+id/settings_dest"
         android:name="com.mapx.kosten.mosimpa.presentation.fragments.settings.SettingsFragment"
-        android:label="@string/nav_label_settings" />
+        android:label="@string/nav_label_settings"
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_settings_dest_to_settingsPatientFragment"
+            app:destination="@id/settingsPatient_dest" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsPatient_dest"
+        android:name="com.mapx.kosten.mosimpa.presentation.fragments.settingsPatient.SettingsPatientFragment"
+        android:label="@string/nav_label_settings_patient"
+        tools:layout="@layout/fragment_settings_patient" >
+        <argument
+            android:name="patientId"
+            app:argType="long"
+            android:defaultValue="-1L" />
+    </fragment>
 </navigation>

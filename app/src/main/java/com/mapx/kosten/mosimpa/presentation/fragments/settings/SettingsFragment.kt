@@ -8,13 +8,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mapx.kosten.mosimpa.R
-import com.mapx.kosten.mosimpa.domain.Patient
+import com.mapx.kosten.mosimpa.domain.PatientEntity
 import com.mapx.kosten.mosimpa.presentation.common.App
 import kotlinx.android.synthetic.main.fragment_settings.*
 
@@ -49,20 +51,18 @@ class SettingsFragment : Fragment() {
         viewModel.viewState.observe(viewLifecycleOwner, Observer {
             if (it != null) handleViewState(it)
         })
-        /*
         viewModel.errorState.observe(viewLifecycleOwner, Observer { throwable ->
             throwable?.let {
                 Toast.makeText(activity, it.message, Toast.LENGTH_LONG).show()
             }
         })
-        */
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         addButton = fab_settings_add_patient
         addButton.setOnClickListener{
-            goToAddPatient()
+            goToAddPatient(INVALID_PATIENT_ID)
         }
         progressBar = pb_settings
         adapter = SettingsAdapter{ node, view ->
@@ -90,11 +90,16 @@ class SettingsFragment : Fragment() {
         state.patients?.let { adapter.setPatients(it) }
     }
 
-    private fun goToAddPatient() {
-
+    private fun goToDetailView(patient: PatientEntity, view: View) {
+        Log.i(javaClass.simpleName, "goToDetailView(): $patient")
+        goToAddPatient(patient.id)
+    }
+    private fun goToAddPatient(id: Long) {
+        val action = SettingsFragmentDirections.actionSettingsDestToSettingsPatientFragment(id)
+        findNavController().navigate(action)
     }
 
-    private fun goToDetailView(patient: Patient, view: View) {
-        Log.i(javaClass.simpleName, "goToDetailView(): $patient")
+    companion object {
+        private const val INVALID_PATIENT_ID = -1L
     }
 }

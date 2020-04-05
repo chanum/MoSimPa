@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mapx.kosten.mosimpa.R
-import com.mapx.kosten.mosimpa.domain.Patient
+import com.mapx.kosten.mosimpa.domain.PatientEntity
 import com.mapx.kosten.mosimpa.presentation.common.App
 import kotlinx.android.synthetic.main.fragment_patients.*
 
@@ -87,14 +87,14 @@ class PatientsFragment : Fragment() {
     private fun handleViewState(state: PatientsViewState) {
         progressBar.visibility = if (state.isLoading) View.VISIBLE else View.GONE
         emptyMessage.visibility = if (!state.isLoading && state.isEmpty) View.VISIBLE else View.GONE
-        state.patients?.let { adapter.setPatients(it) }
+        state.patientEntities?.let { adapter.setPatients(it) }
     }
 
     private fun goToAddPatient() {
 
     }
 
-    private fun goToDetailView(patient: Patient, view: View) {
-        Log.i(javaClass.simpleName, "goToDetailView(): $patient")
+    private fun goToDetailView(patientEntity: PatientEntity, view: View) {
+        Log.i(javaClass.simpleName, "goToDetailView(): $patientEntity")
     }
 }
