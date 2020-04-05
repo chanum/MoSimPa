@@ -21,6 +21,7 @@
         style="@style/CommonItemTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:text="@string/patient_item_title"
         app:layout_constraintBottom_toTopOf="@+id/tv_item_patient_id"
         app:layout_constraintEnd_toEndOf="parent"
@@ -35,36 +36,33 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="7dp"
         android:text="@string/patient_item_id"
-        app:layout_constraintBottom_toTopOf="@+id/tv_item_patient_status"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/iv_item_patient"
         app:layout_constraintTop_toBottomOf="@+id/tv_item_patient_title" />
 
     <TextView
-        android:id="@+id/tv_item_patient_status"
+        android:id="@+id/tv_item_patient_sex"
         style="@style/CommonItemSubTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/patient_item_status"
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/tv_item_patient_date"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"
+        android:text="@string/patient_item_sex"
+        app:layout_constraintEnd_toStartOf="@+id/tv_item_patient_bed"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/iv_item_patient"
         app:layout_constraintTop_toBottomOf="@+id/tv_item_patient_id" />
 
     <TextView
-        android:id="@+id/tv_item_patient_date"
+        android:id="@+id/tv_item_patient_bed"
         style="@style/CommonItemSubTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/patient_item_date"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="8dp"
+        android:text="@string/patient_item_bed"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/iv_item_patient"
-        app:layout_constraintTop_toBottomOf="@+id/tv_item_patient_status" />
+        app:layout_constraintStart_toEndOf="@+id/tv_item_patient_sex"
+        app:layout_constraintTop_toBottomOf="@+id/tv_item_patient_id" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

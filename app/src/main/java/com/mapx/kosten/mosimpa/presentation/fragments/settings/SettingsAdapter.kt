@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mapx.kosten.mosimpa.R
-import com.mapx.kosten.mosimpa.domain.PatientEntity
+import com.mapx.kosten.mosimpa.domain.entites.PatientEntity
 import kotlinx.android.synthetic.main.layout_settings_patient_item.view.*
 
 class SettingsAdapter constructor(

@@ -9,5 +9,7 @@ data class PatientDB(
     var id: Long = -1,
     var name: String = "",
     var age: Int = -1 ,
-    var status: Int = -1
+    var status: Int = -1,
+    val bed: String = "",
+    val sex: String = ""
 )

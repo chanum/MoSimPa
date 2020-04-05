@@ -16,7 +16,7 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 
 import com.mapx.kosten.mosimpa.R
-import com.mapx.kosten.mosimpa.domain.PatientEntity
+import com.mapx.kosten.mosimpa.domain.entites.PatientEntity
 import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.EMPTY_STRING
 import com.mapx.kosten.mosimpa.presentation.common.App
 import javax.inject.Inject

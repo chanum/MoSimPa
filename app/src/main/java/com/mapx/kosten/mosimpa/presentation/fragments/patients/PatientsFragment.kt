@@ -8,13 +8,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mapx.kosten.mosimpa.R
-import com.mapx.kosten.mosimpa.domain.PatientEntity
+import com.mapx.kosten.mosimpa.domain.entites.PatientEntity
 import com.mapx.kosten.mosimpa.presentation.common.App
 import kotlinx.android.synthetic.main.fragment_patients.*
 
@@ -49,13 +50,11 @@ class PatientsFragment : Fragment() {
         viewModel.viewState.observe(viewLifecycleOwner, Observer {
             if (it != null) handleViewState(it)
         })
-        /*
         viewModel.errorState.observe(viewLifecycleOwner, Observer { throwable ->
             throwable?.let {
                 Toast.makeText(activity, it.message, Toast.LENGTH_LONG).show()
             }
         })
-        */
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -87,14 +86,16 @@ class PatientsFragment : Fragment() {
     private fun handleViewState(state: PatientsViewState) {
         progressBar.visibility = if (state.isLoading) View.VISIBLE else View.GONE
         emptyMessage.visibility = if (!state.isLoading && state.isEmpty) View.VISIBLE else View.GONE
-        state.patientEntities?.let { adapter.setPatients(it) }
-    }
-
-    private fun goToAddPatient() {
-
+        state.patients?.let { adapter.setPatients(it) }
     }
 
     private fun goToDetailView(patientEntity: PatientEntity, view: View) {
         Log.i(javaClass.simpleName, "goToDetailView(): $patientEntity")
+        // TODO goto sensor detail
     }
+
+    private fun goToAddPatient() {
+       // TODO
+    }
+
 }
