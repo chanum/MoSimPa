@@ -6,7 +6,7 @@ import io.reactivex.Observable
 interface PatientsRepository {
     fun getAllPatients(): Observable<List<PatientEntity>>
     fun saveAllPatients()
-    fun getPatientsById()
+    fun getPatientsById(id: Long): Observable<PatientEntity>
     fun deletePatientById()
     fun savePatient(patient: PatientEntity): Observable<Long>
 }

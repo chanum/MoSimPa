@@ -3,12 +3,16 @@ package com.mapx.kosten.mosimpa.presentation.fragments.settingsPatient
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.mapx.kosten.mosimpa.domain.PatientEntity
+import com.mapx.kosten.mosimpa.domain.interactors.patient.GetPatientUseCase
 import com.mapx.kosten.mosimpa.domain.interactors.patient.SavePatientUseCase
 import com.mapx.kosten.mosimpa.presentation.common.BaseViewModel
 import com.mapx.kosten.mosimpa.presentation.common.SingleLiveEvent
+import com.mapx.kosten.mosimpa.presentation.fragments.settingsPatient.SettingsPatientFragment.Companion.SAVE_ERROR
+import com.mapx.kosten.mosimpa.presentation.fragments.settingsPatient.SettingsPatientFragment.Companion.SAVE_OK
 
 class SettingsPatientViewModel(
-    private val savePatientUseCase: SavePatientUseCase
+    private val savePatientUseCase: SavePatientUseCase,
+    private val getPatientUseCase: GetPatientUseCase
 ) : BaseViewModel() {
 
     var viewState: MutableLiveData<SettingsPatientViewState> = MutableLiveData()
@@ -18,8 +22,6 @@ class SettingsPatientViewModel(
         val viewState = SettingsPatientViewState()
         this.viewState.value = viewState
     }
-
-    fun savePatientClicked() {}
 
     fun savePatient(id: Long, name: String) {
         val patient = PatientEntity(id=id, name = name)
@@ -40,11 +42,34 @@ class SettingsPatientViewModel(
         )
     }
 
-    fun getPatient() {
+    fun getPatient(id: Long) {
+        addDisposable(getPatientUseCase.getPatient(id)
+            .subscribe({it ->
+                var newViewState: SettingsPatientViewState? = null
+                if (it.id > 0) {
+                    newViewState = viewState.value?.copy(
+                        saveStatus = SAVE_OK,
+                        patient = it,
+                        isLoading = false)
+                } else {
+                    newViewState = viewState.value?.copy(
+                        saveStatus = SAVE_ERROR,
+                        patient = null,
+                        isLoading = false)
+                }
+                viewState.value = newViewState
+                errorState.value = null
+                Log.i(javaClass.simpleName, "Rcv Ok $it")
 
+            }, {
+                viewState.value = SettingsPatientViewState(false, SAVE_ERROR, false, null)
+                errorState.value = it
+                Log.i(javaClass.simpleName, "Rcv Error")
+            })
+        )
     }
 
-    fun deletePatient() {
+    fun deletePatient(id: Long) {
 
     }
 

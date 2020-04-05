@@ -2,6 +2,7 @@ package com.mapx.kosten.mosimpa.data.repositories
 
 import com.mapx.kosten.mosimpa.data.db.MosimpaDatabase
 import com.mapx.kosten.mosimpa.data.db.dao.PatientsDao
+import com.mapx.kosten.mosimpa.data.entities.PatientDB
 import com.mapx.kosten.mosimpa.domain.PatientEntity
 import com.mapx.kosten.mosimpa.domain.data.PatientsRepository
 import com.mapx.kosten.mosimpa.mappers.PatientDataToEntityMapper
@@ -24,8 +25,11 @@ class PatientsRepositoryImpl(
         TODO("Not yet implemented")
     }
 
-    override fun getPatientsById() {
-        TODO("Not yet implemented")
+    override fun getPatientsById(id: Long): Observable<PatientEntity> {
+        return Observable.fromCallable {
+            mapperDBtoEntity.mapFrom(dao.getPatient(id) ?: PatientDB()
+            )
+        }
     }
 
     override fun deletePatientById() {

@@ -90,14 +90,13 @@ class SettingsFragment : Fragment() {
         state.patients?.let { adapter.setPatients(it) }
     }
 
+    private fun goToDetailView(patient: PatientEntity, view: View) {
+        Log.i(javaClass.simpleName, "goToDetailView(): $patient")
+        goToAddPatient(patient.id)
+    }
     private fun goToAddPatient(id: Long) {
         val action = SettingsFragmentDirections.actionSettingsDestToSettingsPatientFragment(id)
         findNavController().navigate(action)
-    }
-
-    private fun goToDetailView(patientEntity: PatientEntity, view: View) {
-        Log.i(javaClass.simpleName, "goToDetailView(): $patientEntity")
-        // TODO
     }
 
     companion object {

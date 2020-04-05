@@ -6,8 +6,8 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "patientsTbl")
 data class PatientDB(
     @PrimaryKey
-    var id: Long,
-    var name: String,
-    var age: Int,
-    var status: Int
+    var id: Long = -1,
+    var name: String = "",
+    var age: Int = -1 ,
+    var status: Int = -1
 )

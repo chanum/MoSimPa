@@ -12,6 +12,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 
 import com.mapx.kosten.mosimpa.R
@@ -44,8 +45,8 @@ class SettingsPatientFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_settings_patient, container, false)
-//        val safeArgs: SettingsNodeFragmentArgs by navArgs()
-//        nodeId = safeArgs.nodeId
+        val safeArgs: SettingsPatientFragmentArgs by navArgs()
+        patientId = safeArgs.patientId
         return view
     }
 
@@ -71,7 +72,7 @@ class SettingsPatientFragment : Fragment() {
 
         if (patientId > 0) {
             cancelBtn.text = resources.getString(R.string.settings_patient_delete_btn)
-            // viewModel.getPatient(nodeId)
+            viewModel.getPatient(patientId)
         }
 
         cancelBtn.setOnClickListener { assignButtonFunction(patientId) }
@@ -121,7 +122,7 @@ class SettingsPatientFragment : Fragment() {
 
     private fun assignButtonFunction (id: Long) {
         if(id > 0) {
-            // viewModel.deletePatient(id)
+            viewModel.deletePatient(id)
         }
     }
 
