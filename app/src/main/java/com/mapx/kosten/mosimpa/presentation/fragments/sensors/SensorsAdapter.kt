@@ -38,7 +38,7 @@ class SensorsAdapter constructor(
 
     class SensorCellViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(sensor: SensorEntity, listener: (SensorEntity, View) -> Unit) = with(itemView) {
-            tv_item_sensor_title.text = sensor.type
+            tv_item_sensor_title.text = sensor.name
             tv_item_sensor_value.text = sensor.value.toString()
 
             setOnClickListener { listener(sensor, itemView) }

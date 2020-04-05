@@ -91,7 +91,4 @@ class SensorsFragment : Fragment() {
         // TODO goto sensor detail
     }
 
-    private fun goToAddPatient() {
-        // TODO
-    }
 }
