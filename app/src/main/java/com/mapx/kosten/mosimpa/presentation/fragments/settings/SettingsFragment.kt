@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -50,13 +51,11 @@ class SettingsFragment : Fragment() {
         viewModel.viewState.observe(viewLifecycleOwner, Observer {
             if (it != null) handleViewState(it)
         })
-        /*
         viewModel.errorState.observe(viewLifecycleOwner, Observer { throwable ->
             throwable?.let {
                 Toast.makeText(activity, it.message, Toast.LENGTH_LONG).show()
             }
         })
-        */
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -88,7 +87,7 @@ class SettingsFragment : Fragment() {
     private fun handleViewState(state: SettingsViewState) {
         progressBar.visibility = if (state.isLoading) View.VISIBLE else View.GONE
         emptyMessage.visibility = if (!state.isLoading && state.isEmpty) View.VISIBLE else View.GONE
-        state.patientEntities?.let { adapter.setPatients(it) }
+        state.patients?.let { adapter.setPatients(it) }
     }
 
     private fun goToAddPatient(id: Long) {
@@ -98,6 +97,7 @@ class SettingsFragment : Fragment() {
 
     private fun goToDetailView(patientEntity: PatientEntity, view: View) {
         Log.i(javaClass.simpleName, "goToDetailView(): $patientEntity")
+        // TODO
     }
 
     companion object {

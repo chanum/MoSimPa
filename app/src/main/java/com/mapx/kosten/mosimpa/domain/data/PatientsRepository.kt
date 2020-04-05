@@ -4,7 +4,7 @@ import com.mapx.kosten.mosimpa.domain.PatientEntity
 import io.reactivex.Observable
 
 interface PatientsRepository {
-    fun getAllPatients()
+    fun getAllPatients(): Observable<List<PatientEntity>>
     fun saveAllPatients()
     fun getPatientsById()
     fun deletePatientById()

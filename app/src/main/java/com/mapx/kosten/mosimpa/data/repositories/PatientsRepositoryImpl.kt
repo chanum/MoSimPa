@@ -4,6 +4,7 @@ import com.mapx.kosten.mosimpa.data.db.MosimpaDatabase
 import com.mapx.kosten.mosimpa.data.db.dao.PatientsDao
 import com.mapx.kosten.mosimpa.domain.PatientEntity
 import com.mapx.kosten.mosimpa.domain.data.PatientsRepository
+import com.mapx.kosten.mosimpa.mappers.PatientDataToEntityMapper
 import com.mapx.kosten.mosimpa.mappers.PatientEntityToDataMapper
 import io.reactivex.Observable
 
@@ -13,9 +14,10 @@ class PatientsRepositoryImpl(
 
     private val dao: PatientsDao = database.patientsDao()
     private val mapperEntityToDB = PatientEntityToDataMapper()
+    private val mapperDBtoEntity = PatientDataToEntityMapper()
 
-    override fun getAllPatients() {
-        TODO("Not yet implemented")
+    override fun getAllPatients(): Observable<List<PatientEntity>> {
+        return Observable.fromCallable {dao.getPatients().map {mapperDBtoEntity.mapFrom(it)}}
     }
 
     override fun saveAllPatients() {
