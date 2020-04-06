@@ -3,10 +3,10 @@ package com.mapx.kosten.mosimpa.data.repositories
 import com.mapx.kosten.mosimpa.data.db.MosimpaDatabase
 import com.mapx.kosten.mosimpa.data.db.dao.PatientsDao
 import com.mapx.kosten.mosimpa.data.entities.PatientDB
-import com.mapx.kosten.mosimpa.domain.PatientEntity
+import com.mapx.kosten.mosimpa.domain.entites.PatientEntity
 import com.mapx.kosten.mosimpa.domain.data.PatientsRepository
-import com.mapx.kosten.mosimpa.mappers.PatientDataToEntityMapper
-import com.mapx.kosten.mosimpa.mappers.PatientEntityToDataMapper
+import com.mapx.kosten.mosimpa.data.mappers.PatientDataToEntityMapper
+import com.mapx.kosten.mosimpa.data.mappers.PatientEntityToDataMapper
 import io.reactivex.Observable
 
 class PatientsRepositoryImpl(

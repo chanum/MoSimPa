@@ -1,6 +1,6 @@
 package com.mapx.kosten.mosimpa.presentation.fragments.settingsPatient
 
-import com.mapx.kosten.mosimpa.domain.PatientEntity
+import com.mapx.kosten.mosimpa.domain.entites.PatientEntity
 import com.mapx.kosten.mosimpa.presentation.fragments.settingsPatient.SettingsPatientFragment.Companion.SAVE_OK
 
 data class SettingsPatientViewState (

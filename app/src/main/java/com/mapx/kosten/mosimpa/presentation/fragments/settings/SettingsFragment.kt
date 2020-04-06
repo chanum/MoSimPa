@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -16,9 +17,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mapx.kosten.mosimpa.R
-import com.mapx.kosten.mosimpa.domain.PatientEntity
+import com.mapx.kosten.mosimpa.domain.entites.PatientEntity
 import com.mapx.kosten.mosimpa.presentation.common.App
-import kotlinx.android.synthetic.main.fragment_settings.*
+import com.mapx.kosten.mosimpa.presentation.common.Utils.Companion.INVALID_PATIENT_ID
 
 import javax.inject.Inject
 
@@ -27,6 +28,7 @@ class SettingsFragment : Fragment() {
     @Inject
     lateinit var factory: SettingsViewModelFactory
     private lateinit var viewModel: SettingsViewModel
+    private lateinit var rootLayout: CoordinatorLayout
     private lateinit var recyclerView: RecyclerView
     private lateinit var progressBar: ProgressBar
     private lateinit var emptyMessage: TextView
@@ -60,16 +62,18 @@ class SettingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        addButton = fab_settings_add_patient
+        rootLayout = view.findViewById(R.id.frameLayoutSettings)
+        addButton = view.findViewById(R.id.fab_settings_add_patient)
+        progressBar = view.findViewById(R.id.pb_settings)
+        recyclerView = view.findViewById(R.id.rv_settings_patients)
+        emptyMessage = view.findViewById(R.id.tv_settings_empty)
+
         addButton.setOnClickListener{
             goToAddPatient(INVALID_PATIENT_ID)
         }
-        progressBar = pb_settings
         adapter = SettingsAdapter{ node, view ->
             goToDetailView(node, view)
         }
-        recyclerView = rv_settings_patients
-        emptyMessage = tv_settings_empty
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = adapter
     }
@@ -99,7 +103,4 @@ class SettingsFragment : Fragment() {
         findNavController().navigate(action)
     }
 
-    companion object {
-        private const val INVALID_PATIENT_ID = -1L
-    }
 }

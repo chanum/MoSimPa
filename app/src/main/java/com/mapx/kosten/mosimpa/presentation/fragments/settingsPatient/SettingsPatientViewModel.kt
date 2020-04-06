@@ -2,7 +2,7 @@ package com.mapx.kosten.mosimpa.presentation.fragments.settingsPatient
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.mapx.kosten.mosimpa.domain.PatientEntity
+import com.mapx.kosten.mosimpa.domain.entites.PatientEntity
 import com.mapx.kosten.mosimpa.domain.interactors.patient.DeletePatientUseCase
 import com.mapx.kosten.mosimpa.domain.interactors.patient.GetPatientUseCase
 import com.mapx.kosten.mosimpa.domain.interactors.patient.SavePatientUseCase
@@ -26,7 +26,10 @@ class SettingsPatientViewModel(
     }
 
     fun savePatient(id: Long, name: String) {
-        val patient = PatientEntity(id=id, name = name)
+        val patient = PatientEntity(
+            id = id,
+            name = name
+        )
         addDisposable(savePatientUseCase.savePatient(patient)
             .subscribe({ status ->
                 val newViewState = viewState.value?.copy(
