@@ -24,8 +24,8 @@
             app:destination="@id/sensorDetailFragment" />
         <argument
             android:name="patientId"
-            android:defaultValue="-1L"
-            app:argType="long" />
+            app:argType="long"
+            android:defaultValue="-1L" />
     </fragment>
     <fragment
         android:id="@+id/sensorDetailFragment"

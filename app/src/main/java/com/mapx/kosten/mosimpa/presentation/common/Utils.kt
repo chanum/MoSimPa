@@ -12,8 +12,8 @@ class Utils {
 
         fun getSensorNameById(id: Int): String {
             return when(id) {
-                SENSOR_SPO2_ID -> "SPO2"
-                SENSOR_HR_ID -> "Pulaciones"
+                SENSOR_SPO2_ID -> "Sat. Oxígeno"
+                SENSOR_HR_ID -> "Frec. Cardiaca"
                 SENSOR_TEMP_ID -> "Temperatura"
                 else -> EMPTY_STRING
             }
@@ -22,9 +22,27 @@ class Utils {
         fun getSensorSufixByID(id: Int): String {
             return when(id) {
                 SENSOR_SPO2_ID -> " %"
-                SENSOR_HR_ID -> " ppm"
+                SENSOR_HR_ID -> " Lpm"
                 SENSOR_TEMP_ID -> " °C"
                 else -> EMPTY_STRING
+            }
+        }
+
+        fun getSensorMaxValueByID(id: Int): Int {
+            return when(id) {
+                SENSOR_SPO2_ID -> 100
+                SENSOR_HR_ID -> 200
+                SENSOR_TEMP_ID -> 50
+                else -> 0
+            }
+        }
+
+        fun getSensorMinValueByID(id: Int): Int {
+            return when(id) {
+                SENSOR_SPO2_ID -> 40
+                SENSOR_HR_ID -> 0
+                SENSOR_TEMP_ID -> 0
+                else -> 0
             }
         }
     }

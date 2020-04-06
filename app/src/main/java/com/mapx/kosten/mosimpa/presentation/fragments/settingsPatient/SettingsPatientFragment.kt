@@ -147,5 +147,4 @@ class SettingsPatientFragment : Fragment() {
         const val SAVE_OK = 0
         const val SAVE_ERROR = -1
     }
-
 }

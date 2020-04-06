@@ -11,7 +11,25 @@ class SubscribeIdUseCase(
 ) : UseCase<Boolean>(transformer){
 
     override fun createObservable(data: Map<String, Any>?): Observable<Boolean> {
-        return sensorsRepository.subscribeId(1)
+        val id = data?.get(PARAM_PATIENT_ID)
+
+        id?.let {
+            return Observable.fromCallable {
+                val id = it as Long
+                sensorsRepository.subscribeId(id)
+                return@fromCallable true
+            }
+        }?: return Observable.error{ IllegalArgumentException("Id must be provided.") }
+
     }
 
+    fun subscribe(id: Long): Observable<Boolean> {
+        val data = HashMap<String, Long>()
+        data[PARAM_PATIENT_ID] = id
+        return observable(data)
+    }
+
+    companion object {
+        private const val PARAM_PATIENT_ID = "param:id"
+    }
 }

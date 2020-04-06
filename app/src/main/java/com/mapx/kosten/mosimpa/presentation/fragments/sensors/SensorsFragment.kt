@@ -94,7 +94,7 @@ class SensorsFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         // if (patientId > INVALID_PATIENT_ID) viewModel.loadSensors(patientId)
-        viewModel.getSensorData()
+        viewModel.getSensorData(patientId)
     }
 
     override fun onDestroy() {
