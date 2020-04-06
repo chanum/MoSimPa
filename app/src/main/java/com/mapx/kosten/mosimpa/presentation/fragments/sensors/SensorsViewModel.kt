@@ -14,11 +14,12 @@ class SensorsViewModel(
 
 ): BaseViewModel() {
 
-    var viewState: MutableLiveData<SensorsViewState> = MutableLiveData()
+    var spo2State: MutableLiveData<SensorEntity> = MutableLiveData()
+    var hrState: MutableLiveData<SensorEntity> = MutableLiveData()
+    var tempState: MutableLiveData<SensorEntity> = MutableLiveData()
     var errorState: SingleLiveEvent<Throwable?> = SingleLiveEvent()
 
     init {
-        val viewState = SensorsViewState()
-        this.viewState.value = viewState
+
     }
 }

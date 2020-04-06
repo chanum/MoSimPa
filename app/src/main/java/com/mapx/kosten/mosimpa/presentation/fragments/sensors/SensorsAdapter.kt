@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mapx.kosten.mosimpa.R
 import com.mapx.kosten.mosimpa.domain.entites.SensorEntity
+import com.mapx.kosten.mosimpa.presentation.common.Utils.Companion.getSensorSufixByID
 import kotlinx.android.synthetic.main.layout_sensor_item.view.*
 
 class SensorsAdapter constructor(
@@ -39,7 +40,7 @@ class SensorsAdapter constructor(
     class SensorCellViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(sensor: SensorEntity, listener: (SensorEntity, View) -> Unit) = with(itemView) {
             tv_item_sensor_title.text = sensor.name
-            tv_item_sensor_value.text = sensor.value.toString()
+            tv_item_sensor_value.text = sensor.value.toString() + getSensorSufixByID(sensor.id)
 
             setOnClickListener { listener(sensor, itemView) }
         }

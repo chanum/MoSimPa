@@ -20,15 +20,15 @@
 
     <TextView
         android:id="@+id/tv_item_sensor_value"
-        style="@style/CommonItemSubTitle"
-        android:textStyle="bold"
+        style="@style/CommonItemTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
         android:text="@string/sensor_item_value"
+        android:textColor="@color/black"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/lineChart_sensor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tv_item_sensor_title"

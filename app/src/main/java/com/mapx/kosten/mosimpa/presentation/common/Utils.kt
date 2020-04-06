@@ -18,5 +18,14 @@ class Utils {
                 else -> EMPTY_STRING
             }
         }
+
+        fun getSensorSufixByID(id: Int): String {
+            return when(id) {
+                SENSOR_SPO2_ID -> " %"
+                SENSOR_HR_ID -> " ppm"
+                SENSOR_TEMP_ID -> " °C"
+                else -> EMPTY_STRING
+            }
+        }
     }
 }

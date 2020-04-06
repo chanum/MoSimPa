@@ -17,6 +17,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mapx.kosten.mosimpa.R
 import com.mapx.kosten.mosimpa.domain.common.Constants
+import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_HR_ID
+import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_SPO2_ID
+import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_TEMP_ID
 import com.mapx.kosten.mosimpa.domain.entites.SensorEntity
 import com.mapx.kosten.mosimpa.presentation.common.App
 import com.mapx.kosten.mosimpa.presentation.common.Utils
@@ -53,8 +56,14 @@ class SensorsFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.viewState.observe(viewLifecycleOwner, Observer {
-            if (it != null) handleViewState(it)
+        viewModel.spo2State.observe(viewLifecycleOwner, Observer {
+            if (it != null) handleViewSensorState(it)
+        })
+        viewModel.hrState.observe(viewLifecycleOwner, Observer {
+            if (it != null) handleViewSensorState(it)
+        })
+        viewModel.tempState.observe(viewLifecycleOwner, Observer {
+            if (it != null) handleViewSensorState(it)
         })
         viewModel.errorState.observe(viewLifecycleOwner, Observer { throwable ->
             throwable?.let {
@@ -77,7 +86,9 @@ class SensorsFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = adapter
 
+        progressBar.visibility = View.VISIBLE
         loadSensors()
+        progressBar.visibility = View.GONE
     }
 
     override fun onResume() {
@@ -90,13 +101,11 @@ class SensorsFragment : Fragment() {
         (activity?.application as App).releaseSensorsComponent()
     }
 
-    private fun handleViewState(state: SensorsViewState) {
-        progressBar.visibility = if (state.isLoading) View.VISIBLE else View.GONE
-        emptyMessage.visibility = if (!state.isLoading && state.isEmpty) View.VISIBLE else View.GONE
-        state.sensorSpo2?.let {
-            val newValue = 2.34F
-            adapter.sensorEntities[1].value = newValue
-            adapter.notifyItemChanged(1)
+    private fun handleViewSensorState(sensor: SensorEntity) {
+        val index = getSensorIndex(sensor.id)
+        if (index > INVALID_SENSOR) {
+            adapter.sensorEntities[index].value = sensor.value
+            adapter.notifyItemChanged(index)
         }
     }
 
@@ -108,23 +117,39 @@ class SensorsFragment : Fragment() {
     private fun loadSensors() {
         val sensors = mutableListOf<SensorEntity>()
         val spo2Sensor = SensorEntity (
-            id = Constants.SENSOR_SPO2_ID,
-            name = Utils.getSensorNameById(Constants.SENSOR_SPO2_ID),
+            id = SENSOR_SPO2_ID,
+            name = Utils.getSensorNameById(SENSOR_SPO2_ID),
             value = 0F
         )
         sensors.add(spo2Sensor)
         val hrSensor = SensorEntity (
-            id = Constants.SENSOR_HR_ID,
-            name = Utils.getSensorNameById(Constants.SENSOR_HR_ID),
+            id = SENSOR_HR_ID,
+            name = Utils.getSensorNameById(SENSOR_HR_ID),
             value = 0F
         )
         sensors.add(hrSensor)
         val tempSensor = SensorEntity (
-            id = Constants.SENSOR_TEMP_ID,
-            name = Utils.getSensorNameById(Constants.SENSOR_TEMP_ID),
+            id = SENSOR_TEMP_ID,
+            name = Utils.getSensorNameById(SENSOR_TEMP_ID),
             value = 0F
         )
         sensors.add(tempSensor)
         adapter.setSensors(sensors)
+    }
+
+    private fun getSensorIndex(id: Int): Int {
+        return when(id) {
+            SENSOR_SPO2_ID -> SENSOR_SPO2_IDX
+            SENSOR_HR_ID -> SENSOR_HR_IDX
+            SENSOR_TEMP_ID -> SENSOR_TEMP_IDX
+            else -> INVALID_SENSOR
+        }
+    }
+
+    companion object {
+        const val INVALID_SENSOR = -1
+        const val SENSOR_SPO2_IDX = 0
+        const val SENSOR_HR_IDX = 1
+        const val SENSOR_TEMP_IDX = 2
     }
 }
