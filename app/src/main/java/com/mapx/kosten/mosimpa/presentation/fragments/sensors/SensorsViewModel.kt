@@ -27,15 +27,29 @@ class SensorsViewModel(
 
     }
 
-    fun getSensorData(Id: Long) {
+    fun subscribePatient(Id: Long) {
+        // TODO get true id
         val hardId = 0xb827eb8b862d
         addDisposable(subscribeIdUseCase.subscribe(hardId)
             .subscribe({
                 errorState.value = null
-                Log.i(javaClass.simpleName, "Rcv Ok")
+                Log.i(javaClass.simpleName, "subscribePatient Ok")
+                getSensorData(hardId)
             } , {
                 errorState.value = it
-                Log.i(javaClass.simpleName, "Rcv Error")
+                Log.i(javaClass.simpleName, "Error subscribePatient")
+            })
+        )
+    }
+
+    private fun getSensorData(Id: Long) {
+        addDisposable(getSensorDataUseCase.getDataById(Id)
+            .subscribe({
+                errorState.value = null
+                Log.i(javaClass.simpleName, "getSensorData Ok $it")
+            } , {
+                errorState.value = it
+                Log.i(javaClass.simpleName, "Error getSensorData")
             })
         )
     }
