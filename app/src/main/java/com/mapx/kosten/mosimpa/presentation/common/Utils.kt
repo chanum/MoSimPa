@@ -8,6 +8,8 @@ import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_TEMP_ID
 class Utils {
 
     companion object {
+        const val INVALID_PATIENT_ID = -1L
+
         fun getSensorNameById(id: Int): String {
             return when(id) {
                 SENSOR_SPO2_ID -> "SPO2"

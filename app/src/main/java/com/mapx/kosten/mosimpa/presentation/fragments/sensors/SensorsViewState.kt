@@ -5,5 +5,7 @@ import com.mapx.kosten.mosimpa.domain.entites.SensorEntity
 data class SensorsViewState(
     val isLoading: Boolean = true,
     val isEmpty: Boolean = true,
-    val sensors: List<SensorEntity>? = null
+    val sensorSpo2: Float = 0F,
+    val sensorHr: Float = 0F,
+    val sensorTemp: Float = 0F
 )

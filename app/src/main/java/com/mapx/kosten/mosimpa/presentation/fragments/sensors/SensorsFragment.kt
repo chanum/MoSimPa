@@ -12,11 +12,15 @@ import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mapx.kosten.mosimpa.R
+import com.mapx.kosten.mosimpa.domain.common.Constants
 import com.mapx.kosten.mosimpa.domain.entites.SensorEntity
 import com.mapx.kosten.mosimpa.presentation.common.App
+import com.mapx.kosten.mosimpa.presentation.common.Utils
+import com.mapx.kosten.mosimpa.presentation.common.Utils.Companion.INVALID_PATIENT_ID
 import javax.inject.Inject
 
 
@@ -29,6 +33,7 @@ class SensorsFragment : Fragment() {
     private lateinit var progressBar: ProgressBar
     private lateinit var emptyMessage: TextView
     private lateinit var adapter: SensorsAdapter
+    private var patientId: Long = INVALID_PATIENT_ID
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +45,10 @@ class SensorsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_sensors, container, false)
+        val view = inflater.inflate(R.layout.fragment_sensors, container, false)
+        val safeArgs: SensorsFragmentArgs by navArgs()
+        patientId = safeArgs.patientId
+        return view
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -68,11 +76,13 @@ class SensorsFragment : Fragment() {
 
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = adapter
+
+        loadSensors()
     }
 
     override fun onResume() {
         super.onResume()
-        viewModel.loadSensors()
+        // if (patientId > INVALID_PATIENT_ID) viewModel.loadSensors(patientId)
     }
 
     override fun onDestroy() {
@@ -83,7 +93,11 @@ class SensorsFragment : Fragment() {
     private fun handleViewState(state: SensorsViewState) {
         progressBar.visibility = if (state.isLoading) View.VISIBLE else View.GONE
         emptyMessage.visibility = if (!state.isLoading && state.isEmpty) View.VISIBLE else View.GONE
-        state.sensors?.let { adapter.setSensors(it) }
+        state.sensorSpo2?.let {
+            val newValue = 2.34F
+            adapter.sensorEntities[1].value = newValue
+            adapter.notifyItemChanged(1)
+        }
     }
 
     private fun goToDetailView(sensorEntity: SensorEntity, view: View) {
@@ -91,4 +105,26 @@ class SensorsFragment : Fragment() {
         // TODO goto sensor detail
     }
 
+    private fun loadSensors() {
+        val sensors = mutableListOf<SensorEntity>()
+        val spo2Sensor = SensorEntity (
+            id = Constants.SENSOR_SPO2_ID,
+            name = Utils.getSensorNameById(Constants.SENSOR_SPO2_ID),
+            value = 0F
+        )
+        sensors.add(spo2Sensor)
+        val hrSensor = SensorEntity (
+            id = Constants.SENSOR_HR_ID,
+            name = Utils.getSensorNameById(Constants.SENSOR_HR_ID),
+            value = 0F
+        )
+        sensors.add(hrSensor)
+        val tempSensor = SensorEntity (
+            id = Constants.SENSOR_TEMP_ID,
+            name = Utils.getSensorNameById(Constants.SENSOR_TEMP_ID),
+            value = 0F
+        )
+        sensors.add(tempSensor)
+        adapter.setSensors(sensors)
+    }
 }

@@ -19,6 +19,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mapx.kosten.mosimpa.R
 import com.mapx.kosten.mosimpa.domain.entites.PatientEntity
 import com.mapx.kosten.mosimpa.presentation.common.App
+import com.mapx.kosten.mosimpa.presentation.common.Utils.Companion.INVALID_PATIENT_ID
 
 import javax.inject.Inject
 
@@ -102,9 +103,5 @@ class PatientsFragment : Fragment() {
     private fun goToAddPatient(id: Long) {
        val action = PatientsFragmentDirections.actionPatientsFragmentToSensorsFragment()
         findNavController().navigate(action)
-    }
-
-    companion object {
-        private const val INVALID_PATIENT_ID = -1L
     }
 }

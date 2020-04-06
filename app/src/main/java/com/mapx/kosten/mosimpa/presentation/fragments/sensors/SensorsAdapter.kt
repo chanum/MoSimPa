@@ -12,7 +12,7 @@ class SensorsAdapter constructor(
     private val onSensorSelected: (SensorEntity, View) -> Unit
 ) : RecyclerView.Adapter<SensorsAdapter.SensorCellViewHolder>() {
 
-    private var sensorEntities: List<SensorEntity> = listOf()
+    var sensorEntities: List<SensorEntity> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SensorCellViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(

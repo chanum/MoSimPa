@@ -21,34 +21,4 @@ class SensorsViewModel(
         val viewState = SensorsViewState()
         this.viewState.value = viewState
     }
-
-    fun loadSensors() {
-        val sensors = mutableListOf<SensorEntity>()
-
-        val spo2Sensor = SensorEntity (
-            id = SENSOR_SPO2_ID,
-            name = getSensorNameById(SENSOR_SPO2_ID),
-            value = 0F
-        )
-        sensors.add(spo2Sensor)
-
-        val hrSensor = SensorEntity (
-            id = SENSOR_HR_ID,
-            name = getSensorNameById(SENSOR_HR_ID),
-            value = 0F
-        )
-        sensors.add(hrSensor)
-
-        val tempSensor = SensorEntity (
-            id = SENSOR_TEMP_ID,
-            name = getSensorNameById(SENSOR_TEMP_ID),
-            value = 0F
-        )
-        sensors.add(tempSensor)
-
-        viewState.value = viewState.value?.copy(
-            isLoading = false,
-            isEmpty = false,
-            sensors = sensors)
-    }
 }
