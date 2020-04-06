@@ -14,5 +14,4 @@ class GetPatientsUseCase (
     override fun createObservable(data: Map<String, Any>?): Observable<List<PatientEntity>> {
         return patientsRepository.getAllPatients()
     }
-
 }
