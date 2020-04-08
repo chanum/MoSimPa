@@ -24,10 +24,10 @@ class GetSensorDataUseCase(
                 val disposable = sensorsRepository.getSensorById(id)
                     .subscribe( {
                         sensorData = it.copy()
-                        compositeDisposable.clear()
+                        // compositeDisposable.clear()
                     },{
                         sensorData.id = -1
-                        compositeDisposable.clear()
+                        // compositeDisposable.clear()
                     })
                 compositeDisposable.add(disposable)
                 return@fromCallable sensorData

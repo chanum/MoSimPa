@@ -34,8 +34,9 @@ class DataModule {
     @Singleton
     @Provides
     fun provideSensorsRepository(
-        context: Context
+        context: Context,
+        database: MosimpaDatabase
     ): SensorsRepository {
-        return SensorsRepositoryImpl(context)
+        return SensorsRepositoryImpl(context, database)
     }
 }

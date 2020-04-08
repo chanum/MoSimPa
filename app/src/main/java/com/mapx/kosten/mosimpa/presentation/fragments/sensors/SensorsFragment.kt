@@ -16,7 +16,6 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mapx.kosten.mosimpa.R
-import com.mapx.kosten.mosimpa.domain.common.Constants
 import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_HR_ID
 import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_SPO2_ID
 import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_TEMP_ID
@@ -56,8 +55,8 @@ class SensorsFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.spo2State.observe(viewLifecycleOwner, Observer {
-            if (it != null) handleViewSensorState(it)
+        viewModel.spo2Value.observe(viewLifecycleOwner, Observer {
+            handleViewSensorState(it)
         })
         viewModel.hrState.observe(viewLifecycleOwner, Observer {
             if (it != null) handleViewSensorState(it)
