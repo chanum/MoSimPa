@@ -1,10 +1,10 @@
 package com.mapx.kosten.mosimpa.presentation.fragments.sensors
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
@@ -45,41 +45,78 @@ class SensorsAdapter constructor(
     }
 
     class SensorCellViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val entries = ArrayList<Entry>()
+        var i = 0F
+        val lineChart = itemView.lineChart_sensor
 
         init {
-            configureSensorChart(itemView.lineChart_sensor)
+
+            //configureSensorChart(lineChart)
+            createDataSet(lineChart)
+            // entries.add(Entry(i, 0F))
         }
 
         fun bind(sensor: SensorEntity, listener: (SensorEntity, View) -> Unit) = with(itemView) {
             tv_item_sensor_title.text = sensor.name
             tv_item_sensor_value.text = sensor.value.toString() + getSensorSufixByID(sensor.id)
+            updateChart(sensor.value)
 
             setOnClickListener { listener(sensor, itemView) }
         }
 
-        private fun configureSensorChart(lineChart: LineChart) {
-            val entries = ArrayList<Entry>()
+        private fun createDataSet(lineChart: LineChart) {
 
-            entries.add(Entry(1f, 10f))
-            entries.add(Entry(2f, 2f))
-            entries.add(Entry(3f, 7f))
-            entries.add(Entry(4f, 20f))
-            entries.add(Entry(5f, 16f))
-
-            val vl = LineDataSet(entries, "Value")
-
-            lineChart.xAxis.labelRotationAngle = 0f
-
-            lineChart.data = LineData(vl)
-
+            val set = LineDataSet(entries, "Value")
+            // lineChart.xAxis.labelRotationAngle = 0f
+            lineChart.data = LineData(set)
             lineChart.description.text = "Sensor"
-
 
             // lineChart.animateX(1800, Easing.EaseInExpo)
 
             // val leftAxis: YAxis = lineChart.axisLeft
             // leftAxis.mAxisMaximum = 200f
 
+        }
+
+        private fun updateChart(sensorData: Float) {
+            val data = lineChart.data
+
+            if(data != null) {
+                var set = data.getDataSetByIndex(0)
+                if (set == null) {
+                    // set = createSet()
+                    // data.addDataSet(set)
+                }
+
+                val count = set.entryCount.toFloat()
+                Log.i(javaClass.simpleName, "entryCount: $count")
+                data.addEntry(Entry(count, sensorData), 0)
+                data.notifyDataChanged()
+
+                // let the chart know it's data has changed
+
+                // let the chart know it's data has changed
+                lineChart.notifyDataSetChanged()
+
+                // limit the number of visible entries
+
+                // limit the number of visible entries
+                // lineChart.setVisibleXRangeMaximum(500F)
+                // lineChart.setVisibleYRangeMaximum(200F, YAxis.AxisDependency.LEFT);
+
+                lineChart.axisLeft.axisMaximum = 100F
+                lineChart.axisRight.axisMaximum = 100F
+                lineChart.axisLeft.axisMinimum = 0F
+                lineChart.axisRight.axisMinimum = 0F
+
+                lineChart.setVisibleXRangeMaximum(1000F)
+
+                // move to the latest entry
+                // mChart.setVisibleYRange(30, AxisDependency.LEFT);
+
+                // move to the latest entry
+                // lineChart.moveViewToX(data.entryCount.toFloat())
+            }
         }
     }
 }

@@ -38,6 +38,9 @@ class SensorsFragment : Fragment() {
     private lateinit var progressBar: ProgressBar
     private lateinit var emptyMessage: TextView
     private lateinit var adapter: SensorsAdapter
+    private lateinit var adapterO2: SensorO2Adapter
+    private lateinit var adapterBlood: SensorBloodAdapter
+    private lateinit var adapterHeart: SensorHeartAdapter
     private var patientId: Long = INVALID_PATIENT_ID
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -116,8 +119,8 @@ class SensorsFragment : Fragment() {
         val index = 1 // getSensorIndex(sensor.id)
         if (index > INVALID_SENSOR) {
             // adapter.sensorEntities[index].value = sensor.spo2
-            adapter.sensorEntities[index].value = sensor.sys.toFloat()
-            adapter.notifyItemChanged(index)
+            // adapter.sensorEntities[index].value = sensor.sys.toFloat()
+            // adapter.notifyItemChanged(index)
         }
     }
 
@@ -125,8 +128,8 @@ class SensorsFragment : Fragment() {
         val index = 2 // getSensorIndex(sensor.id)
         if (index > INVALID_SENSOR) {
             // adapter.sensorEntities[index].value = sensor.spo2
-            adapter.sensorEntities[index].value = sensor.heartR.toFloat()
-            adapter.notifyItemChanged(index)
+            // adapter.sensorEntities[index].value = sensor.heartR.toFloat()
+            // adapter.notifyItemChanged(index)
         }
     }
 
