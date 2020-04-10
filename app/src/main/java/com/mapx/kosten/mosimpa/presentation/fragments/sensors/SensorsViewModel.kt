@@ -3,16 +3,13 @@ package com.mapx.kosten.mosimpa.presentation.fragments.sensors
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.liveData
 import com.mapx.kosten.mosimpa.domain.entites.SensorEntity
-import com.mapx.kosten.mosimpa.domain.entites.SensorSpo2Entity
+import com.mapx.kosten.mosimpa.domain.entites.SensorO2Entity
 import com.mapx.kosten.mosimpa.domain.interactors.sensor.GetSensorDataUseCase
 import com.mapx.kosten.mosimpa.domain.interactors.sensor.GetSensorSpo2DataUseCase
 import com.mapx.kosten.mosimpa.domain.interactors.sensor.SubscribeIdUseCase
 import com.mapx.kosten.mosimpa.presentation.common.BaseViewModel
 import com.mapx.kosten.mosimpa.presentation.common.SingleLiveEvent
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 class SensorsViewModel(
     private val getSensorDataUseCase: GetSensorDataUseCase,
@@ -25,7 +22,7 @@ class SensorsViewModel(
     var tempState: MutableLiveData<SensorEntity> = MutableLiveData()
     var errorState: SingleLiveEvent<Throwable?> = SingleLiveEvent()
 
-    var spo2Value: LiveData<SensorSpo2Entity> = getSpo2DataUseCase.invoke()
+    var spo2Value: LiveData<SensorO2Entity> = getSpo2DataUseCase.invoke()
 
     init {
 
