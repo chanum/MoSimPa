@@ -7,17 +7,17 @@ import com.mapx.kosten.mosimpa.data.entities.SensorSpo2Rsp
 
 class SensorMqttToEntityMapper {
 
-    fun mapFromSpo2(from: String): SensorSpo2Rsp {
+    fun mapFromO2(from: String): SensorSpo2Rsp {
         val gson = Gson()
         return gson.fromJson(from, SensorSpo2Rsp::class.java)
     }
 
-    fun mapFromBloodP(from: String): SensorBloopRsp {
+    fun mapFromBlood(from: String): SensorBloopRsp {
         val gson = Gson()
         return gson.fromJson(from, SensorBloopRsp::class.java)
     }
 
-    fun mapFromHeartR(from: String): SensorHeartRRsp {
+    fun mapFromHeart(from: String): SensorHeartRRsp {
         val gson = Gson()
         return gson.fromJson(from, SensorHeartRRsp::class.java)
     }
