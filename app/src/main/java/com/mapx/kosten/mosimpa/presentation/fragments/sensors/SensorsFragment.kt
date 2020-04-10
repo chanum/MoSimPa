@@ -20,6 +20,7 @@ import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_HR_ID
 import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_SPO2_ID
 import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_TEMP_ID
 import com.mapx.kosten.mosimpa.domain.entites.SensorEntity
+import com.mapx.kosten.mosimpa.domain.entites.SensorSpo2Entity
 import com.mapx.kosten.mosimpa.presentation.common.App
 import com.mapx.kosten.mosimpa.presentation.common.Utils
 import com.mapx.kosten.mosimpa.presentation.common.Utils.Companion.INVALID_PATIENT_ID
@@ -56,7 +57,7 @@ class SensorsFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.spo2Value.observe(viewLifecycleOwner, Observer {
-            handleViewSensorState(it)
+            it?.let{ handleViewSensorSpo2State(it) }
         })
         viewModel.hrState.observe(viewLifecycleOwner, Observer {
             if (it != null) handleViewSensorState(it)
@@ -98,6 +99,15 @@ class SensorsFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         (activity?.application as App).releaseSensorsComponent()
+    }
+
+    private fun handleViewSensorSpo2State(sensor: SensorSpo2Entity) {
+        val index = 0 // getSensorIndex(sensor.id)
+        if (index > INVALID_SENSOR) {
+            // adapter.sensorEntities[index].value = sensor.spo2
+            adapter.sensorEntities[index].value = sensor.r
+            adapter.notifyItemChanged(index)
+        }
     }
 
     private fun handleViewSensorState(sensor: SensorEntity) {

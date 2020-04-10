@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import com.mapx.kosten.mosimpa.domain.entites.SensorEntity
+import com.mapx.kosten.mosimpa.domain.entites.SensorSpo2Entity
 import com.mapx.kosten.mosimpa.domain.interactors.sensor.GetSensorDataUseCase
 import com.mapx.kosten.mosimpa.domain.interactors.sensor.GetSensorSpo2DataUseCase
 import com.mapx.kosten.mosimpa.domain.interactors.sensor.SubscribeIdUseCase
@@ -24,7 +25,7 @@ class SensorsViewModel(
     var tempState: MutableLiveData<SensorEntity> = MutableLiveData()
     var errorState: SingleLiveEvent<Throwable?> = SingleLiveEvent()
 
-    var spo2Value: LiveData<SensorEntity> = getSpo2DataUseCase.invoke()
+    var spo2Value: LiveData<SensorSpo2Entity> = getSpo2DataUseCase.invoke()
 
     init {
 
