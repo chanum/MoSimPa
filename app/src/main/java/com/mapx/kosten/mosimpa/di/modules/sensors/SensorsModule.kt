@@ -1,9 +1,7 @@
 package com.mapx.kosten.mosimpa.di.modules.sensors
 
 import com.mapx.kosten.mosimpa.domain.data.SensorsRepository
-import com.mapx.kosten.mosimpa.domain.interactors.sensor.GetSensorDataUseCase
-import com.mapx.kosten.mosimpa.domain.interactors.sensor.GetSensorSpo2DataUseCase
-import com.mapx.kosten.mosimpa.domain.interactors.sensor.SubscribeIdUseCase
+import com.mapx.kosten.mosimpa.domain.interactors.sensor.*
 import com.mapx.kosten.mosimpa.presentation.common.ASyncTransformer
 import com.mapx.kosten.mosimpa.presentation.fragments.sensors.SensorsViewModelFactory
 import dagger.Module
@@ -30,8 +28,22 @@ class SensorsModule {
 
 
     @Provides
-    fun provideGetSensorSpo2DataUseCase(sensorsRepository: SensorsRepository): GetSensorSpo2DataUseCase {
-        return GetSensorSpo2DataUseCase(
+    fun provideGetSensorO2DataUseCase(sensorsRepository: SensorsRepository): GetSensorO2DataUseCase {
+        return GetSensorO2DataUseCase(
+            sensorsRepository
+        )
+    }
+
+    @Provides
+    fun provideGetSensorBloodDataUseCase(sensorsRepository: SensorsRepository): GetSensorBloodDataUseCase {
+        return GetSensorBloodDataUseCase(
+            sensorsRepository
+        )
+    }
+
+    @Provides
+    fun provideGetSensorHeartDataUseCase(sensorsRepository: SensorsRepository): GetSensorHeartDataUseCase {
+        return GetSensorHeartDataUseCase(
             sensorsRepository
         )
     }
@@ -40,12 +52,16 @@ class SensorsModule {
     fun provideSensorsViewModelFactory(
         getSensorDataUseCase: GetSensorDataUseCase,
         subscribeIdUseCase: SubscribeIdUseCase,
-        getSensorSpo2DataUseCase: GetSensorSpo2DataUseCase
+        getSensorO2DataUseCase: GetSensorO2DataUseCase,
+        getSensorBloodDataUseCase: GetSensorBloodDataUseCase,
+        getSensorHeartDataUseCase: GetSensorHeartDataUseCase
     ): SensorsViewModelFactory {
         return SensorsViewModelFactory(
             getSensorDataUseCase,
             subscribeIdUseCase,
-            getSensorSpo2DataUseCase
+            getSensorO2DataUseCase,
+            getSensorBloodDataUseCase,
+            getSensorHeartDataUseCase
         )
     }
 }
