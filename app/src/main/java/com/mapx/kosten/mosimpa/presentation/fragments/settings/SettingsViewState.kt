@@ -1,6 +1,6 @@
 package com.mapx.kosten.mosimpa.presentation.fragments.settings
 
-import com.mapx.kosten.mosimpa.domain.PatientEntity
+import com.mapx.kosten.mosimpa.domain.entites.PatientEntity
 
 data class SettingsViewState(
     val isLoading: Boolean = true,

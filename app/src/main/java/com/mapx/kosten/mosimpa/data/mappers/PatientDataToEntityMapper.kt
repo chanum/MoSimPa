@@ -1,7 +1,7 @@
-package com.mapx.kosten.mosimpa.mappers
+package com.mapx.kosten.mosimpa.data.mappers
 
 import com.mapx.kosten.mosimpa.data.entities.PatientDB
-import com.mapx.kosten.mosimpa.domain.PatientEntity
+import com.mapx.kosten.mosimpa.domain.entites.PatientEntity
 
 class PatientDataToEntityMapper {
 
@@ -10,7 +10,9 @@ class PatientDataToEntityMapper {
             id = from.id,
             name = from.name,
             age = from.age,
-            status = from.status
+            status = from.status,
+            bed = from.bed,
+            sex = from.sex
         )
     }
 }

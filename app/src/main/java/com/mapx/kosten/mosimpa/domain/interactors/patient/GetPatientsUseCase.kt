@@ -1,6 +1,6 @@
 package com.mapx.kosten.mosimpa.domain.interactors.patient
 
-import com.mapx.kosten.mosimpa.domain.PatientEntity
+import com.mapx.kosten.mosimpa.domain.entites.PatientEntity
 import com.mapx.kosten.mosimpa.domain.common.Transformer
 import com.mapx.kosten.mosimpa.domain.data.PatientsRepository
 import com.mapx.kosten.mosimpa.domain.interactors.UseCase
@@ -14,5 +14,4 @@ class GetPatientsUseCase (
     override fun createObservable(data: Map<String, Any>?): Observable<List<PatientEntity>> {
         return patientsRepository.getAllPatients()
     }
-
 }

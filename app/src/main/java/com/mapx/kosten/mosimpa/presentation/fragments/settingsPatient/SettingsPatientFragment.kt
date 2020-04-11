@@ -14,13 +14,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
-
 import com.mapx.kosten.mosimpa.R
-import com.mapx.kosten.mosimpa.domain.PatientEntity
+import com.mapx.kosten.mosimpa.domain.entites.PatientEntity
 import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.EMPTY_STRING
 import com.mapx.kosten.mosimpa.presentation.common.App
+import com.mapx.kosten.mosimpa.presentation.common.Utils.Companion.INVALID_PATIENT_ID
 import javax.inject.Inject
-
 
 class SettingsPatientFragment : Fragment() {
 
@@ -74,6 +73,10 @@ class SettingsPatientFragment : Fragment() {
             cancelBtn.text = resources.getString(R.string.settings_patient_delete_btn)
             viewModel.getPatient(patientId)
         }
+
+        // TODO
+        val id = 0xb827eb8b862d
+        nodeIdText.setText(id.toString())
 
         cancelBtn.setOnClickListener { assignButtonFunction(patientId) }
         saveBtn.setOnClickListener { doSave() }
@@ -143,11 +146,9 @@ class SettingsPatientFragment : Fragment() {
     }
 
     companion object {
-        private const val INVALID_PATIENT_ID = -1L
         private const val INVALID_NAME = 0
         private const val INVALID_ID = 1
         const val SAVE_OK = 0
         const val SAVE_ERROR = -1
     }
-
 }

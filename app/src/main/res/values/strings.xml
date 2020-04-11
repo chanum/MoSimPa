@@ -7,17 +7,23 @@
     <!-- Bottom navigation -->
     <string name="bottom_menu_main">Pacientes</string>
     <string name="bottom_menu_settings">Configuración</string>
+    <string name="bottom_menu_info">Información</string>
 
     <!-- Navigation Graph-->
     <string name="nav_label_patients">MoSimPa</string>
     <string name="nav_label_settings">Configuración</string>
     <string name="nav_label_settings_patient">Editar</string>
+    <string name="nav_label_sensors">Monitor</string>
+    <string name="nav_label_info">Información</string>
 
     <!-- Patient Adapter -->
     <string name="patient_item_title">Paciente</string>
     <string name="patient_item_id">"Id: 1234567890"</string>
+    <string name="patient_item_sex">Sexo: %1$s</string>
+    <string name="patient_item_bed">Cama: %1$s</string>
     <string name="patient_item_status">-----</string>
-    <string name="patient_item_date">"15 feb. 2020</string>
+    <string name="patient_item_date">15 feb. 2020</string>
+    <string name="patient_item_prefix">"Id: %1$d"</string>
 
     <!-- Patient Fragment -->
     <string name="patients_progress">No hay pacientes cargados</string>
@@ -40,5 +46,15 @@
     <string name="settings_patient_error_id">Id inválido</string>
     <string name="settings_patient_error_save">Error Guardar Paciente</string>
     <string name="settings_patient_error">Error</string>
+
+    <!-- Sensor Item -->
+    <string name="sensor_item_title">Pulsaciones</string>
+    <string name="sensor_item_value">88 ppm</string>
+
+    <!-- Sensors Fragment -->
+    <string name="sensors_progress">No hay sensores disponibles</string>
+
+    <!-- Info Fragment -->
+    <string name="info_app_version">"App Version: %1$s"</string>
 
 </resources>

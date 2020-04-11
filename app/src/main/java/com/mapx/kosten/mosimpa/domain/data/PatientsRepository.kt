@@ -1,6 +1,6 @@
 package com.mapx.kosten.mosimpa.domain.data
 
-import com.mapx.kosten.mosimpa.domain.PatientEntity
+import com.mapx.kosten.mosimpa.domain.entites.PatientEntity
 import io.reactivex.Observable
 
 interface PatientsRepository {

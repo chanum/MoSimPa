@@ -12,16 +12,28 @@
         tools:layout="@layout/activity_main">
         <action
             android:id="@+id/action_patientsFragment_to_sensorsFragment"
-            app:destination="@id/sensorsFragment" />
+            app:destination="@id/sensors_dest"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
-        android:id="@+id/sensorsFragment"
+        android:id="@+id/sensors_dest"
         android:name="com.mapx.kosten.mosimpa.presentation.fragments.sensors.SensorsFragment"
-        android:label="settings_dest"
+        android:label="@string/nav_label_sensors"
         tools:layout="@layout/fragment_sensors">
         <action
             android:id="@+id/action_sensorsFragment_to_sensorDetailFragment"
-            app:destination="@id/sensorDetailFragment" />
+            app:destination="@id/sensorDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <argument
+            android:name="patientId"
+            app:argType="long"
+            android:defaultValue="-1L" />
     </fragment>
     <fragment
         android:id="@+id/sensorDetailFragment"
@@ -35,7 +47,11 @@
         tools:layout="@layout/fragment_settings" >
         <action
             android:id="@+id/action_settings_dest_to_settingsPatientFragment"
-            app:destination="@id/settingsPatient_dest" />
+            app:destination="@id/settingsPatient_dest"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/settingsPatient_dest"
@@ -47,4 +63,9 @@
             app:argType="long"
             android:defaultValue="-1L" />
     </fragment>
+    <fragment
+        android:id="@+id/info_dest"
+        android:name="com.mapx.kosten.mosimpa.presentation.fragments.info.InfoFragment"
+        android:label="@string/nav_label_info"
+        tools:layout="@layout/fragment_info" />
 </navigation>
