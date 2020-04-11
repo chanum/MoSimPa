@@ -3,6 +3,7 @@ package com.mapx.kosten.mosimpa.presentation.fragments.sensors
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.mapx.kosten.mosimpa.domain.entites.*
 import com.mapx.kosten.mosimpa.domain.interactors.sensor.*
 import com.mapx.kosten.mosimpa.presentation.common.BaseViewModel
@@ -29,8 +30,10 @@ class SensorsViewModel(
 
 
     fun subscribePatient(id: Long) {
-        subscribeIdUseCase.invoke(id)
-        currentId = id
+        viewModelScope.launch {
+            subscribeIdUseCase.invoke(id)
+            currentId = id
+        }
         // TODO get true id
         // val hardId = 0xb827eb8b862d
         /*

@@ -14,6 +14,7 @@ import io.reactivex.Observable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.eclipse.paho.client.mqttv3.MqttMessage
 import org.json.JSONObject
 
@@ -62,30 +63,24 @@ class SensorsRepositoryImpl(
         sensorTempDao.getData()
     ) { it?.let { mapperTempDBtoEntity.mapFrom(it) } }
 
+    override fun connectMqtt() {
+        mqttClient.connect(null, ::msgRsp)
+    }
+
     override fun unSubscribeId(id: Long) {
         val st = String.format("%02x", id)
         val topic = "reads/${st}"
         mqttClient.unSubscribe(topic)
     }
 
-    /*
-    override fun subscribeId(id: Long): Observable<Boolean> {
-        currentId = id
-        val st = String.format("%02x", id)
-        val topic = arrayOf("reads/${st}")
-        mqttClient.connect(topic, ::msgRsp)
-        return Observable.fromCallable {
-            true
+    override suspend fun subscribeId(id: Long) {
+        withContext(Dispatchers.IO) {
+            currentId = id
+            val st = String.format("%02x", id)
+            val topic = arrayOf("reads/${st}")
+            mqttClient.connect(topic, ::msgRsp)
+            //mqttClient.subscribeTopic(topic)
         }
-    }
-     */
-
-    override fun subscribeId(id: Long) {
-        currentId = id
-        val st = String.format("%02x", id)
-        val topic = arrayOf("reads/${st}")
-        mqttClient.connect(topic, ::msgRsp)
-        //mqttClient.subscribeTopic(topic)
     }
 
     fun msgRsp(topic: String, message: MqttMessage) {

@@ -5,7 +5,9 @@ import com.mapx.kosten.mosimpa.domain.entites.*
 import io.reactivex.Observable
 
 interface SensorsRepository {
-    fun subscribeId(id: Long)
+    fun connectMqtt()
+
+    suspend fun subscribeId(id: Long)
     fun unSubscribeId(id: Long)
 
     fun getO2Data(id: Long): LiveData<SensorO2Entity>

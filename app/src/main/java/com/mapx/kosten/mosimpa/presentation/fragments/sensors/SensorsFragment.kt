@@ -36,9 +36,6 @@ class SensorsFragment : Fragment() {
     private lateinit var progressBar: ProgressBar
     private lateinit var emptyMessage: TextView
     private lateinit var adapter: SensorsAdapter
-    private lateinit var adapterO2: SensorO2Adapter
-    private lateinit var adapterBlood: SensorBloodAdapter
-    private lateinit var adapterHeart: SensorHeartAdapter
     private var patientId: Long = INVALID_PATIENT_ID
 
     override fun onCreate(savedInstanceState: Bundle?) {
