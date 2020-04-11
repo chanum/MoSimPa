@@ -51,4 +51,9 @@
             app:argType="long"
             android:defaultValue="-1L" />
     </fragment>
+    <fragment
+        android:id="@+id/info_dest"
+        android:name="com.mapx.kosten.mosimpa.presentation.fragments.info.InfoFragment"
+        android:label="@string/nav_label_info"
+        tools:layout="@layout/fragment_info" />
 </navigation>

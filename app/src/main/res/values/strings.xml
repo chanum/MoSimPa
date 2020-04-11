@@ -7,12 +7,14 @@
     <!-- Bottom navigation -->
     <string name="bottom_menu_main">Pacientes</string>
     <string name="bottom_menu_settings">Configuración</string>
+    <string name="bottom_menu_info">Información</string>
 
     <!-- Navigation Graph-->
     <string name="nav_label_patients">MoSimPa</string>
     <string name="nav_label_settings">Configuración</string>
     <string name="nav_label_settings_patient">Editar</string>
     <string name="nav_label_sensors">Monitor</string>
+    <string name="nav_label_info">Información</string>
 
     <!-- Patient Adapter -->
     <string name="patient_item_title">Paciente</string>
