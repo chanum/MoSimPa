@@ -84,6 +84,22 @@ class MqttClient(
         }
     }
 
+    fun unSubscribe(topic: String) {
+        try {
+            val unsubToken = client.unsubscribe(topic)
+            unsubToken.actionCallback = object : IMqttActionListener {
+                override fun onSuccess(asyncActionToken: IMqttToken) {
+                    Log.d(TAG, "UnSubscribed to $topic")
+                }
+                override fun onFailure(asyncActionToken: IMqttToken, exception: Throwable) {
+                    Log.d(TAG, "Failed to UnSubscribed to $topic")
+                }
+            }
+        } catch (e: MqttException) {
+            // Give your callback on failure here
+        }
+    }
+
     fun close() {
         client.apply {
             unregisterResources()

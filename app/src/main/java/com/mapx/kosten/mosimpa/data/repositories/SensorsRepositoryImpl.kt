@@ -42,6 +42,10 @@ class SensorsRepositoryImpl(
     private var sensorHeartCount: Long = 0
     private var sensorTempCount: Long = 0
 
+    init {
+        // mqttClient.connect(null, ::msgRsp)
+    }
+
     val sensorO2: LiveData<SensorO2Entity> = Transformations.map(
         sensorO2Dao.getData()
     ) { it?.let { mapperO2DBtoEntity.mapFrom(it) } }
@@ -58,6 +62,13 @@ class SensorsRepositoryImpl(
         sensorTempDao.getData()
     ) { it?.let { mapperTempDBtoEntity.mapFrom(it) } }
 
+    override fun unSubscribeId(id: Long) {
+        val st = String.format("%02x", id)
+        val topic = "reads/${st}"
+        mqttClient.unSubscribe(topic)
+    }
+
+    /*
     override fun subscribeId(id: Long): Observable<Boolean> {
         currentId = id
         val st = String.format("%02x", id)
@@ -66,6 +77,15 @@ class SensorsRepositoryImpl(
         return Observable.fromCallable {
             true
         }
+    }
+     */
+
+    override fun subscribeId(id: Long) {
+        currentId = id
+        val st = String.format("%02x", id)
+        val topic = arrayOf("reads/${st}")
+        mqttClient.connect(topic, ::msgRsp)
+        //mqttClient.subscribeTopic(topic)
     }
 
     fun msgRsp(topic: String, message: MqttMessage) {
