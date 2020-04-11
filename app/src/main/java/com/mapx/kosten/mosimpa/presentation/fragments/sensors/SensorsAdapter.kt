@@ -11,6 +11,19 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.mapx.kosten.mosimpa.R
+import com.mapx.kosten.mosimpa.domain.common.Constants
+import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_BLOOD_ID
+import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_BLOOD_Y_MAX
+import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_BLOOD_Y_MIN
+import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_HEART_ID
+import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_HEART_Y_MAX
+import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_HEART_Y_MIN
+import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_O2_ID
+import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_O2_Y_MAX
+import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_O2_Y_MIN
+import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_TEMPERATURE_ID
+import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_TEMPERATURE_Y_MAX
+import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_TEMPERATURE_Y_MIN
 import com.mapx.kosten.mosimpa.domain.entites.SensorEntity
 import com.mapx.kosten.mosimpa.presentation.common.Utils.Companion.getSensorSufixByID
 import kotlinx.android.synthetic.main.layout_sensor_item.view.*
@@ -45,39 +58,25 @@ class SensorsAdapter constructor(
     }
 
     class SensorCellViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val entries = ArrayList<Entry>()
-        var i = 0F
-        val lineChart = itemView.lineChart_sensor
+        private val entries = ArrayList<Entry>()
+        private val lineChart = itemView.lineChart_sensor
 
         init {
-            // createSet()
             configureSensorChart()
         }
 
         fun bind(sensor: SensorEntity, listener: (SensorEntity, View) -> Unit) = with(itemView) {
             tv_item_sensor_title.text = sensor.name
             tv_item_sensor_value.text = sensor.value.toString() + getSensorSufixByID(sensor.id)
-            updateChart(sensor.value)
+            updateChart(sensor.value, sensor.id)
 
             setOnClickListener { listener(sensor, itemView) }
         }
 
         private fun configureSensorChart() {
-            lineChart.axisLeft.axisMaximum = 100F
-            lineChart.axisRight.axisMaximum = 100F
-            lineChart.axisLeft.axisMinimum = 0F
-            lineChart.axisRight.axisMinimum = 0F
-
             val set = LineDataSet(entries, "Value")
-            // lineChart.xAxis.labelRotationAngle = 0f
             lineChart.data = LineData(set)
             lineChart.description.text = "Sensor"
-
-            // lineChart.animateX(1800, Easing.EaseInExpo)
-
-            // val leftAxis: YAxis = lineChart.axisLeft
-            // leftAxis.mAxisMaximum = 200f
-
         }
 
         private fun createSet(): LineDataSet{
@@ -96,18 +95,18 @@ class SensorsAdapter constructor(
             return set
         }
 
-        private fun updateChart(sensorData: Float) {
+        private fun updateChart(sensorData: Float, id: Int) {
             val data = lineChart.data
 
             if(data != null) {
-                var set = data.getDataSetByIndex(0)
+                val set = data.getDataSetByIndex(0)
                 if (set == null) {
                     // set = createSet()
                     //data.addDataSet(set)
                 }
 
                 val count = set.entryCount.toFloat()
-                Log.i(javaClass.simpleName, "entryCount: $count")
+                // Log.i(javaClass.simpleName, "entryCount: $count")
                 data.addEntry(Entry(count, sensorData), 0)
                 data.notifyDataChanged()
 
@@ -116,13 +115,38 @@ class SensorsAdapter constructor(
 
                 lineChart.moveViewToX(count)
 
-                lineChart.axisLeft.axisMaximum = 100F
-                lineChart.axisRight.axisMaximum = 100F
-                lineChart.axisLeft.axisMinimum = 0F
-                lineChart.axisRight.axisMinimum = 0F
+                when(id) {
+                    SENSOR_O2_ID -> {
+                        lineChart.axisLeft.axisMaximum = SENSOR_O2_Y_MAX
+                        lineChart.axisRight.axisMaximum = SENSOR_O2_Y_MAX
+                        lineChart.axisLeft.axisMinimum = SENSOR_O2_Y_MIN
+                        lineChart.axisRight.axisMinimum = SENSOR_O2_Y_MIN
+                    }
+                    SENSOR_HEART_ID -> {
+                        lineChart.axisLeft.axisMaximum = SENSOR_HEART_Y_MAX
+                        lineChart.axisRight.axisMaximum = SENSOR_HEART_Y_MAX
+                        lineChart.axisLeft.axisMinimum = SENSOR_HEART_Y_MIN
+                        lineChart.axisRight.axisMinimum = SENSOR_HEART_Y_MIN
+
+                    }
+                    SENSOR_BLOOD_ID -> {
+                        lineChart.axisLeft.axisMaximum = SENSOR_BLOOD_Y_MAX
+                        lineChart.axisRight.axisMaximum = SENSOR_BLOOD_Y_MAX
+                        lineChart.axisLeft.axisMinimum = SENSOR_BLOOD_Y_MIN
+                        lineChart.axisRight.axisMinimum = SENSOR_BLOOD_Y_MIN
+
+                    }
+                    SENSOR_TEMPERATURE_ID -> {
+                        lineChart.axisLeft.axisMaximum = SENSOR_TEMPERATURE_Y_MAX
+                        lineChart.axisRight.axisMaximum = SENSOR_TEMPERATURE_Y_MAX
+                        lineChart.axisLeft.axisMinimum = SENSOR_TEMPERATURE_Y_MIN
+                        lineChart.axisRight.axisMinimum = SENSOR_TEMPERATURE_Y_MIN
+
+                    }
+                }
 
                 // limit the number of visible entries
-                lineChart.setVisibleXRangeMaximum(10F);
+                lineChart.setVisibleXRangeMaximum(20F)
             }
         }
     }

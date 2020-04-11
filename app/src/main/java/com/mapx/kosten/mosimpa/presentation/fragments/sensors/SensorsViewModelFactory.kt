@@ -9,7 +9,8 @@ class SensorsViewModelFactory(
     private val subscribeIdUseCase: SubscribeIdUseCase,
     private val getO2DataUseCase: GetSensorO2DataUseCase,
     private val getBloodDataUseCase: GetSensorBloodDataUseCase,
-    private val getHeartDataUseCase: GetSensorHeartDataUseCase
+    private val getHeartDataUseCase: GetSensorHeartDataUseCase,
+    private val getTempDataUseCase: GetSensorTempDataUseCase
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
@@ -18,7 +19,8 @@ class SensorsViewModelFactory(
             subscribeIdUseCase,
             getO2DataUseCase,
             getBloodDataUseCase,
-            getHeartDataUseCase
+            getHeartDataUseCase,
+            getTempDataUseCase
         ) as T
     }
 }

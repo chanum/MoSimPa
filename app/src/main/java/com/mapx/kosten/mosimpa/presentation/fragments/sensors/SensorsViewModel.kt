@@ -3,10 +3,7 @@ package com.mapx.kosten.mosimpa.presentation.fragments.sensors
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.mapx.kosten.mosimpa.domain.entites.SensorBloodEntity
-import com.mapx.kosten.mosimpa.domain.entites.SensorEntity
-import com.mapx.kosten.mosimpa.domain.entites.SensorHeartEntity
-import com.mapx.kosten.mosimpa.domain.entites.SensorO2Entity
+import com.mapx.kosten.mosimpa.domain.entites.*
 import com.mapx.kosten.mosimpa.domain.interactors.sensor.*
 import com.mapx.kosten.mosimpa.presentation.common.BaseViewModel
 import com.mapx.kosten.mosimpa.presentation.common.SingleLiveEvent
@@ -16,21 +13,16 @@ class SensorsViewModel(
     private val subscribeIdUseCase: SubscribeIdUseCase,
     private val getO2DataUseCase: GetSensorO2DataUseCase,
     private val getBloodDataUseCase: GetSensorBloodDataUseCase,
-    private val getHeartDataUseCase: GetSensorHeartDataUseCase
+    private val getHeartDataUseCase: GetSensorHeartDataUseCase,
+    private val getTempDataUseCase: GetSensorTempDataUseCase
 ): BaseViewModel() {
 
-    var spo2List: MutableLiveData<List<SensorEntity>> = MutableLiveData()
-    var hrState: MutableLiveData<SensorEntity> = MutableLiveData()
-    var tempState: MutableLiveData<SensorEntity> = MutableLiveData()
-    var errorState: SingleLiveEvent<Throwable?> = SingleLiveEvent()
 
+    var errorState: SingleLiveEvent<Throwable?> = SingleLiveEvent()
     var sensorO2Value: LiveData<SensorO2Entity> = getO2DataUseCase.invoke()
     var sensorBloodValue: LiveData<SensorBloodEntity> = getBloodDataUseCase.invoke()
     var sensorHeartValue: LiveData<SensorHeartEntity> = getHeartDataUseCase.invoke()
-
-    init {
-
-    }
+    var sensorTempValue: LiveData<SensorTempEntity> = getTempDataUseCase.invoke()
 
     private fun loadSpo2Sensor() {
 //        GlobalScope.launch {

@@ -5,17 +5,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.mapx.kosten.mosimpa.data.client.MqttClient
 import com.mapx.kosten.mosimpa.data.db.MosimpaDatabase
-import com.mapx.kosten.mosimpa.data.db.dao.SensorBloodDao
-import com.mapx.kosten.mosimpa.data.db.dao.SensorHeartDao
-import com.mapx.kosten.mosimpa.data.db.dao.SensorO2Dao
-import com.mapx.kosten.mosimpa.data.db.dao.SensorsDao
+import com.mapx.kosten.mosimpa.data.db.dao.*
 import com.mapx.kosten.mosimpa.data.entities.*
 import com.mapx.kosten.mosimpa.data.mappers.*
 import com.mapx.kosten.mosimpa.domain.data.SensorsRepository
-import com.mapx.kosten.mosimpa.domain.entites.SensorBloodEntity
-import com.mapx.kosten.mosimpa.domain.entites.SensorEntity
-import com.mapx.kosten.mosimpa.domain.entites.SensorHeartEntity
-import com.mapx.kosten.mosimpa.domain.entites.SensorO2Entity
+import com.mapx.kosten.mosimpa.domain.entites.*
 import io.reactivex.Observable
 import io.reactivex.subjects.ReplaySubject
 import kotlinx.coroutines.CoroutineScope
@@ -33,12 +27,14 @@ class SensorsRepositoryImpl(
     private val sensorO2Dao: SensorO2Dao = database.sensorO2Dao()
     private val sensorBloodDao: SensorBloodDao = database.sensorBloodDao()
     private val sensorHeartDao: SensorHeartDao = database.sensorHeartDao()
+    private val sensorTempDao: SensorTempDao = database.sensorTempDao()
 
     private val mapperDBtoEntity = SensorDataToEntityMapper()
 
     private val mapperO2DBtoEntity = SensorO2DataToEntityMapper()
     private val mapperHeartDBtoEntity = SensorHeartDataToEntityMapper()
     private val mapperBloodDBtoEntity = SensorBloodDataToEntityMapper()
+    private val mapperTempDBtoEntity = SensorTempDataToEntityMapper()
 
     private val mapperMqttToDd = SensorMqttToEntityMapper()
 
@@ -49,6 +45,7 @@ class SensorsRepositoryImpl(
     private var sensorO2Count: Long = 0
     private var sensorBloodCount: Long = 0
     private var sensorHeartCount: Long = 0
+    private var sensorTempCount: Long = 0
 
     val sensorO2: LiveData<SensorO2Entity> = Transformations.map(
         sensorO2Dao.getData()
@@ -61,6 +58,10 @@ class SensorsRepositoryImpl(
     val sensorHeart: LiveData<SensorHeartEntity> = Transformations.map(
         sensorHeartDao.getData()
     ) { it?.let { mapperHeartDBtoEntity.mapFrom(it) } }
+
+    val sensorTemp: LiveData<SensorTempEntity> = Transformations.map(
+        sensorTempDao.getData()
+    ) { it?.let { mapperTempDBtoEntity.mapFrom(it) } }
 
     override fun subscribeId(id: Long): Observable<Boolean> {
         val st = String.format("%02x", id)
@@ -120,6 +121,15 @@ class SensorsRepositoryImpl(
                 HR_AR = sensorList.heartR[0].HR_AR
             )
             saveHeartSensor(sensorHeartDB)
+        } else if (jsonObject.has(SENSOR_TEMP_JSON_KEY)) {
+            val sensorList = mapperMqttToDd.mapFromTemp(msg)
+            val sensorTempDB = SensorTempDB(
+                id = 0,
+                deviceId = -1,
+                time = sensorList.bodyT[0].time,
+                temp = sensorList.bodyT[0].temp
+            )
+            saveTempSensor(sensorTempDB)
         }
     }
 
@@ -189,6 +199,28 @@ class SensorsRepositoryImpl(
         }
     }
 
+    private fun saveTempSensor(sensor: SensorTempDB) {
+        saveSensorTempDB(sensor)
+        sensorTempCount++
+        if (sensorTempCount >= SENSOR_MAX_COUNT) {
+            // clear all sensors in DB
+            clearTempSensorsDB()
+            sensorTempCount = 0
+        }
+    }
+
+    private fun saveSensorTempDB(sensor: SensorTempDB) {
+        CoroutineScope(Dispatchers.Default).launch {
+            sensorTempDao.insert(sensor)
+        }
+    }
+
+    private fun clearTempSensorsDB() {
+        CoroutineScope(Dispatchers.Default).launch {
+            sensorTempDao.clear()
+        }
+    }
+
     override fun getO2Data(): LiveData<SensorO2Entity> {
         val hardId = 0xb827eb8b862d
         currentId = hardId
@@ -205,6 +237,12 @@ class SensorsRepositoryImpl(
         val hardId = 0xb827eb8b862d
         currentId = hardId
         return sensorHeart
+    }
+
+    override fun getTempData(): LiveData<SensorTempEntity> {
+        val hardId = 0xb827eb8b862d
+        currentId = hardId
+        return sensorTemp
     }
 
     /*

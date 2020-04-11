@@ -4,6 +4,7 @@ import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.EMPTY_STRING
 import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_HEART_ID
 import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_O2_ID
 import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_BLOOD_ID
+import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_TEMPERATURE_ID
 
 class Utils {
 
@@ -14,7 +15,8 @@ class Utils {
             return when(id) {
                 SENSOR_O2_ID -> "Sat. Oxígeno"
                 SENSOR_HEART_ID -> "Frec. Cardiaca"
-                SENSOR_BLOOD_ID -> "Temperatura"
+                SENSOR_BLOOD_ID -> "Presión Sang."
+                SENSOR_TEMPERATURE_ID -> "Temperatura"
                 else -> EMPTY_STRING
             }
         }
@@ -23,7 +25,8 @@ class Utils {
             return when(id) {
                 SENSOR_O2_ID -> " %"
                 SENSOR_HEART_ID -> " Lpm"
-                SENSOR_BLOOD_ID -> " °C"
+                SENSOR_BLOOD_ID -> " "
+                SENSOR_TEMPERATURE_ID -> " °C"
                 else -> EMPTY_STRING
             }
         }

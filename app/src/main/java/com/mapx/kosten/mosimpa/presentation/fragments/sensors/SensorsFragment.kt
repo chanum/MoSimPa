@@ -19,10 +19,8 @@ import com.mapx.kosten.mosimpa.R
 import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_HEART_ID
 import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_O2_ID
 import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_BLOOD_ID
-import com.mapx.kosten.mosimpa.domain.entites.SensorBloodEntity
-import com.mapx.kosten.mosimpa.domain.entites.SensorEntity
-import com.mapx.kosten.mosimpa.domain.entites.SensorHeartEntity
-import com.mapx.kosten.mosimpa.domain.entites.SensorO2Entity
+import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_TEMPERATURE_ID
+import com.mapx.kosten.mosimpa.domain.entites.*
 import com.mapx.kosten.mosimpa.presentation.common.App
 import com.mapx.kosten.mosimpa.presentation.common.Utils
 import com.mapx.kosten.mosimpa.presentation.common.Utils.Companion.INVALID_PATIENT_ID
@@ -70,6 +68,9 @@ class SensorsFragment : Fragment() {
         viewModel.sensorHeartValue.observe(viewLifecycleOwner, Observer {
             it?.let{ handleViewSensorHeartState(it) }
         })
+        viewModel.sensorTempValue.observe(viewLifecycleOwner, Observer {
+            it?.let{ handleViewSensorTempState(it) }
+        })
         viewModel.errorState.observe(viewLifecycleOwner, Observer { throwable ->
             throwable?.let {
                 Toast.makeText(activity, it.message, Toast.LENGTH_LONG).show()
@@ -110,22 +111,39 @@ class SensorsFragment : Fragment() {
         val index = SENSOR_O2_IDX
         if (index > INVALID_SENSOR) {
             val item = adapter.sensorEntities[index]
+            item.id = SENSOR_O2_ID
             item.value = sensor.r
             adapter.notifyItemChanged(index, item)
         }
     }
 
-    private fun handleViewSensorBloodState(sensor: SensorBloodEntity) {
+    private fun handleViewSensorHeartState(sensor: SensorHeartEntity) {
         val index = SENSOR_HEART_IDX
         if (index > INVALID_SENSOR) {
-
+            val item = adapter.sensorEntities[index]
+            item.id = SENSOR_HEART_ID
+            item.value = sensor.heartR.toFloat()
+            adapter.notifyItemChanged(index, item)
         }
     }
 
-    private fun handleViewSensorHeartState(sensor: SensorHeartEntity) {
+    private fun handleViewSensorBloodState(sensor: SensorBloodEntity) {
         val index = SENSOR_BLOOD_IDX
         if (index > INVALID_SENSOR) {
+            val item = adapter.sensorEntities[index]
+            item.id = SENSOR_BLOOD_ID
+            item.value = sensor.sys.toFloat()
+            adapter.notifyItemChanged(index, item)
+        }
+    }
 
+    private fun handleViewSensorTempState(sensor: SensorTempEntity) {
+        val index = SENSOR_TEMPERATURE_IDX
+        if (index > INVALID_SENSOR) {
+            val item = adapter.sensorEntities[index]
+            item.id = SENSOR_TEMPERATURE_ID
+            item.value = sensor.temp
+            adapter.notifyItemChanged(index, item)
         }
     }
 
@@ -156,16 +174,14 @@ class SensorsFragment : Fragment() {
             value = 0F
         )
         sensors.add(bloodSensor)
-        adapter.setSensors(sensors)
-    }
 
-    private fun getSensorIndex(id: Int): Int {
-        return when(id) {
-            SENSOR_O2_ID -> SENSOR_O2_IDX
-            SENSOR_HEART_ID -> SENSOR_HEART_IDX
-            SENSOR_BLOOD_ID -> SENSOR_BLOOD_IDX
-            else -> INVALID_SENSOR
-        }
+        val temperatureSensor = SensorEntity (
+            id = SENSOR_TEMPERATURE_ID,
+            name = Utils.getSensorNameById(SENSOR_TEMPERATURE_ID),
+            value = 0F
+        )
+        sensors.add(temperatureSensor)
+        adapter.setSensors(sensors)
     }
 
     companion object {
@@ -173,5 +189,6 @@ class SensorsFragment : Fragment() {
         const val SENSOR_O2_IDX = 0
         const val SENSOR_HEART_IDX = 1
         const val SENSOR_BLOOD_IDX = 2
+        const val SENSOR_TEMPERATURE_IDX = 3
     }
 }

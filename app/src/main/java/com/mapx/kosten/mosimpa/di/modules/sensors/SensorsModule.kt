@@ -49,19 +49,28 @@ class SensorsModule {
     }
 
     @Provides
+    fun provideGetSensorTempDataUseCase(sensorsRepository: SensorsRepository): GetSensorTempDataUseCase {
+        return GetSensorTempDataUseCase(
+            sensorsRepository
+        )
+    }
+
+    @Provides
     fun provideSensorsViewModelFactory(
         getSensorDataUseCase: GetSensorDataUseCase,
         subscribeIdUseCase: SubscribeIdUseCase,
         getSensorO2DataUseCase: GetSensorO2DataUseCase,
         getSensorBloodDataUseCase: GetSensorBloodDataUseCase,
-        getSensorHeartDataUseCase: GetSensorHeartDataUseCase
+        getSensorHeartDataUseCase: GetSensorHeartDataUseCase,
+        getSensorTempDataUseCase: GetSensorTempDataUseCase
     ): SensorsViewModelFactory {
         return SensorsViewModelFactory(
             getSensorDataUseCase,
             subscribeIdUseCase,
             getSensorO2DataUseCase,
             getSensorBloodDataUseCase,
-            getSensorHeartDataUseCase
+            getSensorHeartDataUseCase,
+            getSensorTempDataUseCase
         )
     }
 }

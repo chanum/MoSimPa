@@ -2,6 +2,7 @@ package com.mapx.kosten.mosimpa.data.mappers
 
 import com.google.gson.Gson
 import com.mapx.kosten.mosimpa.data.entities.SensorBloopRsp
+import com.mapx.kosten.mosimpa.data.entities.SensorBodyTRsp
 import com.mapx.kosten.mosimpa.data.entities.SensorHeartRRsp
 import com.mapx.kosten.mosimpa.data.entities.SensorSpo2Rsp
 
@@ -20,5 +21,10 @@ class SensorMqttToEntityMapper {
     fun mapFromHeart(from: String): SensorHeartRRsp {
         val gson = Gson()
         return gson.fromJson(from, SensorHeartRRsp::class.java)
+    }
+
+    fun mapFromTemp(from: String): SensorBodyTRsp {
+        val gson = Gson()
+        return gson.fromJson(from, SensorBodyTRsp::class.java)
     }
 }
