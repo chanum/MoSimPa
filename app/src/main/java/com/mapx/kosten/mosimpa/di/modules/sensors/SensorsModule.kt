@@ -13,7 +13,13 @@ class SensorsModule {
     @Provides
     fun provideSubscribeIdUseCase(sensorsRepository: SensorsRepository): SubscribeIdUseCase {
         return SubscribeIdUseCase(
-            ASyncTransformer(),
+            sensorsRepository
+        )
+    }
+
+    @Provides
+    fun provideUnSubscribeIdUseCase(sensorsRepository: SensorsRepository): UnSubscribeIdUseCase {
+        return UnSubscribeIdUseCase(
             sensorsRepository
         )
     }
@@ -50,6 +56,7 @@ class SensorsModule {
     @Provides
     fun provideSensorsViewModelFactory(
         subscribeIdUseCase: SubscribeIdUseCase,
+        unSubscribeIdUseCase: UnSubscribeIdUseCase,
         getSensorO2DataUseCase: GetSensorO2DataUseCase,
         getSensorBloodDataUseCase: GetSensorBloodDataUseCase,
         getSensorHeartDataUseCase: GetSensorHeartDataUseCase,
@@ -57,6 +64,7 @@ class SensorsModule {
     ): SensorsViewModelFactory {
         return SensorsViewModelFactory(
             subscribeIdUseCase,
+            unSubscribeIdUseCase,
             getSensorO2DataUseCase,
             getSensorBloodDataUseCase,
             getSensorHeartDataUseCase,

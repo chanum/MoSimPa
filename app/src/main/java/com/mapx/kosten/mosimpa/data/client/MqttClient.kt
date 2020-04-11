@@ -8,20 +8,24 @@ import org.eclipse.paho.client.mqttv3.*
 import org.eclipse.paho.client.mqttv3.MqttClient
 
 class MqttClient(
-    private val context: Context
-    // private val clientId: String,
-    // private val serverURI: String
+    private val context: Context,
+    private val serverURI: String
 ) {
 
     lateinit var client: MqttAndroidClient
 
     init {
-        val clientId = MqttClient.generateClientId()
-        client = MqttAndroidClient(context, SERVER_URI, clientId)
+        initialize(serverURI)
     }
 
     companion object {
         const val TAG = "MqttClient"
+    }
+
+    fun initialize(url: String) {
+        val uri = "tcp://" + url
+        val clientId = MqttClient.generateClientId()
+        client = MqttAndroidClient(context, uri, clientId)
     }
 
     fun connect(topics: Array<String>? = null,
@@ -81,6 +85,22 @@ class MqttClient(
                 Log.d(TAG, "Failed to subscribe to $topic")
                 exception.printStackTrace()
             }
+        }
+    }
+
+    fun unSubscribe(topic: String) {
+        try {
+            val unsubToken = client.unsubscribe(topic)
+            unsubToken.actionCallback = object : IMqttActionListener {
+                override fun onSuccess(asyncActionToken: IMqttToken) {
+                    Log.d(TAG, "UnSubscribed to $topic")
+                }
+                override fun onFailure(asyncActionToken: IMqttToken, exception: Throwable) {
+                    Log.d(TAG, "Failed to UnSubscribed to $topic")
+                }
+            }
+        } catch (e: MqttException) {
+            // Give your callback on failure here
         }
     }
 
