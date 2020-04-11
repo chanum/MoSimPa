@@ -6,9 +6,9 @@ import io.reactivex.Observable
 
 interface SensorsRepository {
     fun subscribeId(id: Long): Observable<Boolean>
-    fun getSensorById(id: Long): Observable<SensorEntity>
-    fun getO2Data(): LiveData<SensorO2Entity>
-    fun getBloodData(): LiveData<SensorBloodEntity>
-    fun getHeartData(): LiveData<SensorHeartEntity>
-    fun getTempData(): LiveData<SensorTempEntity>
+
+    fun getO2Data(id: Long): LiveData<SensorO2Entity>
+    fun getBloodData(id: Long): LiveData<SensorBloodEntity>
+    fun getHeartData(id: Long): LiveData<SensorHeartEntity>
+    fun getTempData(id: Long): LiveData<SensorTempEntity>
 }

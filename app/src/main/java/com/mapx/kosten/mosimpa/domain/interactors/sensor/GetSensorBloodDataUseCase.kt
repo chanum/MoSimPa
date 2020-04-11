@@ -5,5 +5,5 @@ import com.mapx.kosten.mosimpa.domain.data.SensorsRepository
 class GetSensorBloodDataUseCase (
     private val sensorsRepository: SensorsRepository
 ) {
-    fun invoke() = sensorsRepository.getBloodData()
+    fun invoke(id: Long) = sensorsRepository.getBloodData(id)
 }

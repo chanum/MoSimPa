@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.mapx.kosten.mosimpa.domain.interactors.sensor.*
 
 class SensorsViewModelFactory(
-    private val getSensorDataUseCase: GetSensorDataUseCase,
     private val subscribeIdUseCase: SubscribeIdUseCase,
     private val getO2DataUseCase: GetSensorO2DataUseCase,
     private val getBloodDataUseCase: GetSensorBloodDataUseCase,
@@ -15,7 +14,6 @@ class SensorsViewModelFactory(
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return SensorsViewModel(
-            getSensorDataUseCase,
             subscribeIdUseCase,
             getO2DataUseCase,
             getBloodDataUseCase,

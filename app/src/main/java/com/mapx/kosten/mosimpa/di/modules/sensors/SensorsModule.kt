@@ -11,14 +11,6 @@ import dagger.Provides
 class SensorsModule {
 
     @Provides
-    fun provideGetSensorDataUseCase(sensorsRepository: SensorsRepository): GetSensorDataUseCase {
-        return GetSensorDataUseCase(
-            ASyncTransformer(),
-            sensorsRepository
-        )
-    }
-
-    @Provides
     fun provideSubscribeIdUseCase(sensorsRepository: SensorsRepository): SubscribeIdUseCase {
         return SubscribeIdUseCase(
             ASyncTransformer(),
@@ -57,7 +49,6 @@ class SensorsModule {
 
     @Provides
     fun provideSensorsViewModelFactory(
-        getSensorDataUseCase: GetSensorDataUseCase,
         subscribeIdUseCase: SubscribeIdUseCase,
         getSensorO2DataUseCase: GetSensorO2DataUseCase,
         getSensorBloodDataUseCase: GetSensorBloodDataUseCase,
@@ -65,7 +56,6 @@ class SensorsModule {
         getSensorTempDataUseCase: GetSensorTempDataUseCase
     ): SensorsViewModelFactory {
         return SensorsViewModelFactory(
-            getSensorDataUseCase,
             subscribeIdUseCase,
             getSensorO2DataUseCase,
             getSensorBloodDataUseCase,

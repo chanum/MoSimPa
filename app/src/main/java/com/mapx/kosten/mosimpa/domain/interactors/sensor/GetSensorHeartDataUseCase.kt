@@ -5,5 +5,5 @@ import com.mapx.kosten.mosimpa.domain.data.SensorsRepository
 class GetSensorHeartDataUseCase (
     private val sensorsRepository: SensorsRepository
 ) {
-    fun invoke() = sensorsRepository.getHeartData()
+    fun invoke(id: Long) = sensorsRepository.getHeartData(id)
 }

@@ -7,9 +7,10 @@ import com.mapx.kosten.mosimpa.domain.entites.*
 import com.mapx.kosten.mosimpa.domain.interactors.sensor.*
 import com.mapx.kosten.mosimpa.presentation.common.BaseViewModel
 import com.mapx.kosten.mosimpa.presentation.common.SingleLiveEvent
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class SensorsViewModel(
-    private val getSensorDataUseCase: GetSensorDataUseCase,
     private val subscribeIdUseCase: SubscribeIdUseCase,
     private val getO2DataUseCase: GetSensorO2DataUseCase,
     private val getBloodDataUseCase: GetSensorBloodDataUseCase,
@@ -17,29 +18,20 @@ class SensorsViewModel(
     private val getTempDataUseCase: GetSensorTempDataUseCase
 ): BaseViewModel() {
 
-
     var errorState: SingleLiveEvent<Throwable?> = SingleLiveEvent()
-    var sensorO2Value: LiveData<SensorO2Entity> = getO2DataUseCase.invoke()
-    var sensorBloodValue: LiveData<SensorBloodEntity> = getBloodDataUseCase.invoke()
-    var sensorHeartValue: LiveData<SensorHeartEntity> = getHeartDataUseCase.invoke()
-    var sensorTempValue: LiveData<SensorTempEntity> = getTempDataUseCase.invoke()
+    var sensorO2Value: LiveData<SensorO2Entity> = getO2DataUseCase.invoke(-1)
+    var sensorBloodValue: LiveData<SensorBloodEntity> = getBloodDataUseCase.invoke(-1)
+    var sensorHeartValue: LiveData<SensorHeartEntity> = getHeartDataUseCase.invoke(-1)
+    var sensorTempValue: LiveData<SensorTempEntity> = getTempDataUseCase.invoke(-1)
 
-    private fun loadSpo2Sensor() {
-//        GlobalScope.launch {
-//            spo2List.postValue(getSpo2DataUseCase.invoke())
-//        }
-    }
-
-
-    fun subscribePatient(Id: Long) {
+    fun subscribePatient(id: Long) {
         // TODO get true id
-        val hardId = 0xb827eb8b862d
-        addDisposable(subscribeIdUseCase.subscribe(hardId)
+        // val hardId = 0xb827eb8b862d
+        addDisposable(subscribeIdUseCase.subscribe(id)
             .subscribe({
                 errorState.value = null
                 Log.i(javaClass.simpleName, "subscribePatient Ok")
-                // getSensorData(hardId)
-                loadSpo2Sensor()
+                // waitForSensorsData(id)
             } , {
                 errorState.value = it
                 Log.i(javaClass.simpleName, "Error subscribePatient")
@@ -47,15 +39,12 @@ class SensorsViewModel(
         )
     }
 
-    private fun getSensorData(Id: Long) {
-        addDisposable(getSensorDataUseCase.getDataById(Id)
-            .subscribe({
-                errorState.value = null
-                Log.i(javaClass.simpleName, "getSensorData Ok $it")
-            } , {
-                errorState.value = it
-                Log.i(javaClass.simpleName, "Error getSensorData")
-            })
-        )
+    /*
+    private fun waitForSensorsData(id: Long) {
+        sensorO2Value = getO2DataUseCase.invoke(id)
+        sensorBloodValue = getBloodDataUseCase.invoke(id)
+        sensorHeartValue = getHeartDataUseCase.invoke(id)
+        sensorTempValue = getTempDataUseCase.invoke(id)
     }
+    */
 }

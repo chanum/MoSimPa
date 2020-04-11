@@ -5,5 +5,5 @@ import com.mapx.kosten.mosimpa.domain.data.SensorsRepository
 class GetSensorTempDataUseCase (
     private val sensorsRepository: SensorsRepository
 ) {
-    fun invoke() = sensorsRepository.getTempData()
+    fun invoke(id: Long) = sensorsRepository.getTempData(id)
 }
