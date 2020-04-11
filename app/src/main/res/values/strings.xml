@@ -54,4 +54,7 @@
     <!-- Sensors Fragment -->
     <string name="sensors_progress">No hay sensores disponibles</string>
 
+    <!-- Info Fragment -->
+    <string name="info_app_version">"App Version: %1$s"</string>
+
 </resources>
