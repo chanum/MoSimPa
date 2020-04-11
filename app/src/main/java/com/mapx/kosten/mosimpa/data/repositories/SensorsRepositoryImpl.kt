@@ -8,9 +8,9 @@ import com.mapx.kosten.mosimpa.data.db.MosimpaDatabase
 import com.mapx.kosten.mosimpa.data.db.dao.*
 import com.mapx.kosten.mosimpa.data.entities.*
 import com.mapx.kosten.mosimpa.data.mappers.*
+import com.mapx.kosten.mosimpa.data.preferences.BrokerIpPreferenceImpl
 import com.mapx.kosten.mosimpa.domain.data.SensorsRepository
 import com.mapx.kosten.mosimpa.domain.entites.*
-import io.reactivex.Observable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -19,7 +19,7 @@ import org.eclipse.paho.client.mqttv3.MqttMessage
 import org.json.JSONObject
 
 class SensorsRepositoryImpl(
-    context: Context,
+    private val context: Context,
     database: MosimpaDatabase
 ): SensorsRepository {
 
@@ -35,17 +35,13 @@ class SensorsRepositoryImpl(
 
     private val mapperMqttToDd = SensorMqttToEntityMapper()
 
-    private val mqttClient = MqttClient(context)
+    private lateinit var mqttClient: MqttClient
 
     private var currentId: Long = -1
     private var sensorO2Count: Long = 0
     private var sensorBloodCount: Long = 0
     private var sensorHeartCount: Long = 0
     private var sensorTempCount: Long = 0
-
-    init {
-        // mqttClient.connect(null, ::msgRsp)
-    }
 
     val sensorO2: LiveData<SensorO2Entity> = Transformations.map(
         sensorO2Dao.getData()
@@ -64,7 +60,16 @@ class SensorsRepositoryImpl(
     ) { it?.let { mapperTempDBtoEntity.mapFrom(it) } }
 
     override fun connectMqtt() {
-        mqttClient.connect(null, ::msgRsp)
+        val ip = getBrokerIp()
+        if(::mqttClient.isInitialized) {
+            mqttClient.close()
+        }
+        mqttClient = MqttClient(context, ip)
+    }
+
+    // TODO settingsRepository?
+    private fun getBrokerIp(): String {
+        return BrokerIpPreferenceImpl(context).getBrokerIP()
     }
 
     override fun unSubscribeId(id: Long) {

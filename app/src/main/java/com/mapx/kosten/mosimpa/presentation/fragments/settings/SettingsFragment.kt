@@ -5,10 +5,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.*
 import androidx.fragment.app.Fragment
-import android.widget.ProgressBar
-import android.widget.TextView
-import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -34,6 +32,8 @@ class SettingsFragment : Fragment() {
     private lateinit var emptyMessage: TextView
     private lateinit var adapter: SettingsAdapter
     private lateinit var addButton: FloatingActionButton
+    private lateinit var brokerIpTxt: EditText
+    private lateinit var saveIpButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,9 +67,15 @@ class SettingsFragment : Fragment() {
         progressBar = view.findViewById(R.id.pb_settings)
         recyclerView = view.findViewById(R.id.rv_settings_patients)
         emptyMessage = view.findViewById(R.id.tv_settings_empty)
+        brokerIpTxt = view.findViewById(R.id.et_settings_server_ip)
+        saveIpButton = view.findViewById(R.id.btn_settings_server_save)
 
+        brokerIpTxt.setText(viewModel.getBrokerIp())
         addButton.setOnClickListener{
             goToAddPatient(INVALID_PATIENT_ID)
+        }
+        saveIpButton.setOnClickListener{
+            viewModel.setBrokerIp(brokerIpTxt.text.toString())
         }
         adapter = SettingsAdapter{ node, view ->
             goToDetailView(node, view)

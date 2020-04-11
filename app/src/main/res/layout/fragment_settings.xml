@@ -6,20 +6,70 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_settings_patients"
-        style="@style/CommonRecyclerView" />
-
-    <TextView
-        android:id="@+id/tv_settings_empty"
-        style="@style/CommonTextViewRVEmpty"
-        android:text="@string/settings_progress" />
-
-    <ProgressBar
-        android:id="@+id/pb_settings"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"/>
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_centerVertical="true">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_settings_server_ip"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:maxLength="15"
+                    android:inputType="text"
+                    android:hint="@string/settings_title_broker_ip" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/btn_settings_server_save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="@string/settings_patient_save_btn" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:layout_margin="8dp"
+            android:background="#c0c0c0"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_settings_patients"
+            style="@style/CommonRecyclerView" />
+
+        <TextView
+            android:id="@+id/tv_settings_empty"
+            style="@style/CommonTextViewRVEmpty"
+            android:text="@string/settings_progress" />
+
+        <ProgressBar
+            android:id="@+id/pb_settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
+
+    </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_settings_add_patient"

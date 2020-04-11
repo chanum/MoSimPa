@@ -3,11 +3,13 @@ package com.mapx.kosten.mosimpa.presentation.fragments.patients
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.mapx.kosten.mosimpa.domain.interactors.patient.GetPatientsUseCase
+import com.mapx.kosten.mosimpa.domain.interactors.sensor.ConnectClientMqttUseCase
 import com.mapx.kosten.mosimpa.presentation.common.BaseViewModel
 import com.mapx.kosten.mosimpa.presentation.common.SingleLiveEvent
 
 class PatientsViewModel(
-    private val getPatientsUseCase: GetPatientsUseCase
+    private val getPatientsUseCase: GetPatientsUseCase,
+    private val connectClientMqttUseCase: ConnectClientMqttUseCase
 ): BaseViewModel() {
 
     var viewState: MutableLiveData<PatientsViewState> = MutableLiveData()
@@ -16,6 +18,10 @@ class PatientsViewModel(
     init {
         val viewState = PatientsViewState()
         this.viewState.value = viewState
+    }
+
+    fun connect() {
+        connectClientMqttUseCase.invoke()
     }
 
     fun loadPatients() {

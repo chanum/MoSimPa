@@ -8,20 +8,24 @@ import org.eclipse.paho.client.mqttv3.*
 import org.eclipse.paho.client.mqttv3.MqttClient
 
 class MqttClient(
-    private val context: Context
-    // private val clientId: String,
-    // private val serverURI: String
+    private val context: Context,
+    private val serverURI: String
 ) {
 
     lateinit var client: MqttAndroidClient
 
     init {
-        val clientId = MqttClient.generateClientId()
-        client = MqttAndroidClient(context, SERVER_URI, clientId)
+        initialize(serverURI)
     }
 
     companion object {
         const val TAG = "MqttClient"
+    }
+
+    fun initialize(url: String) {
+        val uri = "tcp://" + url
+        val clientId = MqttClient.generateClientId()
+        client = MqttAndroidClient(context, uri, clientId)
     }
 
     fun connect(topics: Array<String>? = null,

@@ -81,6 +81,7 @@ class PatientsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        viewModel.connect()
         viewModel.loadPatients()
     }
 
