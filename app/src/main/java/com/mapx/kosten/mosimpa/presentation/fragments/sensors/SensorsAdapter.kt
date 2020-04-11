@@ -1,17 +1,13 @@
 package com.mapx.kosten.mosimpa.presentation.fragments.sensors
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.github.mikephil.charting.charts.LineChart
-import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.mapx.kosten.mosimpa.R
-import com.mapx.kosten.mosimpa.domain.common.Constants
 import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_BLOOD_ID
 import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_BLOOD_Y_MAX
 import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_BLOOD_Y_MIN
@@ -79,40 +75,21 @@ class SensorsAdapter constructor(
             lineChart.description.text = "Sensor"
         }
 
-        private fun createSet(): LineDataSet{
-            val set = LineDataSet(entries, "Value")
-            // set.axisDependency = AxisDependency.LEFT
-            // set.color = ColorTemplate.getHoloBlue()
-            //set.setCircleColor(Color.WHITE)
-            //set.lineWidth = 2f
-            //set.circleRadius = 4f
-            //set.fillAlpha = 65
-            //set.fillColor = ColorTemplate.getHoloBlue()
-            //set.highLightColor = Color.rgb(244, 117, 117)
-            //set.valueTextColor = Color.WHITE
-            //set.valueTextSize = 9f
-            //set.setDrawValues(false)
-            return set
-        }
-
         private fun updateChart(sensorData: Float, id: Int) {
             val data = lineChart.data
 
             if(data != null) {
                 val set = data.getDataSetByIndex(0)
-                if (set == null) {
-                    // set = createSet()
-                    //data.addDataSet(set)
+                val count = set.entryCount.toFloat()
+                if (count >= VISIBLE_HISTORY) {
+                    set.clear()
                 }
 
-                val count = set.entryCount.toFloat()
-                // Log.i(javaClass.simpleName, "entryCount: $count")
                 data.addEntry(Entry(count, sensorData), 0)
                 data.notifyDataChanged()
 
                 // let the chart know it's data has changed
                 lineChart.notifyDataSetChanged()
-
                 lineChart.moveViewToX(count)
 
                 when(id) {
@@ -146,8 +123,13 @@ class SensorsAdapter constructor(
                 }
 
                 // limit the number of visible entries
-                lineChart.setVisibleXRangeMaximum(20F)
+                lineChart.setVisibleXRangeMaximum(VISIBLE_X_RANGE)
             }
+        }
+
+        companion object {
+            const val VISIBLE_X_RANGE = 20F
+            const val VISIBLE_HISTORY = 1000
         }
     }
 }

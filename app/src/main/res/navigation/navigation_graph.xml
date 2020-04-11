@@ -12,7 +12,11 @@
         tools:layout="@layout/activity_main">
         <action
             android:id="@+id/action_patientsFragment_to_sensorsFragment"
-            app:destination="@id/sensors_dest" />
+            app:destination="@id/sensors_dest"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/sensors_dest"
@@ -21,7 +25,11 @@
         tools:layout="@layout/fragment_sensors">
         <action
             android:id="@+id/action_sensorsFragment_to_sensorDetailFragment"
-            app:destination="@id/sensorDetailFragment" />
+            app:destination="@id/sensorDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
         <argument
             android:name="patientId"
             app:argType="long"
@@ -39,7 +47,11 @@
         tools:layout="@layout/fragment_settings" >
         <action
             android:id="@+id/action_settings_dest_to_settingsPatientFragment"
-            app:destination="@id/settingsPatient_dest" />
+            app:destination="@id/settingsPatient_dest"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/settingsPatient_dest"
