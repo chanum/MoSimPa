@@ -50,10 +50,8 @@ class SensorsAdapter constructor(
         val lineChart = itemView.lineChart_sensor
 
         init {
-
-            //configureSensorChart(lineChart)
-            createDataSet(lineChart)
-            // entries.add(Entry(i, 0F))
+            // createSet()
+            configureSensorChart()
         }
 
         fun bind(sensor: SensorEntity, listener: (SensorEntity, View) -> Unit) = with(itemView) {
@@ -64,7 +62,11 @@ class SensorsAdapter constructor(
             setOnClickListener { listener(sensor, itemView) }
         }
 
-        private fun createDataSet(lineChart: LineChart) {
+        private fun configureSensorChart() {
+            lineChart.axisLeft.axisMaximum = 100F
+            lineChart.axisRight.axisMaximum = 100F
+            lineChart.axisLeft.axisMinimum = 0F
+            lineChart.axisRight.axisMinimum = 0F
 
             val set = LineDataSet(entries, "Value")
             // lineChart.xAxis.labelRotationAngle = 0f
@@ -78,6 +80,22 @@ class SensorsAdapter constructor(
 
         }
 
+        private fun createSet(): LineDataSet{
+            val set = LineDataSet(entries, "Value")
+            // set.axisDependency = AxisDependency.LEFT
+            // set.color = ColorTemplate.getHoloBlue()
+            //set.setCircleColor(Color.WHITE)
+            //set.lineWidth = 2f
+            //set.circleRadius = 4f
+            //set.fillAlpha = 65
+            //set.fillColor = ColorTemplate.getHoloBlue()
+            //set.highLightColor = Color.rgb(244, 117, 117)
+            //set.valueTextColor = Color.WHITE
+            //set.valueTextSize = 9f
+            //set.setDrawValues(false)
+            return set
+        }
+
         private fun updateChart(sensorData: Float) {
             val data = lineChart.data
 
@@ -85,7 +103,7 @@ class SensorsAdapter constructor(
                 var set = data.getDataSetByIndex(0)
                 if (set == null) {
                     // set = createSet()
-                    // data.addDataSet(set)
+                    //data.addDataSet(set)
                 }
 
                 val count = set.entryCount.toFloat()
@@ -94,28 +112,17 @@ class SensorsAdapter constructor(
                 data.notifyDataChanged()
 
                 // let the chart know it's data has changed
-
-                // let the chart know it's data has changed
                 lineChart.notifyDataSetChanged()
 
-                // limit the number of visible entries
-
-                // limit the number of visible entries
-                // lineChart.setVisibleXRangeMaximum(500F)
-                // lineChart.setVisibleYRangeMaximum(200F, YAxis.AxisDependency.LEFT);
+                lineChart.moveViewToX(count)
 
                 lineChart.axisLeft.axisMaximum = 100F
                 lineChart.axisRight.axisMaximum = 100F
                 lineChart.axisLeft.axisMinimum = 0F
                 lineChart.axisRight.axisMinimum = 0F
 
-                lineChart.setVisibleXRangeMaximum(1000F)
-
-                // move to the latest entry
-                // mChart.setVisibleYRange(30, AxisDependency.LEFT);
-
-                // move to the latest entry
-                // lineChart.moveViewToX(data.entryCount.toFloat())
+                // limit the number of visible entries
+                lineChart.setVisibleXRangeMaximum(10F);
             }
         }
     }

@@ -16,9 +16,9 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mapx.kosten.mosimpa.R
-import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_HR_ID
-import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_SPO2_ID
-import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_TEMP_ID
+import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_HEART_ID
+import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_O2_ID
+import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_BLOOD_ID
 import com.mapx.kosten.mosimpa.domain.entites.SensorBloodEntity
 import com.mapx.kosten.mosimpa.domain.entites.SensorEntity
 import com.mapx.kosten.mosimpa.domain.entites.SensorHeartEntity
@@ -107,29 +107,25 @@ class SensorsFragment : Fragment() {
     }
 
     private fun handleViewSensorO2State(sensor: SensorO2Entity) {
-        val index = 0 // getSensorIndex(sensor.id)
+        val index = SENSOR_O2_IDX
         if (index > INVALID_SENSOR) {
-            // adapter.sensorEntities[index].value = sensor.spo2
-            adapter.sensorEntities[index].value = sensor.r
-            adapter.notifyItemChanged(index)
+            val item = adapter.sensorEntities[index]
+            item.value = sensor.r
+            adapter.notifyItemChanged(index, item)
         }
     }
 
     private fun handleViewSensorBloodState(sensor: SensorBloodEntity) {
-        val index = 1 // getSensorIndex(sensor.id)
+        val index = SENSOR_HEART_IDX
         if (index > INVALID_SENSOR) {
-            // adapter.sensorEntities[index].value = sensor.spo2
-            // adapter.sensorEntities[index].value = sensor.sys.toFloat()
-            // adapter.notifyItemChanged(index)
+
         }
     }
 
     private fun handleViewSensorHeartState(sensor: SensorHeartEntity) {
-        val index = 2 // getSensorIndex(sensor.id)
+        val index = SENSOR_BLOOD_IDX
         if (index > INVALID_SENSOR) {
-            // adapter.sensorEntities[index].value = sensor.spo2
-            // adapter.sensorEntities[index].value = sensor.heartR.toFloat()
-            // adapter.notifyItemChanged(index)
+
         }
     }
 
@@ -140,40 +136,42 @@ class SensorsFragment : Fragment() {
 
     private fun loadSensors() {
         val sensors = mutableListOf<SensorEntity>()
-        val spo2Sensor = SensorEntity (
-            id = SENSOR_SPO2_ID,
-            name = Utils.getSensorNameById(SENSOR_SPO2_ID),
+        val o2Sensor = SensorEntity (
+            id = SENSOR_O2_ID,
+            name = Utils.getSensorNameById(SENSOR_O2_ID),
             value = 0F
         )
-        sensors.add(spo2Sensor)
-        val hrSensor = SensorEntity (
-            id = SENSOR_HR_ID,
-            name = Utils.getSensorNameById(SENSOR_HR_ID),
+        sensors.add(o2Sensor)
+
+        val heartSensor = SensorEntity (
+            id = SENSOR_HEART_ID,
+            name = Utils.getSensorNameById(SENSOR_HEART_ID),
             value = 0F
         )
-        sensors.add(hrSensor)
-        val tempSensor = SensorEntity (
-            id = SENSOR_TEMP_ID,
-            name = Utils.getSensorNameById(SENSOR_TEMP_ID),
+        sensors.add(heartSensor)
+
+        val bloodSensor = SensorEntity (
+            id = SENSOR_BLOOD_ID,
+            name = Utils.getSensorNameById(SENSOR_BLOOD_ID),
             value = 0F
         )
-        sensors.add(tempSensor)
+        sensors.add(bloodSensor)
         adapter.setSensors(sensors)
     }
 
     private fun getSensorIndex(id: Int): Int {
         return when(id) {
-            SENSOR_SPO2_ID -> SENSOR_SPO2_IDX
-            SENSOR_HR_ID -> SENSOR_HR_IDX
-            SENSOR_TEMP_ID -> SENSOR_TEMP_IDX
+            SENSOR_O2_ID -> SENSOR_O2_IDX
+            SENSOR_HEART_ID -> SENSOR_HEART_IDX
+            SENSOR_BLOOD_ID -> SENSOR_BLOOD_IDX
             else -> INVALID_SENSOR
         }
     }
 
     companion object {
         const val INVALID_SENSOR = -1
-        const val SENSOR_SPO2_IDX = 0
-        const val SENSOR_HR_IDX = 1
-        const val SENSOR_TEMP_IDX = 2
+        const val SENSOR_O2_IDX = 0
+        const val SENSOR_HEART_IDX = 1
+        const val SENSOR_BLOOD_IDX = 2
     }
 }
