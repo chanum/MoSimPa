@@ -2,17 +2,22 @@ package com.mapx.kosten.mosimpa.data.client
 
 import android.content.Context
 import android.util.Log
+import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SERVER_URI
 import org.eclipse.paho.android.service.MqttAndroidClient
 import org.eclipse.paho.client.mqttv3.*
 import org.eclipse.paho.client.mqttv3.MqttClient
 
-class MqttClient(private val context: Context) {
+class MqttClient(
+    private val context: Context
+    // private val clientId: String,
+    // private val serverURI: String
+) {
 
     lateinit var client: MqttAndroidClient
 
     init {
         val clientId = MqttClient.generateClientId()
-        client = MqttAndroidClient(context, "tcp://192.168.0.83", clientId)
+        client = MqttAndroidClient(context, SERVER_URI, clientId)
     }
 
     companion object {

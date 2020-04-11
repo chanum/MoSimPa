@@ -74,6 +74,10 @@ class SettingsPatientFragment : Fragment() {
             viewModel.getPatient(patientId)
         }
 
+        // TODO
+        val id = 0xb827eb8b862d
+        nodeIdText.setText(id.toString())
+
         cancelBtn.setOnClickListener { assignButtonFunction(patientId) }
         saveBtn.setOnClickListener { doSave() }
     }
@@ -147,5 +151,4 @@ class SettingsPatientFragment : Fragment() {
         const val SAVE_OK = 0
         const val SAVE_ERROR = -1
     }
-
 }

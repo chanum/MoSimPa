@@ -1,9 +1,10 @@
 package com.mapx.kosten.mosimpa.presentation.common
 
 import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.EMPTY_STRING
-import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_HR_ID
-import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_SPO2_ID
-import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_TEMP_ID
+import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_HEART_ID
+import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_O2_ID
+import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_BLOOD_ID
+import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_TEMPERATURE_ID
 
 class Utils {
 
@@ -12,19 +13,39 @@ class Utils {
 
         fun getSensorNameById(id: Int): String {
             return when(id) {
-                SENSOR_SPO2_ID -> "SPO2"
-                SENSOR_HR_ID -> "Pulaciones"
-                SENSOR_TEMP_ID -> "Temperatura"
+                SENSOR_O2_ID -> "Sat. Oxígeno"
+                SENSOR_HEART_ID -> "Frec. Cardiaca"
+                SENSOR_BLOOD_ID -> "Presión Sang."
+                SENSOR_TEMPERATURE_ID -> "Temperatura"
                 else -> EMPTY_STRING
             }
         }
 
         fun getSensorSufixByID(id: Int): String {
             return when(id) {
-                SENSOR_SPO2_ID -> " %"
-                SENSOR_HR_ID -> " ppm"
-                SENSOR_TEMP_ID -> " °C"
+                SENSOR_O2_ID -> " %"
+                SENSOR_HEART_ID -> " Lpm"
+                SENSOR_BLOOD_ID -> " "
+                SENSOR_TEMPERATURE_ID -> " °C"
                 else -> EMPTY_STRING
+            }
+        }
+
+        fun getSensorMaxValueByID(id: Int): Int {
+            return when(id) {
+                SENSOR_O2_ID -> 100
+                SENSOR_HEART_ID -> 200
+                SENSOR_BLOOD_ID -> 50
+                else -> 0
+            }
+        }
+
+        fun getSensorMinValueByID(id: Int): Int {
+            return when(id) {
+                SENSOR_O2_ID -> 40
+                SENSOR_HEART_ID -> 0
+                SENSOR_BLOOD_ID -> 0
+                else -> 0
             }
         }
     }

@@ -16,11 +16,11 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mapx.kosten.mosimpa.R
-import com.mapx.kosten.mosimpa.domain.common.Constants
-import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_HR_ID
-import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_SPO2_ID
-import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_TEMP_ID
-import com.mapx.kosten.mosimpa.domain.entites.SensorEntity
+import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_HEART_ID
+import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_O2_ID
+import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_BLOOD_ID
+import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_TEMPERATURE_ID
+import com.mapx.kosten.mosimpa.domain.entites.*
 import com.mapx.kosten.mosimpa.presentation.common.App
 import com.mapx.kosten.mosimpa.presentation.common.Utils
 import com.mapx.kosten.mosimpa.presentation.common.Utils.Companion.INVALID_PATIENT_ID
@@ -36,6 +36,9 @@ class SensorsFragment : Fragment() {
     private lateinit var progressBar: ProgressBar
     private lateinit var emptyMessage: TextView
     private lateinit var adapter: SensorsAdapter
+    private lateinit var adapterO2: SensorO2Adapter
+    private lateinit var adapterBlood: SensorBloodAdapter
+    private lateinit var adapterHeart: SensorHeartAdapter
     private var patientId: Long = INVALID_PATIENT_ID
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,14 +59,17 @@ class SensorsFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.spo2State.observe(viewLifecycleOwner, Observer {
-            if (it != null) handleViewSensorState(it)
+        viewModel.sensorO2Value.observe(viewLifecycleOwner, Observer {
+            it?.let{ handleViewSensorO2State(it) }
         })
-        viewModel.hrState.observe(viewLifecycleOwner, Observer {
-            if (it != null) handleViewSensorState(it)
+        viewModel.sensorBloodValue.observe(viewLifecycleOwner, Observer {
+            it?.let{ handleViewSensorBloodState(it) }
         })
-        viewModel.tempState.observe(viewLifecycleOwner, Observer {
-            if (it != null) handleViewSensorState(it)
+        viewModel.sensorHeartValue.observe(viewLifecycleOwner, Observer {
+            it?.let{ handleViewSensorHeartState(it) }
+        })
+        viewModel.sensorTempValue.observe(viewLifecycleOwner, Observer {
+            it?.let{ handleViewSensorTempState(it) }
         })
         viewModel.errorState.observe(viewLifecycleOwner, Observer { throwable ->
             throwable?.let {
@@ -93,7 +99,7 @@ class SensorsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        // if (patientId > INVALID_PATIENT_ID) viewModel.loadSensors(patientId)
+        viewModel.subscribePatient(patientId)
     }
 
     override fun onDestroy() {
@@ -101,11 +107,43 @@ class SensorsFragment : Fragment() {
         (activity?.application as App).releaseSensorsComponent()
     }
 
-    private fun handleViewSensorState(sensor: SensorEntity) {
-        val index = getSensorIndex(sensor.id)
-        if (index > INVALID_SENSOR) {
-            adapter.sensorEntities[index].value = sensor.value
-            adapter.notifyItemChanged(index)
+    private fun handleViewSensorO2State(sensor: SensorO2Entity) {
+        val index = SENSOR_O2_IDX
+        if (index > INVALID_SENSOR && patientId == sensor.deviceId) {
+            val item = adapter.sensorEntities[index]
+            item.id = SENSOR_O2_ID
+            item.value = sensor.r
+            adapter.notifyItemChanged(index, item)
+        }
+    }
+
+    private fun handleViewSensorHeartState(sensor: SensorHeartEntity) {
+        val index = SENSOR_HEART_IDX
+        if (index > INVALID_SENSOR && patientId == sensor.deviceId) {
+            val item = adapter.sensorEntities[index]
+            item.id = SENSOR_HEART_ID
+            item.value = sensor.heartR.toFloat()
+            adapter.notifyItemChanged(index, item)
+        }
+    }
+
+    private fun handleViewSensorBloodState(sensor: SensorBloodEntity) {
+        val index = SENSOR_BLOOD_IDX
+        if (index > INVALID_SENSOR && patientId == sensor.deviceId) {
+            val item = adapter.sensorEntities[index]
+            item.id = SENSOR_BLOOD_ID
+            item.value = sensor.sys.toFloat()
+            adapter.notifyItemChanged(index, item)
+        }
+    }
+
+    private fun handleViewSensorTempState(sensor: SensorTempEntity) {
+        val index = SENSOR_TEMPERATURE_IDX
+        if (index > INVALID_SENSOR && patientId == sensor.deviceId) {
+            val item = adapter.sensorEntities[index]
+            item.id = SENSOR_TEMPERATURE_ID
+            item.value = sensor.temp
+            adapter.notifyItemChanged(index, item)
         }
     }
 
@@ -116,40 +154,41 @@ class SensorsFragment : Fragment() {
 
     private fun loadSensors() {
         val sensors = mutableListOf<SensorEntity>()
-        val spo2Sensor = SensorEntity (
-            id = SENSOR_SPO2_ID,
-            name = Utils.getSensorNameById(SENSOR_SPO2_ID),
+        val o2Sensor = SensorEntity (
+            id = SENSOR_O2_ID,
+            name = Utils.getSensorNameById(SENSOR_O2_ID),
             value = 0F
         )
-        sensors.add(spo2Sensor)
-        val hrSensor = SensorEntity (
-            id = SENSOR_HR_ID,
-            name = Utils.getSensorNameById(SENSOR_HR_ID),
-            value = 0F
-        )
-        sensors.add(hrSensor)
-        val tempSensor = SensorEntity (
-            id = SENSOR_TEMP_ID,
-            name = Utils.getSensorNameById(SENSOR_TEMP_ID),
-            value = 0F
-        )
-        sensors.add(tempSensor)
-        adapter.setSensors(sensors)
-    }
+        sensors.add(o2Sensor)
 
-    private fun getSensorIndex(id: Int): Int {
-        return when(id) {
-            SENSOR_SPO2_ID -> SENSOR_SPO2_IDX
-            SENSOR_HR_ID -> SENSOR_HR_IDX
-            SENSOR_TEMP_ID -> SENSOR_TEMP_IDX
-            else -> INVALID_SENSOR
-        }
+        val heartSensor = SensorEntity (
+            id = SENSOR_HEART_ID,
+            name = Utils.getSensorNameById(SENSOR_HEART_ID),
+            value = 0F
+        )
+        sensors.add(heartSensor)
+
+        val bloodSensor = SensorEntity (
+            id = SENSOR_BLOOD_ID,
+            name = Utils.getSensorNameById(SENSOR_BLOOD_ID),
+            value = 0F
+        )
+        sensors.add(bloodSensor)
+
+        val temperatureSensor = SensorEntity (
+            id = SENSOR_TEMPERATURE_ID,
+            name = Utils.getSensorNameById(SENSOR_TEMPERATURE_ID),
+            value = 0F
+        )
+        sensors.add(temperatureSensor)
+        adapter.setSensors(sensors)
     }
 
     companion object {
         const val INVALID_SENSOR = -1
-        const val SENSOR_SPO2_IDX = 0
-        const val SENSOR_HR_IDX = 1
-        const val SENSOR_TEMP_IDX = 2
+        const val SENSOR_O2_IDX = 0
+        const val SENSOR_HEART_IDX = 1
+        const val SENSOR_BLOOD_IDX = 2
+        const val SENSOR_TEMPERATURE_IDX = 3
     }
 }

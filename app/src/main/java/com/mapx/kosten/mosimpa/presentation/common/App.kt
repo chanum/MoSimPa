@@ -5,6 +5,7 @@ import com.mapx.kosten.mosimpa.di.DaggerMainComponent
 import com.mapx.kosten.mosimpa.di.MainComponent
 import com.mapx.kosten.mosimpa.di.modules.AppModule
 import com.mapx.kosten.mosimpa.di.modules.DataModule
+import com.mapx.kosten.mosimpa.di.modules.NetworkModule
 import com.mapx.kosten.mosimpa.di.modules.patients.PatientsModule
 import com.mapx.kosten.mosimpa.di.modules.patients.PatientsSubComponent
 import com.mapx.kosten.mosimpa.di.modules.sensors.SensorsModule
@@ -30,7 +31,7 @@ class App: Application() {
     private fun initDependencies() {
         mainComponent = DaggerMainComponent.builder()
             .appModule(AppModule(applicationContext))
-            // .networkModule(NetworkModule(ATHELING_SERVER_URL))
+            .networkModule(NetworkModule())
             .dataModule(DataModule())
             .build()
     }
