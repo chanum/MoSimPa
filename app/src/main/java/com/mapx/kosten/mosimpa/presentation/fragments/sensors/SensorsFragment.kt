@@ -109,7 +109,7 @@ class SensorsFragment : Fragment() {
         if (index > INVALID_SENSOR && patientId == sensor.deviceId) {
             val item = adapter.sensorEntities[index]
             item.id = SENSOR_O2_ID
-            item.value = sensor.r
+            item.value = sensor.spo2
             adapter.notifyItemChanged(index, item)
         }
     }
