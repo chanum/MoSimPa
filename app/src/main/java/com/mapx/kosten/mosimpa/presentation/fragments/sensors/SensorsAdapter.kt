@@ -92,6 +92,7 @@ class SensorsAdapter constructor(
                 lineChart.notifyDataSetChanged()
                 lineChart.moveViewToX(count)
 
+                /*
                 when(id) {
                     SENSOR_O2_ID -> {
                         lineChart.axisLeft.axisMaximum = SENSOR_O2_Y_MAX
@@ -121,6 +122,7 @@ class SensorsAdapter constructor(
 
                     }
                 }
+                 */
 
                 // limit the number of visible entries
                 lineChart.setVisibleXRangeMaximum(VISIBLE_X_RANGE)
@@ -128,7 +130,7 @@ class SensorsAdapter constructor(
         }
 
         companion object {
-            const val VISIBLE_X_RANGE = 20F
+            const val VISIBLE_X_RANGE = 40F
             const val VISIBLE_HISTORY = 1000
         }
     }
