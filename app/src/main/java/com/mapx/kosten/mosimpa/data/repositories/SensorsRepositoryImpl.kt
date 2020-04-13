@@ -83,12 +83,12 @@ class SensorsRepositoryImpl(
             currentId = id
             val st = String.format("%02x", id)
             val topic = arrayOf("reads/${st}")
-            mqttClient.connect(topic, ::msgRsp)
+            mqttClient.connect(topic, ::subscribeIdRsp)
             //mqttClient.subscribeTopic(topic)
         }
     }
 
-    fun msgRsp(topic: String, message: MqttMessage) {
+    private fun subscribeIdRsp(topic: String, message: MqttMessage) {
         // return data only for the current id
         val st = String.format("%02x", currentId)
         val currentTopic = "reads/${st}"
@@ -98,7 +98,7 @@ class SensorsRepositoryImpl(
     }
 
     // TODO use Generic to identify sensors class
-    // and generict to save sensors
+    // and generic to save sensors
     private fun parseAndSaveSensor(msg: String) {
         val jsonObject = JSONObject(msg)
         if (jsonObject.has(SENSOR_O2_JSON_KEY)) {

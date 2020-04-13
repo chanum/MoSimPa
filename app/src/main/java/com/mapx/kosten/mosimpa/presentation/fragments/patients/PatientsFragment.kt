@@ -33,7 +33,7 @@ class PatientsFragment : Fragment() {
     private lateinit var progressBar: ProgressBar
     private lateinit var emptyMessage: TextView
     private lateinit var adapter: PatientsAdapter
-    private lateinit var addButton: FloatingActionButton
+    private lateinit var scanButton: FloatingActionButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,14 +63,14 @@ class PatientsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         rootLayout = view.findViewById(R.id.frameLayoutPatients)
-        // addButton = rootLayout.findViewById(R.id.fab_add_patient)
+        scanButton = rootLayout.findViewById(R.id.fab_scan_devices)
         progressBar = rootLayout.findViewById(R.id.pb_patients)
         emptyMessage = rootLayout.findViewById(R.id.tv_patients_empty)
         recyclerView = rootLayout.findViewById(R.id.rv_patients)
 
-        // addButton.setOnClickListener{
-        //     goToAddPatient()
-        // }
+        scanButton.setOnClickListener{
+             scanDevices()
+        }
 
         adapter = PatientsAdapter{ node, view ->
             goToDetailView(node, view)
@@ -104,5 +104,14 @@ class PatientsFragment : Fragment() {
     private fun goToAddPatient(id: Long) {
        val action = PatientsFragmentDirections.actionPatientsFragmentToSensorsFragment(id)
         findNavController().navigate(action)
+    }
+
+    private fun scanDevices() {
+        // subscribe to reads/#
+        // get all devices
+        // look in the DB if exits
+        // add to DB
+        // update UI
+
     }
 }
