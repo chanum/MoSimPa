@@ -10,6 +10,8 @@ interface SensorsRepository {
     suspend fun subscribeId(id: Long)
     fun unSubscribeId(id: Long)
 
+    suspend fun subscribeToAll()
+
     fun getO2Data(id: Long): LiveData<SensorO2Entity>
     fun getBloodData(id: Long): LiveData<SensorBloodEntity>
     fun getHeartData(id: Long): LiveData<SensorHeartEntity>

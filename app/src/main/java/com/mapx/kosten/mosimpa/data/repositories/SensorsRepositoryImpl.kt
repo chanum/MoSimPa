@@ -43,6 +43,8 @@ class SensorsRepositoryImpl(
     private var sensorHeartCount: Long = 0
     private var sensorTempCount: Long = 0
 
+    private var devices = mutableListOf<Long>()
+
     val sensorO2: LiveData<SensorO2Entity> = Transformations.map(
         sensorO2Dao.getData()
     ) { it?.let { mapperO2DBtoEntity.mapFrom(it) } }
@@ -94,6 +96,27 @@ class SensorsRepositoryImpl(
         val currentTopic = "reads/${st}"
         if (currentTopic.equals(topic)) {
             parseAndSaveSensor(message.toString())
+        }
+    }
+
+    override suspend fun subscribeToAll() {
+        withContext(Dispatchers.IO) {
+            val topic = arrayOf("reads/#")
+            mqttClient.connect(topic, ::subscribeToAllRsp)
+            //mqttClient.subscribeTopic(topic)
+        }
+    }
+
+    private fun subscribeToAllRsp(topic: String, message: MqttMessage) {
+        if (topic.startsWith("reads/")) {
+            // trim topic
+            val id = topic.substring(6)
+            val idLong = id.toLong()
+            // check if exist in the
+            if (idLong !in devices) {
+                devices.add(id.toLong())
+            }
+            // parseAndSaveSensor(message.toString())
         }
     }
 

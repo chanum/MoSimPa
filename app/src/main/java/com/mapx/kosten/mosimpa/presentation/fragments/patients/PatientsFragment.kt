@@ -107,6 +107,7 @@ class PatientsFragment : Fragment() {
     }
 
     private fun scanDevices() {
+        viewModel.scanDevices()
         // subscribe to reads/#
         // get all devices
         // look in the DB if exits
