@@ -43,7 +43,7 @@ class PatientsAdapter constructor(
             tv_item_patient_id.text =
                 context.resources.getString(
                     R.string.patient_item_prefix,
-                    Utils.convertLongToHexString(patientEntity.deviceId.toLong())
+                    patientEntity.deviceId
                 )
             tv_item_patient_sex.text =
                 context.resources.getString(R.string.patient_item_sex, patientEntity.sex)

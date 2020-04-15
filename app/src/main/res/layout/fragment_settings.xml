@@ -31,7 +31,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:maxLength="15"
-                    android:inputType="text"
+                    android:digits="0123456789."
+                    android:inputType="number"
                     android:hint="@string/settings_title_broker_ip" />
             </com.google.android.material.textfield.TextInputLayout>
 

@@ -1,6 +1,8 @@
 package com.mapx.kosten.mosimpa.di.modules.sensors
 
+import com.mapx.kosten.mosimpa.domain.data.PatientsRepository
 import com.mapx.kosten.mosimpa.domain.data.SensorsRepository
+import com.mapx.kosten.mosimpa.domain.interactors.patient.GetDeviceIdByPatientId
 import com.mapx.kosten.mosimpa.domain.interactors.sensor.*
 import com.mapx.kosten.mosimpa.presentation.common.ASyncTransformer
 import com.mapx.kosten.mosimpa.presentation.fragments.sensors.SensorsViewModelFactory
@@ -54,13 +56,21 @@ class SensorsModule {
     }
 
     @Provides
+    fun provideGetDeviceIdByPatientId(patientsRepository: PatientsRepository): GetDeviceIdByPatientId {
+        return GetDeviceIdByPatientId(
+            patientsRepository
+        )
+    }
+
+    @Provides
     fun provideSensorsViewModelFactory(
         subscribeIdUseCase: SubscribeIdUseCase,
         unSubscribeIdUseCase: UnSubscribeIdUseCase,
         getSensorO2DataUseCase: GetSensorO2DataUseCase,
         getSensorBloodDataUseCase: GetSensorBloodDataUseCase,
         getSensorHeartDataUseCase: GetSensorHeartDataUseCase,
-        getSensorTempDataUseCase: GetSensorTempDataUseCase
+        getSensorTempDataUseCase: GetSensorTempDataUseCase,
+        getDeviceIdByPatientId: GetDeviceIdByPatientId
     ): SensorsViewModelFactory {
         return SensorsViewModelFactory(
             subscribeIdUseCase,
@@ -68,7 +78,8 @@ class SensorsModule {
             getSensorO2DataUseCase,
             getSensorBloodDataUseCase,
             getSensorHeartDataUseCase,
-            getSensorTempDataUseCase
+            getSensorTempDataUseCase,
+            getDeviceIdByPatientId
         )
     }
 }

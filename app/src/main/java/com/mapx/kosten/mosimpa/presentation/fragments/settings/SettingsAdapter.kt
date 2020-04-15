@@ -40,7 +40,7 @@ class SettingsAdapter constructor(
     class PatientCellViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(patientEntity: PatientEntity, listener: (PatientEntity, View) -> Unit) = with(itemView) {
             tv_settings_patient_name.text = patientEntity.name
-            tv_settings_patient_id.text = convertLongToHexString(patientEntity.deviceId.toLong())
+            tv_settings_patient_id.text = patientEntity.deviceId
 
             setOnClickListener { listener(patientEntity, itemView) }
         }

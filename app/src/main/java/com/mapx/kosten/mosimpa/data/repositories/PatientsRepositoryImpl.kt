@@ -46,4 +46,8 @@ class PatientsRepositoryImpl(
                 dao.updatePatient(mapperEntityToDB.mapFrom(patient)).toLong()
         }
     }
+
+    override fun getDeviceIdByPatientId(id: Long): String {
+        return dao.getDeviceIdByPatientId(id)?.deviceId ?: ""
+    }
 }

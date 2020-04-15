@@ -74,9 +74,9 @@ class SettingsPatientFragment : Fragment() {
             viewModel.getPatient(patientId)
         }
 
-        // TODO
-        val id = 0xb827eb8b862d
-        nodeIdText.setText(id.toString())
+        // TODO removed, only for debug
+        val id = "b827eb8b862d"
+        nodeIdText.setText(id)
 
         cancelBtn.setOnClickListener { assignButtonFunction(patientId) }
         saveBtn.setOnClickListener { doSave() }
@@ -116,7 +116,7 @@ class SettingsPatientFragment : Fragment() {
     }
 
     private fun isValidId(id: String): Boolean {
-        val isValid = id.isNotEmpty() && id.toLong() > 0
+        val isValid = id.isNotEmpty()
         if (isValid.not()) {
             showSnack(INVALID_ID)
         }
