@@ -6,8 +6,9 @@ import com.mapx.kosten.mosimpa.data.db.Contants.Companion.PATIENTS_TABLE
 
 @Entity(tableName = PATIENTS_TABLE)
 data class PatientDB(
-    @PrimaryKey
-    var id: Long = -1,
+    @PrimaryKey(autoGenerate = true)
+    var id: Long = 0,
+    var deviceId: String = "",
     var name: String = "",
     var age: Int = -1 ,
     var status: Int = -1,

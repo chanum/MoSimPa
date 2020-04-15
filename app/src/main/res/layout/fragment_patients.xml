@@ -22,14 +22,14 @@
         android:layout_gravity="center"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_add_patient"
+        android:id="@+id/fab_scan_devices"
         android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:backgroundTint="@color/colorPrimary"
-        android:src="@drawable/ic_action_add"
+        android:src="@drawable/ic_action_scan"
         app:borderWidth="0dp" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

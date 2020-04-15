@@ -8,6 +8,7 @@ class PatientEntityToDataMapper {
     fun mapFrom(from: PatientEntity): PatientDB {
         return PatientDB(
             id = from.id,
+            deviceId = from.deviceId,
             name = from.name,
             age = from.age,
             status = from.status,

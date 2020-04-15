@@ -7,11 +7,13 @@ import io.reactivex.Observable
 interface SensorsRepository {
     fun connectMqtt()
 
-    suspend fun subscribeId(id: Long)
-    fun unSubscribeId(id: Long)
+    suspend fun subscribeId(patient: PatientEntity)
+    fun unSubscribeId(patient: PatientEntity)
 
-    fun getO2Data(id: Long): LiveData<SensorO2Entity>
-    fun getBloodData(id: Long): LiveData<SensorBloodEntity>
-    fun getHeartData(id: Long): LiveData<SensorHeartEntity>
-    fun getTempData(id: Long): LiveData<SensorTempEntity>
+    suspend fun subscribeToAll()
+
+    fun getO2Data(patient: PatientEntity): LiveData<SensorO2Entity>
+    fun getBloodData(patient: PatientEntity): LiveData<SensorBloodEntity>
+    fun getHeartData(patient: PatientEntity): LiveData<SensorHeartEntity>
+    fun getTempData(patient: PatientEntity): LiveData<SensorTempEntity>
 }

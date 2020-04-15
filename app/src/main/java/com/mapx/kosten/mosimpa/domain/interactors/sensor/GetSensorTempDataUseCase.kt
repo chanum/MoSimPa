@@ -1,9 +1,10 @@
 package com.mapx.kosten.mosimpa.domain.interactors.sensor
 
 import com.mapx.kosten.mosimpa.domain.data.SensorsRepository
+import com.mapx.kosten.mosimpa.domain.entites.PatientEntity
 
 class GetSensorTempDataUseCase (
     private val sensorsRepository: SensorsRepository
 ) {
-    fun invoke(id: Long) = sensorsRepository.getTempData(id)
+    fun invoke(patient: PatientEntity) = sensorsRepository.getTempData(patient)
 }
