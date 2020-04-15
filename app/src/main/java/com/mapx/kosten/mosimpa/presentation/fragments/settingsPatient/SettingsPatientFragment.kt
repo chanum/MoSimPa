@@ -75,7 +75,7 @@ class SettingsPatientFragment : Fragment() {
         }
 
         // TODO removed, only for debug
-        val id = "b827eb8b862d"
+        // val id = "b827eb8b862d"
         nodeIdText.setText(id)
 
         cancelBtn.setOnClickListener { assignButtonFunction(patientId) }
