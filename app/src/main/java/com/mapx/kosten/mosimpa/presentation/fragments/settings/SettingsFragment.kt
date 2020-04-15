@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 import com.mapx.kosten.mosimpa.R
 import com.mapx.kosten.mosimpa.domain.entites.PatientEntity
 import com.mapx.kosten.mosimpa.presentation.common.App
@@ -76,6 +77,7 @@ class SettingsFragment : Fragment() {
         }
         saveIpButton.setOnClickListener{
             viewModel.setBrokerIp(brokerIpTxt.text.toString())
+            showSnack()
         }
         adapter = SettingsAdapter{ node, view ->
             goToDetailView(node, view)
@@ -104,9 +106,19 @@ class SettingsFragment : Fragment() {
         Log.i(javaClass.simpleName, "goToDetailView(): $patient")
         goToAddPatient(patient.id)
     }
+
     private fun goToAddPatient(id: Long) {
         val action = SettingsFragmentDirections.actionSettingsDestToSettingsPatientFragment(id)
         findNavController().navigate(action)
+    }
+
+    private fun showSnack() {
+        val snack = Snackbar.make(
+            rootLayout,
+            resources.getString(R.string.settings_ip_saved),
+            Snackbar.LENGTH_LONG
+        )
+        snack.show()
     }
 
 }
