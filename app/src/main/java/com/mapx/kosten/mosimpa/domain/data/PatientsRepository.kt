@@ -9,4 +9,5 @@ interface PatientsRepository {
     fun getPatientsById(id: Long): Observable<PatientEntity>
     fun deletePatientById(id: Long)
     fun savePatient(patient: PatientEntity): Observable<Long>
+    fun getDeviceIdByPatientId(id: Long): String
 }

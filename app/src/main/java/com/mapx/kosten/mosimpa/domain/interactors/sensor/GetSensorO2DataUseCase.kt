@@ -1,9 +1,10 @@
 package com.mapx.kosten.mosimpa.domain.interactors.sensor
 
 import com.mapx.kosten.mosimpa.domain.data.SensorsRepository
+import com.mapx.kosten.mosimpa.domain.entites.PatientEntity
 
 class GetSensorO2DataUseCase (
     private val sensorsRepository: SensorsRepository
 ) {
-    fun invoke(id: Long) = sensorsRepository.getO2Data(id)
+    fun invoke(patient: PatientEntity) = sensorsRepository.getO2Data(patient)
 }

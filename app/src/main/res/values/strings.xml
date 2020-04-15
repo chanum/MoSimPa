@@ -23,7 +23,7 @@
     <string name="patient_item_bed">Cama: %1$s</string>
     <string name="patient_item_status">-----</string>
     <string name="patient_item_date">15 feb. 2020</string>
-    <string name="patient_item_prefix">"Id: %1$d"</string>
+    <string name="patient_item_prefix">"Id: %1$s"</string>
 
     <!-- Patient Fragment -->
     <string name="patients_progress">No hay pacientes cargados</string>

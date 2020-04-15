@@ -37,12 +37,17 @@ class PatientsRepositoryImpl(
     }
 
     override fun savePatient(patient: PatientEntity): Observable<Long> {
-        val item = dao.getPatient(patient.id)
+        val devId = patient.deviceId
+        val item = dao.getPatientByDeviceId(devId)
         return Observable.fromCallable {
             if (item == null)
                 dao.insertPatient(mapperEntityToDB.mapFrom(patient))
             else
                 dao.updatePatient(mapperEntityToDB.mapFrom(patient)).toLong()
         }
+    }
+
+    override fun getDeviceIdByPatientId(id: Long): String {
+        return dao.getDeviceIdByPatientId(id)?.deviceId ?: ""
     }
 }

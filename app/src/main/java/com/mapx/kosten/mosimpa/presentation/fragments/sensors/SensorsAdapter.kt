@@ -44,8 +44,8 @@ class SensorsAdapter constructor(
     }
 
     override fun onBindViewHolder(holder: SensorCellViewHolder, position: Int) {
-        val node = sensorEntities[position]
-        holder.bind(node, onSensorSelected)
+        val sensor = sensorEntities[position]
+        holder.bind(sensor, onSensorSelected)
     }
 
     fun setSensors(sensors: List<SensorEntity>) {

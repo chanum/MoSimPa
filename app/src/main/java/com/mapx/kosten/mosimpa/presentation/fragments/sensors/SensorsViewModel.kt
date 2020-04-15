@@ -1,15 +1,15 @@
 package com.mapx.kosten.mosimpa.presentation.fragments.sensors
 
-import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.mapx.kosten.mosimpa.domain.entites.*
+import com.mapx.kosten.mosimpa.domain.interactors.patient.GetDeviceIdByPatientId
 import com.mapx.kosten.mosimpa.domain.interactors.sensor.*
 import com.mapx.kosten.mosimpa.presentation.common.BaseViewModel
 import com.mapx.kosten.mosimpa.presentation.common.SingleLiveEvent
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class SensorsViewModel(
     private val subscribeIdUseCase: SubscribeIdUseCase,
@@ -17,59 +17,53 @@ class SensorsViewModel(
     private val getO2DataUseCase: GetSensorO2DataUseCase,
     private val getBloodDataUseCase: GetSensorBloodDataUseCase,
     private val getHeartDataUseCase: GetSensorHeartDataUseCase,
-    private val getTempDataUseCase: GetSensorTempDataUseCase
+    private val getTempDataUseCase: GetSensorTempDataUseCase,
+    private val getDeviceIdByPatientId: GetDeviceIdByPatientId
 ): BaseViewModel() {
 
-    var currentId = INVALID_ID
+    var currentPatient = PatientEntity()
     // var currentId: LiveData<Long> = MutableLiveData<Long>()
     var errorState: SingleLiveEvent<Throwable?> = SingleLiveEvent()
-    var sensorO2Value: LiveData<SensorO2Entity> = getO2DataUseCase.invoke(currentId)
-    var sensorBloodValue: LiveData<SensorBloodEntity> = getBloodDataUseCase.invoke(currentId)
-    var sensorHeartValue: LiveData<SensorHeartEntity> = getHeartDataUseCase.invoke(currentId)
-    var sensorTempValue: LiveData<SensorTempEntity> = getTempDataUseCase.invoke(currentId)
+    var sensorO2Value: LiveData<SensorO2Entity> = getO2DataUseCase.invoke(currentPatient)
+    var sensorBloodValue: LiveData<SensorBloodEntity> = getBloodDataUseCase.invoke(currentPatient)
+    var sensorHeartValue: LiveData<SensorHeartEntity> = getHeartDataUseCase.invoke(currentPatient)
+    var sensorTempValue: LiveData<SensorTempEntity> = getTempDataUseCase.invoke(currentPatient)
 
 
     fun subscribePatient(id: Long) {
+        // get deviceID
+        // TODO
+        // val deviceID = "b827eb8b862d"
+        var deviceId = ""
         viewModelScope.launch {
-            subscribeIdUseCase.invoke(id)
-            currentId = id
+            deviceId = getDeviceId(id)
+            val patient = PatientEntity(deviceId = deviceId, id = id)
+            subscribeId(patient)
+            currentPatient = patient
         }
-        // TODO get true id
-        // val hardId = 0xb827eb8b862d
-        /*
-        addDisposable(subscribeIdUseCase.subscribe(id)
-            .subscribe({
-                errorState.value = null
-                Log.i(javaClass.simpleName, "subscribePatient Ok")
-                currentId = id
-                // waitForSensorsData(id)
-            } , {
-                errorState.value = it
-                Log.i(javaClass.simpleName, "Error subscribePatient")
-            })
-        )
-         */
+
+    }
+    private suspend fun getDeviceId(id: Long): String {
+        var deviceId = ""
+        withContext(Dispatchers.IO){
+            deviceId = getDeviceIdByPatientId.invoke(id)
+        }
+        return deviceId
+    }
+
+    private suspend fun subscribeId(patient: PatientEntity) {
+        withContext(Dispatchers.IO){
+            subscribeIdUseCase.invoke(patient)
+        }
     }
 
     override fun onCleared() {
         super.onCleared()
-        // unSubscribeIdUseCase.invoke(currentId)
-        currentId = INVALID_ID
-        sensorO2Value = getO2DataUseCase.invoke(currentId)
-        sensorBloodValue = getBloodDataUseCase.invoke(currentId)
-        sensorHeartValue = getHeartDataUseCase.invoke(currentId)
-        sensorTempValue = getTempDataUseCase.invoke(currentId)
+        currentPatient = PatientEntity()
+        sensorO2Value = getO2DataUseCase.invoke(currentPatient)
+        sensorBloodValue = getBloodDataUseCase.invoke(currentPatient)
+        sensorHeartValue = getHeartDataUseCase.invoke(currentPatient)
+        sensorTempValue = getTempDataUseCase.invoke(currentPatient)
     }
 
-    /*
-    private fun waitForSensorsData(id: Long) {
-        sensorO2Value = getO2DataUseCase.invoke(id)
-        sensorBloodValue = getBloodDataUseCase.invoke(id)
-        sensorHeartValue = getHeartDataUseCase.invoke(id)
-        sensorTempValue = getTempDataUseCase.invoke(id)
-    }
-    */
-    companion object{
-        const val INVALID_ID = -1L
-    }
 }

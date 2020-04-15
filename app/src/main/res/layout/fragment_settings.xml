@@ -31,7 +31,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:maxLength="15"
-                    android:inputType="text"
+                    android:digits="0123456789."
+                    android:inputType="number"
                     android:hint="@string/settings_title_broker_ip" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -73,6 +74,7 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_settings_add_patient"
+        android:visibility="visible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"

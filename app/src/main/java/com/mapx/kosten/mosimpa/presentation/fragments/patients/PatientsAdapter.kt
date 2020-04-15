@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mapx.kosten.mosimpa.R
+import com.mapx.kosten.mosimpa.domain.common.Utils
 import com.mapx.kosten.mosimpa.domain.entites.PatientEntity
 import kotlinx.android.synthetic.main.layout_patient_item.view.*
 
@@ -40,7 +41,10 @@ class PatientsAdapter constructor(
         fun bind(patientEntity: PatientEntity, listener: (PatientEntity, View) -> Unit) = with(itemView) {
             tv_item_patient_title.text = patientEntity.name
             tv_item_patient_id.text =
-                context.resources.getString(R.string.patient_item_prefix, patientEntity.id)
+                context.resources.getString(
+                    R.string.patient_item_prefix,
+                    patientEntity.deviceId
+                )
             tv_item_patient_sex.text =
                 context.resources.getString(R.string.patient_item_sex, patientEntity.sex)
             tv_item_patient_bed.text =

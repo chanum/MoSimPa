@@ -11,14 +11,14 @@ import com.mapx.kosten.mosimpa.data.db.Contants.Companion.SENSOR_O2_TABLE
         ForeignKey(
             entity = PatientDB::class,
             parentColumns = ["id"],
-            childColumns = ["deviceId"],
+            childColumns = ["patientId"],
             onDelete = ForeignKey.CASCADE)
     ]
 )
 data class SensorHeartDB(
     @PrimaryKey(autoGenerate = true)
     val id: Int = -1,
-    val deviceId: Long = -1,
+    val patientId: Long = -1,
     val time: Long = -1,
     val heartR: Int = -1,
     val HR_AR: Boolean = false
