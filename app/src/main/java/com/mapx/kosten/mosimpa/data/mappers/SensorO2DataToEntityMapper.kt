@@ -8,7 +8,7 @@ class SensorO2DataToEntityMapper {
     fun mapFrom(from: SensorO2DB): SensorO2Entity {
         return SensorO2Entity(
             id = from.id,
-            deviceId = from.deviceId,
+            patientId = from.patientId,
             time = from.time,
             spo2 = from.spo2,
             r = from.r

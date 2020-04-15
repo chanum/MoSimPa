@@ -12,6 +12,9 @@ interface PatientsDao {
     @Query("SELECT * FROM " + PATIENTS_TABLE + " WHERE id=:id")
     fun getPatient(id: Long): PatientDB?
 
+    @Query("SELECT * FROM " + PATIENTS_TABLE + " WHERE deviceId == :deviceId LIMIT 1")
+    fun getPatientByDeviceId(deviceId: String): PatientDB?
+
     @Insert
     fun insertPatient(patient: PatientDB): Long
 

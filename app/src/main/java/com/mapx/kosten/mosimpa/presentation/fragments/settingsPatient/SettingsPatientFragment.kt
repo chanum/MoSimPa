@@ -94,7 +94,7 @@ class SettingsPatientFragment : Fragment() {
 
     private fun updatePatientEntry(patient: PatientEntity) {
         nameText.setText(patient.name)
-        nodeIdText.setText(patient.id.toString())
+        nodeIdText.setText(patient.deviceId)
     }
 
     private fun doSave() {
@@ -102,7 +102,7 @@ class SettingsPatientFragment : Fragment() {
         val id = nodeIdText.text.toString()
 
         if (isValidName(name) && isValidId(id)) {
-            viewModel.savePatient(id.toLong(), name)
+            viewModel.savePatient(id, name)
         }
 
     }

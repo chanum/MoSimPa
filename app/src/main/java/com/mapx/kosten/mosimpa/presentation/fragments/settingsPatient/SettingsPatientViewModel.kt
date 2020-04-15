@@ -25,9 +25,9 @@ class SettingsPatientViewModel(
         this.viewState.value = viewState
     }
 
-    fun savePatient(id: Long, name: String) {
+    fun savePatient(id: String, name: String) {
         val patient = PatientEntity(
-            id = id,
+            deviceId = id,
             name = name
         )
         addDisposable(savePatientUseCase.savePatient(patient)
