@@ -1,5 +1,6 @@
 package com.mapx.kosten.mosimpa.presentation.common
 
+import com.mapx.kosten.mosimpa.R
 import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.EMPTY_STRING
 import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_HEART_ID
 import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_O2_ID
@@ -10,6 +11,11 @@ class Utils {
 
     companion object {
         const val INVALID_PATIENT_ID = -1L
+
+        private const val SENSOR_O2_MIN_CRITICAL = 90F
+        private const val SENSOR_HEART_MIN_CRITICAL = 60F
+        private const val SENSOR_HEART_MAX_CRITICAL = 90F
+        private const val SENSOR_TEMP_MAX_CRITICAL = 38F
 
         fun getSensorNameById(id: Int): String {
             return when(id) {
@@ -28,6 +34,40 @@ class Utils {
                 SENSOR_BLOOD_ID -> " "
                 SENSOR_TEMPERATURE_ID -> " °C"
                 else -> EMPTY_STRING
+            }
+        }
+
+        fun getSensorValueColorByID(id: Int, value: Float): Int {
+            val colorOK = R.color.green
+            val colorCritical = R.color.red
+            return when(id) {
+                SENSOR_O2_ID -> {
+                    if (value <= SENSOR_O2_MIN_CRITICAL) {
+                        colorCritical
+                    } else {
+                        colorOK
+                    }
+                }
+                SENSOR_HEART_ID -> {
+                    if (value < SENSOR_HEART_MIN_CRITICAL || value > SENSOR_HEART_MAX_CRITICAL ) {
+                        colorCritical
+                    } else {
+                        colorOK
+                    }
+                }
+                SENSOR_BLOOD_ID -> {
+                    colorOK
+                }
+                SENSOR_TEMPERATURE_ID -> {
+                    if (value >= SENSOR_TEMP_MAX_CRITICAL) {
+                        colorCritical
+                    } else {
+                        colorOK
+                    }
+                }
+                else -> {
+                    colorOK
+                }
             }
         }
 
