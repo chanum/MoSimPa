@@ -176,13 +176,13 @@ class SensorsRepositoryImpl(
     }
 
     private fun saveSensorO2DB(sensor: SensorO2DB) {
-        CoroutineScope(Dispatchers.Default).launch {
+        CoroutineScope(Dispatchers.IO).launch {
             sensorO2Dao.insert(sensor)
         }
     }
 
     private fun clearO2SensorsDB() {
-        CoroutineScope(Dispatchers.Default).launch {
+        CoroutineScope(Dispatchers.IO).launch {
             sensorO2Dao.clear()
         }
     }
@@ -198,13 +198,13 @@ class SensorsRepositoryImpl(
     }
 
     private fun saveSensorBloodDB(sensor: SensorBloodDB) {
-        CoroutineScope(Dispatchers.Default).launch {
+        CoroutineScope(Dispatchers.IO).launch {
             sensorBloodDao.insert(sensor)
         }
     }
 
     private fun clearBloodSensorsDB() {
-        CoroutineScope(Dispatchers.Default).launch {
+        CoroutineScope(Dispatchers.IO).launch {
             sensorBloodDao.clear()
         }
     }
@@ -220,13 +220,13 @@ class SensorsRepositoryImpl(
     }
 
     private fun saveSensorHeartDB(sensor: SensorHeartDB) {
-        CoroutineScope(Dispatchers.Default).launch {
+        CoroutineScope(Dispatchers.IO).launch {
             sensorHeartDao.insert(sensor)
         }
     }
 
     private fun clearHeartSensorsDB() {
-        CoroutineScope(Dispatchers.Default).launch {
+        CoroutineScope(Dispatchers.IO).launch {
             sensorHeartDao.clear()
         }
     }
@@ -242,13 +242,13 @@ class SensorsRepositoryImpl(
     }
 
     private fun saveSensorTempDB(sensor: SensorTempDB) {
-        CoroutineScope(Dispatchers.Default).launch {
+        CoroutineScope(Dispatchers.IO).launch {
             sensorTempDao.insert(sensor)
         }
     }
 
     private fun clearTempSensorsDB() {
-        CoroutineScope(Dispatchers.Default).launch {
+        CoroutineScope(Dispatchers.IO).launch {
             sensorTempDao.clear()
         }
     }

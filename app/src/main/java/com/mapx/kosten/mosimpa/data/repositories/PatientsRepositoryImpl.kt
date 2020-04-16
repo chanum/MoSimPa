@@ -8,6 +8,8 @@ import com.mapx.kosten.mosimpa.domain.data.PatientsRepository
 import com.mapx.kosten.mosimpa.data.mappers.PatientDataToEntityMapper
 import com.mapx.kosten.mosimpa.data.mappers.PatientEntityToDataMapper
 import io.reactivex.Observable
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class PatientsRepositoryImpl(
     database: MosimpaDatabase
@@ -47,7 +49,9 @@ class PatientsRepositoryImpl(
         }
     }
 
-    override fun getDeviceIdByPatientId(id: Long): String {
-        return dao.getDeviceIdByPatientId(id)?.deviceId ?: ""
+    override suspend fun getDeviceIdByPatientId(id: Long) =
+        withContext(Dispatchers.IO){
+            return@withContext dao.getDeviceIdByPatientId(id)?.deviceId ?: ""
+
     }
 }
