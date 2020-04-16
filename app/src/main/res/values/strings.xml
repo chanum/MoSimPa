@@ -36,6 +36,7 @@
     <string name="settings_progress">No hay pacientes cargados</string>
     <string name="settings_title_broker_ip">Broker IP</string>
     <string name="settings_hint_broker_ip">192.168.0.83</string>
+    <string name="settings_ip_saved">Broker ip guardada</string>
 
     <!-- Settings Patient -->
     <string name="settings_patient_title">Agregar Paciente</string>
