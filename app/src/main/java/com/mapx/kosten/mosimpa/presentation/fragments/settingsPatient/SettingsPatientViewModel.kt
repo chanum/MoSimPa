@@ -30,6 +30,10 @@ class SettingsPatientViewModel(
             deviceId = id,
             name = name
         )
+
+        // TODO check if deviceID exits
+
+        // save Patient
         addDisposable(savePatientUseCase.savePatient(patient)
             .subscribe({ status ->
                 val newViewState = viewState.value?.copy(

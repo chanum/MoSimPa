@@ -8,20 +8,9 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.mapx.kosten.mosimpa.R
-import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_BLOOD_ID
-import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_BLOOD_Y_MAX
-import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_BLOOD_Y_MIN
-import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_HEART_ID
-import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_HEART_Y_MAX
-import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_HEART_Y_MIN
-import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_O2_ID
-import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_O2_Y_MAX
-import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_O2_Y_MIN
-import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_TEMPERATURE_ID
-import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_TEMPERATURE_Y_MAX
-import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_TEMPERATURE_Y_MIN
 import com.mapx.kosten.mosimpa.domain.entites.SensorEntity
 import com.mapx.kosten.mosimpa.presentation.common.Utils.Companion.getSensorSufixByID
+import com.mapx.kosten.mosimpa.presentation.common.Utils.Companion.scaleSensorValueByID
 import kotlinx.android.synthetic.main.layout_sensor_item.view.*
 
 
@@ -63,7 +52,9 @@ class SensorsAdapter constructor(
 
         fun bind(sensor: SensorEntity, listener: (SensorEntity, View) -> Unit) = with(itemView) {
             tv_item_sensor_title.text = sensor.name
-            tv_item_sensor_value.text = sensor.value.toString() + getSensorSufixByID(sensor.id)
+            tv_item_sensor_value.text =
+                "%.2f".format(scaleSensorValueByID(sensor.id, sensor.value)) +
+                        getSensorSufixByID(sensor.id)
             updateChart(sensor.value, sensor.id)
 
             setOnClickListener { listener(sensor, itemView) }

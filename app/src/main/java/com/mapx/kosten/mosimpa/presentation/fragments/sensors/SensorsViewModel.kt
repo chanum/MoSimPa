@@ -36,13 +36,14 @@ class SensorsViewModel(
         // val deviceID = "b827eb8b862d"
         var deviceId = ""
         viewModelScope.launch {
-            deviceId = getDeviceId(id)
+            deviceId = getDeviceIdByPatientId.invoke(id)
             val patient = PatientEntity(deviceId = deviceId, id = id)
-            subscribeId(patient)
+            // subscribeId(patient)
+            subscribeIdUseCase.invoke(patient)
             currentPatient = patient
         }
-
     }
+
     private suspend fun getDeviceId(id: Long): String {
         var deviceId = ""
         withContext(Dispatchers.IO){

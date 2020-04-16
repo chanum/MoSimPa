@@ -31,6 +31,17 @@ class Utils {
             }
         }
 
+        fun scaleSensorValueByID(id: Int, value: Float): Float {
+            return when(id) {
+                SENSOR_O2_ID -> value / 10
+                SENSOR_HEART_ID -> value / 10
+                SENSOR_BLOOD_ID -> value
+                SENSOR_TEMPERATURE_ID -> (value * 0.00390625).toFloat()
+                else -> 0F
+            }
+        }
+
+
         fun getSensorMaxValueByID(id: Int): Int {
             return when(id) {
                 SENSOR_O2_ID -> 100
