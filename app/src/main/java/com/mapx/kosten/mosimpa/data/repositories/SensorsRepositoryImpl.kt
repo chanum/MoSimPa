@@ -61,12 +61,14 @@ class SensorsRepositoryImpl(
         sensorTempDao.getData()
     ) { it?.let { mapperTempDBtoEntity.mapFrom(it) } }
 
-    override fun connectMqtt() {
-        val ip = getBrokerIp()
-        if(::mqttClient.isInitialized) {
-            mqttClient.close()
+    override suspend fun connectMqtt() {
+        withContext(Dispatchers.IO) {
+            val ip = getBrokerIp()
+            if (::mqttClient.isInitialized) {
+                mqttClient.close()
+            }
+            mqttClient = MqttClient(context, ip)
         }
-        mqttClient = MqttClient(context, ip)
     }
 
     // TODO settingsRepository?
@@ -84,10 +86,8 @@ class SensorsRepositoryImpl(
         withContext(Dispatchers.IO) {
             currentPatient.id = patient.id
             currentPatient.deviceId = patient.deviceId
-            //val st = String.format("%02x", id)
             val topic = arrayOf("reads/${currentPatient.deviceId}")
             mqttClient.connect(topic, ::subscribeIdRsp)
-            //mqttClient.subscribeTopic(topic)
         }
     }
 

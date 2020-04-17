@@ -4,7 +4,6 @@ import com.mapx.kosten.mosimpa.domain.data.PatientsRepository
 import com.mapx.kosten.mosimpa.domain.data.SensorsRepository
 import com.mapx.kosten.mosimpa.domain.interactors.patient.GetDeviceIdByPatientId
 import com.mapx.kosten.mosimpa.domain.interactors.sensor.*
-import com.mapx.kosten.mosimpa.presentation.common.ASyncTransformer
 import com.mapx.kosten.mosimpa.presentation.fragments.sensors.SensorsViewModelFactory
 import dagger.Module
 import dagger.Provides

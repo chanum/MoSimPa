@@ -2,10 +2,9 @@ package com.mapx.kosten.mosimpa.domain.data
 
 import androidx.lifecycle.LiveData
 import com.mapx.kosten.mosimpa.domain.entites.*
-import io.reactivex.Observable
 
 interface SensorsRepository {
-    fun connectMqtt()
+    suspend fun connectMqtt()
 
     suspend fun subscribeId(patient: PatientEntity)
     fun unSubscribeId(patient: PatientEntity)
