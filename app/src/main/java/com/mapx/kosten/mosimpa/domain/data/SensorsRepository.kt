@@ -7,7 +7,7 @@ interface SensorsRepository {
     suspend fun connectMqtt()
 
     suspend fun subscribeId(patient: PatientEntity)
-    fun unSubscribeId(patient: PatientEntity)
+    suspend fun unSubscribeId(patient: PatientEntity)
 
     suspend fun subscribeToAll()
 

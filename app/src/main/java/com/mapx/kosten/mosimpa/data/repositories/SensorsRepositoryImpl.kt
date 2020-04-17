@@ -45,6 +45,7 @@ class SensorsRepositoryImpl(
 
     private var devices = mutableListOf<String>()
 
+    /* ---------------------------------------------------------------------------------------*/
     val sensorO2: LiveData<SensorO2Entity> = Transformations.map(
         sensorO2Dao.getData()
     ) { it?.let { mapperO2DBtoEntity.mapFrom(it) } }
@@ -61,6 +62,28 @@ class SensorsRepositoryImpl(
         sensorTempDao.getData()
     ) { it?.let { mapperTempDBtoEntity.mapFrom(it) } }
 
+    /* ---------------------------------------------------------------------------------------*/
+    override fun getO2Data(patient: PatientEntity): LiveData<SensorO2Entity> {
+        currentPatient = patient
+        return sensorO2
+    }
+
+    override fun getBloodData(patient: PatientEntity): LiveData<SensorBloodEntity> {
+        currentPatient = patient
+        return sensorBlood
+    }
+
+    override fun getHeartData(patient: PatientEntity): LiveData<SensorHeartEntity> {
+        currentPatient = patient
+        return sensorHeart
+    }
+
+    override fun getTempData(patient: PatientEntity): LiveData<SensorTempEntity> {
+        currentPatient = patient
+        return sensorTemp
+    }
+
+    /* ---------------------------------------------------------------------------------------*/
     override suspend fun connectMqtt() {
         withContext(Dispatchers.IO) {
             val ip = getBrokerIp()
@@ -68,42 +91,17 @@ class SensorsRepositoryImpl(
                 mqttClient.close()
             }
             mqttClient = MqttClient(context, ip)
+
+            // TODO call from VM??
+            subscribeToAll()
         }
     }
 
-    // TODO settingsRepository?
-    private fun getBrokerIp(): String {
-        return BrokerIpPreferenceImpl(context).getBrokerIP()
-    }
-
-    override fun unSubscribeId(patient: PatientEntity) {
-        val st = String.format("%02x", patient.deviceId)
-        val topic = "reads/${st}"
-        mqttClient.unSubscribe(topic)
-    }
-
-    override suspend fun subscribeId(patient: PatientEntity) {
-        withContext(Dispatchers.IO) {
-            currentPatient.id = patient.id
-            currentPatient.deviceId = patient.deviceId
-            val topic = arrayOf("reads/${currentPatient.deviceId}")
-            mqttClient.connect(topic, ::subscribeIdRsp)
-        }
-    }
-
-    private fun subscribeIdRsp(topic: String, message: MqttMessage) {
-        // return data only for the current id
-        val currentTopic = "reads/${currentPatient.deviceId}"
-        if (currentTopic.equals(topic)) {
-            parseAndSaveSensor(message.toString())
-        }
-    }
-
+    /* ---------------------------------------------------------------------------------------*/
     override suspend fun subscribeToAll() {
         withContext(Dispatchers.IO) {
             val topic = arrayOf("reads/#")
             mqttClient.connect(topic, ::subscribeToAllRsp)
-            //mqttClient.subscribeTopic(topic)
         }
     }
 
@@ -115,9 +113,44 @@ class SensorsRepositoryImpl(
             if (id !in devices) {
                 devices.add(id)
             }
+
+            val currentTopic = "reads/${currentPatient.deviceId}"
+            if (currentTopic.equals(topic)) {
+                parseAndSaveSensor(message.toString())
+            }
         }
     }
 
+    /* ---------------------------------------------------------------------------------------*/
+    override suspend fun subscribeId(patient: PatientEntity) {
+        withContext(Dispatchers.IO) {
+            currentPatient.id = patient.id
+            currentPatient.deviceId = patient.deviceId
+            // val topic = arrayOf("reads/${currentPatient.deviceId}")
+            // val topic = "reads/${currentPatient.deviceId}"
+            // mqttClient.connect(topic, ::subscribeIdRsp)
+            // mqttClient.subscribeTopic(topic)
+        }
+    }
+
+    private fun subscribeIdRsp(topic: String, message: MqttMessage) {
+        // return data only for the current id
+        val currentTopic = "reads/${currentPatient.deviceId}"
+        if (currentTopic.equals(topic)) {
+            parseAndSaveSensor(message.toString())
+        }
+    }
+
+    /* ---------------------------------------------------------------------------------------*/
+    override suspend fun unSubscribeId(patient: PatientEntity) {
+        withContext(Dispatchers.IO) {
+            val st = String.format("%02x", patient.deviceId)
+            val topic = "reads/${st}"
+            mqttClient.unSubscribe(topic)
+        }
+    }
+
+    /* ---------------------------------------------------------------------------------------*/
     // TODO use Generic to identify sensors class
     // and generic to save sensors
     private fun parseAndSaveSensor(msg: String) {
@@ -165,6 +198,7 @@ class SensorsRepositoryImpl(
         }
     }
 
+    /* ---------------------------------------------------------------------------------------*/
     private fun saveO2Sensor(sensor: SensorO2DB) {
         saveSensorO2DB(sensor)
         sensorO2Count++
@@ -187,6 +221,7 @@ class SensorsRepositoryImpl(
         }
     }
 
+    /* ---------------------------------------------------------------------------------------*/
     private fun saveBloodSensor(sensor: SensorBloodDB) {
         saveSensorBloodDB(sensor)
         sensorBloodCount++
@@ -209,6 +244,7 @@ class SensorsRepositoryImpl(
         }
     }
 
+    /* ---------------------------------------------------------------------------------------*/
     private fun saveHeartSensor(sensor: SensorHeartDB) {
         saveSensorHeartDB(sensor)
         sensorHeartCount++
@@ -231,6 +267,7 @@ class SensorsRepositoryImpl(
         }
     }
 
+    /* ---------------------------------------------------------------------------------------*/
     private fun saveTempSensor(sensor: SensorTempDB) {
         saveSensorTempDB(sensor)
         sensorTempCount++
@@ -253,26 +290,13 @@ class SensorsRepositoryImpl(
         }
     }
 
-    override fun getO2Data(patient: PatientEntity): LiveData<SensorO2Entity> {
-        currentPatient = patient
-        return sensorO2
+    /* ---------------------------------------------------------------------------------------*/
+    // TODO settingsRepository?
+    private fun getBrokerIp(): String {
+        return BrokerIpPreferenceImpl(context).getBrokerIP()
     }
 
-    override fun getBloodData(patient: PatientEntity): LiveData<SensorBloodEntity> {
-        currentPatient = patient
-        return sensorBlood
-    }
-
-    override fun getHeartData(patient: PatientEntity): LiveData<SensorHeartEntity> {
-        currentPatient = patient
-        return sensorHeart
-    }
-
-    override fun getTempData(patient: PatientEntity): LiveData<SensorTempEntity> {
-        currentPatient = patient
-        return sensorTemp
-    }
-
+    /* ---------------------------------------------------------------------------------------*/
     companion object {
         const val SENSOR_MAX_COUNT = 100L
     }
