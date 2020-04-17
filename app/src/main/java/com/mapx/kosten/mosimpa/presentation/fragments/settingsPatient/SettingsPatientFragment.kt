@@ -75,8 +75,7 @@ class SettingsPatientFragment : Fragment() {
         }
 
         // TODO removed, only for debug
-        // val id = "b827eb8b862d"
-        nodeIdText.setText(id)
+        // nodeIdText.setText("b827eb8b862d")
 
         cancelBtn.setOnClickListener { assignButtonFunction(patientId) }
         saveBtn.setOnClickListener { doSave() }
@@ -89,7 +88,7 @@ class SettingsPatientFragment : Fragment() {
 
     private fun handleViewState(state: SettingsPatientViewState) {
         state.patient?.let { updatePatientEntry(it) }
-        if(state.close) { findNavController().popBackStack() }
+        if(state.close) { close() }
     }
 
     private fun updatePatientEntry(patient: PatientEntity) {
@@ -126,7 +125,13 @@ class SettingsPatientFragment : Fragment() {
     private fun assignButtonFunction (id: Long) {
         if(id > 0) {
             viewModel.deletePatient(id)
+        } else {
+            close()
         }
+    }
+
+    private fun close() {
+        findNavController().popBackStack()
     }
 
     private fun showSnack(error: Int) {

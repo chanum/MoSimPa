@@ -5,7 +5,6 @@ import com.mapx.kosten.mosimpa.domain.data.SettingsRepository
 import com.mapx.kosten.mosimpa.domain.interactors.patient.GetPatientsUseCase
 import com.mapx.kosten.mosimpa.domain.interactors.settings.GetBrokerConfigUseCase
 import com.mapx.kosten.mosimpa.domain.interactors.settings.SetBrokerConfigUseCase
-import com.mapx.kosten.mosimpa.presentation.common.ASyncTransformer
 import com.mapx.kosten.mosimpa.presentation.fragments.settings.SettingsViewModelFactory
 import dagger.Module
 import dagger.Provides
@@ -16,7 +15,6 @@ class SettingsModule {
     @Provides
     fun provideGetPatientsUseCase(patientsRepository: PatientsRepository): GetPatientsUseCase {
         return GetPatientsUseCase(
-            ASyncTransformer(),
             patientsRepository
         )
     }

@@ -4,9 +4,7 @@ import com.mapx.kosten.mosimpa.domain.data.PatientsRepository
 import com.mapx.kosten.mosimpa.domain.data.SensorsRepository
 import com.mapx.kosten.mosimpa.domain.interactors.device.SubscribeToAllDevices
 import com.mapx.kosten.mosimpa.domain.interactors.patient.GetPatientsUseCase
-import com.mapx.kosten.mosimpa.domain.interactors.patient.SavePatientUseCase
 import com.mapx.kosten.mosimpa.domain.interactors.sensor.ConnectClientMqttUseCase
-import com.mapx.kosten.mosimpa.presentation.common.ASyncTransformer
 import com.mapx.kosten.mosimpa.presentation.fragments.patients.PatientsViewModelFactory
 import dagger.Module
 import dagger.Provides
@@ -17,7 +15,6 @@ class PatientsModule {
     @Provides
     fun provideGetPatientsUseCase(patientsRepository: PatientsRepository): GetPatientsUseCase {
         return GetPatientsUseCase(
-            ASyncTransformer(),
             patientsRepository
         )
     }

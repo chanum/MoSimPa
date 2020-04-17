@@ -7,9 +7,6 @@ import com.mapx.kosten.mosimpa.domain.entites.PatientEntity
 import com.mapx.kosten.mosimpa.domain.data.PatientsRepository
 import com.mapx.kosten.mosimpa.data.mappers.PatientDataToEntityMapper
 import com.mapx.kosten.mosimpa.data.mappers.PatientEntityToDataMapper
-import io.reactivex.Observable
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 class PatientsRepositoryImpl(
     database: MosimpaDatabase
@@ -19,39 +16,30 @@ class PatientsRepositoryImpl(
     private val mapperEntityToDB = PatientEntityToDataMapper()
     private val mapperDBtoEntity = PatientDataToEntityMapper()
 
-    override fun getAllPatients(): Observable<List<PatientEntity>> {
-        return Observable.fromCallable {dao.getPatients().map {mapperDBtoEntity.mapFrom(it)}}
-    }
+    /*
+    Note: Room uses its own dispatcher to run queries on a background thread.
+    Your code should not use withContext(Dispatchers.IO) to call suspending room queries.
+     It will complicate the code and make your queries run slower.
+        withContext(Dispatchers.IO){
+            return@withContext dao.getDeviceIdByPatientId(id)?.deviceId ?: ""
+    */
+    override suspend fun getAllPatients(): List<PatientEntity> =
+        dao.getPatients().map {mapperDBtoEntity.mapFrom(it)}
 
-    override fun saveAllPatients() {
-        TODO("Not yet implemented")
-    }
+    override suspend fun getPatientsById(id: Long) =
+        mapperDBtoEntity.mapFrom(dao.getPatient(id) ?: PatientDB())
 
-    override fun getPatientsById(id: Long): Observable<PatientEntity> {
-        return Observable.fromCallable {
-            mapperDBtoEntity.mapFrom(dao.getPatient(id) ?: PatientDB()
-            )
-        }
-    }
+    override suspend fun deletePatientById(id: Long) = dao.removePatient(id)
 
-    override fun deletePatientById(id: Long) {
-        dao.removePatient(id)
-    }
-
-    override fun savePatient(patient: PatientEntity): Observable<Long> {
+    override suspend fun savePatient(patient: PatientEntity): Long {
         val devId = patient.deviceId
         val item = dao.getPatientByDeviceId(devId)
-        return Observable.fromCallable {
-            if (item == null)
+        return if (item == null)
                 dao.insertPatient(mapperEntityToDB.mapFrom(patient))
             else
                 dao.updatePatient(mapperEntityToDB.mapFrom(patient)).toLong()
-        }
     }
 
     override suspend fun getDeviceIdByPatientId(id: Long) =
-        withContext(Dispatchers.IO){
-            return@withContext dao.getDeviceIdByPatientId(id)?.deviceId ?: ""
-
-    }
+        dao.getDeviceIdByPatientId(id)?.deviceId ?: ""
 }
