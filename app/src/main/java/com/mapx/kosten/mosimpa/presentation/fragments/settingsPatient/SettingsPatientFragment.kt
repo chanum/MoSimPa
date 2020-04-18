@@ -69,13 +69,11 @@ class SettingsPatientFragment : Fragment() {
         saveBtn = view.findViewById(R.id.btn_settings_patient_save)
         cancelBtn = view.findViewById(R.id.btn_settings_patient_cancel)
 
+        nodeIdText.isEnabled = false
         if (patientId > 0) {
             cancelBtn.text = resources.getString(R.string.settings_patient_delete_btn)
             viewModel.getPatient(patientId)
         }
-
-        // TODO removed, only for debug
-        // nodeIdText.setText("b827eb8b862d")
 
         cancelBtn.setOnClickListener { assignButtonFunction(patientId) }
         saveBtn.setOnClickListener { doSave() }

@@ -39,7 +39,16 @@ class PatientsRepositoryImpl(
         return if (item == null)
                 dao.insertPatient(mapperEntityToDB.mapFrom(patient))
             else
-                dao.updatePatient(mapperEntityToDB.mapFrom(patient)).toLong()
+            INVALID_PATIENT_DB_ID
+    }
+
+    override suspend fun updateNameByDeviceId(patient: PatientEntity): Long {
+        val item = dao.getPatientByDeviceId(patient.deviceId)
+        if (item != null) {
+            val patient = item.copy(name = patient.name)
+            return dao.updatePatient(patient).toLong()
+        }
+        return INVALID_PATIENT_DB_ID
     }
 
     override suspend fun getDeviceIdByPatientId(id: Long) =
@@ -51,5 +60,9 @@ class PatientsRepositoryImpl(
 
     override fun observePatients(): LiveData<List<PatientEntity>> {
         return patients
+    }
+
+    companion object {
+        const val INVALID_PATIENT_DB_ID = -1L
     }
 }

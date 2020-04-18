@@ -53,6 +53,9 @@ class PatientsFragment : Fragment() {
         viewModel.patients.observe(viewLifecycleOwner, Observer {
             if (it != null) handlePatients(it)
         })
+        viewModel.devices.observe(viewLifecycleOwner, Observer {
+            if (it != null) handleDevices(it)
+        })
         viewModel.errorState.observe(viewLifecycleOwner, Observer { throwable ->
             throwable?.let {
                 Toast.makeText(activity, it.message, Toast.LENGTH_LONG).show()
@@ -95,6 +98,10 @@ class PatientsFragment : Fragment() {
             emptyMessage.visibility = View.VISIBLE
         }
         adapter.setPatients(patients)
+    }
+
+    private fun handleDevices(device: String) {
+        viewModel.updateDevices(device)
     }
 
     private fun goToDetailView(patientEntity: PatientEntity, view: View) {

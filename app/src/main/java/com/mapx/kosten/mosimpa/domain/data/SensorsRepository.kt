@@ -11,6 +11,8 @@ interface SensorsRepository {
 
     suspend fun subscribeToAll()
 
+    fun observeDevices(): LiveData<String>
+
     fun getO2Data(patient: PatientEntity): LiveData<SensorO2Entity>
     fun getBloodData(patient: PatientEntity): LiveData<SensorBloodEntity>
     fun getHeartData(patient: PatientEntity): LiveData<SensorHeartEntity>
