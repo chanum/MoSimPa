@@ -6,5 +6,5 @@ import com.mapx.kosten.mosimpa.domain.entites.PatientEntity
 class UnSubscribeIdUseCase(
     private val sensorsRepository: SensorsRepository
 ) {
-    fun invoke(patient: PatientEntity) = sensorsRepository.unSubscribeId(patient)
+    suspend fun invoke(patient: PatientEntity) = sensorsRepository.unSubscribeId(patient)
 }

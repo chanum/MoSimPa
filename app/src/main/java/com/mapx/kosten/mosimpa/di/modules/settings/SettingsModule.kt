@@ -3,9 +3,9 @@ package com.mapx.kosten.mosimpa.di.modules.settings
 import com.mapx.kosten.mosimpa.domain.data.PatientsRepository
 import com.mapx.kosten.mosimpa.domain.data.SettingsRepository
 import com.mapx.kosten.mosimpa.domain.interactors.patient.GetPatientsUseCase
+import com.mapx.kosten.mosimpa.domain.interactors.patient.ObservePatientsUseCase
 import com.mapx.kosten.mosimpa.domain.interactors.settings.GetBrokerConfigUseCase
 import com.mapx.kosten.mosimpa.domain.interactors.settings.SetBrokerConfigUseCase
-import com.mapx.kosten.mosimpa.presentation.common.ASyncTransformer
 import com.mapx.kosten.mosimpa.presentation.fragments.settings.SettingsViewModelFactory
 import dagger.Module
 import dagger.Provides
@@ -16,7 +16,6 @@ class SettingsModule {
     @Provides
     fun provideGetPatientsUseCase(patientsRepository: PatientsRepository): GetPatientsUseCase {
         return GetPatientsUseCase(
-            ASyncTransformer(),
             patientsRepository
         )
     }
@@ -36,15 +35,24 @@ class SettingsModule {
     }
 
     @Provides
+    fun provideObservePatientsUseCase(patientsRepository: PatientsRepository): ObservePatientsUseCase {
+        return ObservePatientsUseCase(
+            patientsRepository
+        )
+    }
+
+    @Provides
     fun provideSettingsViewModelFactory(
         getPatientsUseCase: GetPatientsUseCase,
         getBrokerConfigUseCase: GetBrokerConfigUseCase,
-        setBrokerConfigUseCase: SetBrokerConfigUseCase
+        setBrokerConfigUseCase: SetBrokerConfigUseCase,
+        observePatientsUseCase: ObservePatientsUseCase
     ): SettingsViewModelFactory {
         return SettingsViewModelFactory(
             getPatientsUseCase,
             getBrokerConfigUseCase,
-            setBrokerConfigUseCase
+            setBrokerConfigUseCase,
+            observePatientsUseCase
         )
     }
 

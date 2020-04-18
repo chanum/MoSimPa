@@ -12,8 +12,8 @@ android {
         applicationId "com.mapx.kosten.mosimpa"
         minSdkVersion 22
         targetSdkVersion 29
-        versionCode 8
-        versionName "0.0.8"
+        versionCode 9
+        versionName "0.1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -55,8 +55,8 @@ dependencies {
     implementation "com.google.android.material:material:1.1.0"
 
     // Navigation
-    implementation "androidx.navigation:navigation-fragment-ktx:2.2.1"
-    implementation "androidx.navigation:navigation-ui-ktx:2.2.1"
+    implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$navigation_version"
 
     // Mqtt client
     implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.1.0'
@@ -69,29 +69,26 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.2.0-alpha02'
 
     // Dagger
-    kapt "com.google.dagger:dagger-compiler:2.15"
-    implementation "com.google.dagger:dagger:2.15"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
+    implementation "com.google.dagger:dagger:$dagger_version"
 
     // Room database
     implementation "androidx.room:room-runtime:$version_room"
     kapt "androidx.room:room-compiler:$version_room"
-    // optional - Kotlin Extensions and Coroutines support for Room
+    // optional - Kotlin Extensions and Corutines support for Room
     implementation "androidx.room:room-ktx:$version_room"
 
     // Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$version_kotlin_coroutines"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$version_kotlin_coroutines"
 
-    // RxJava2
-    implementation "io.reactivex.rxjava2:rxandroid:2.0.2"
-
     // MPAndroidChart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
     // Lifecycle
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0-alpha01'
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.0-alpha01'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.0-alpha01'
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
 
     // GSON
     implementation 'com.google.code.gson:gson:2.8.6'

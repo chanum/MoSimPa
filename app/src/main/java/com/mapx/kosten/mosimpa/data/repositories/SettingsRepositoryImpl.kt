@@ -8,7 +8,7 @@ class SettingsRepositoryImpl(
     private val context: Context
 ) : SettingsRepository {
 
-    override suspend fun setBrokerIp(ip: String) {
+    override fun setBrokerIp(ip: String) {
         BrokerIpPreferenceImpl(context).setBrokerIP(ip)
     }
 

@@ -3,8 +3,8 @@ package com.mapx.kosten.mosimpa.domain.interactors.patient
 import com.mapx.kosten.mosimpa.domain.entites.PatientEntity
 import com.mapx.kosten.mosimpa.domain.data.PatientsRepository
 
-class SavePatientUseCase (
+class UpdatePatientNameByDeviceIdUseCase (
     private val patientsRepository: PatientsRepository
 ) {
-    suspend fun invoke(patient: PatientEntity) = patientsRepository.savePatient(patient)
+    suspend fun invoke(patient: PatientEntity) = patientsRepository.updateNameByDeviceId(patient)
 }

@@ -4,6 +4,8 @@ class Constants {
     companion object{
         const val SERVER_URI = "tcp://192.168.0.83"
 
+        const val SERVER_URI_PREFIX = "tcp://"
+
         const val EMPTY_STRING = ""
 
         const val SENSOR_O2_ID = 1

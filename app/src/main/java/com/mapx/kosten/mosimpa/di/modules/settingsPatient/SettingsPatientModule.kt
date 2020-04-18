@@ -4,7 +4,7 @@ import com.mapx.kosten.mosimpa.domain.data.PatientsRepository
 import com.mapx.kosten.mosimpa.domain.interactors.patient.DeletePatientUseCase
 import com.mapx.kosten.mosimpa.domain.interactors.patient.GetPatientUseCase
 import com.mapx.kosten.mosimpa.domain.interactors.patient.SavePatientUseCase
-import com.mapx.kosten.mosimpa.presentation.common.ASyncTransformer
+import com.mapx.kosten.mosimpa.domain.interactors.patient.UpdatePatientNameByDeviceIdUseCase
 import com.mapx.kosten.mosimpa.presentation.fragments.settingsPatient.SettingsPatientViewModelFactory
 import dagger.Module
 import dagger.Provides
@@ -15,7 +15,6 @@ class SettingsPatientModule {
     @Provides
     fun provideGetPatientUseCase(patientsRepository: PatientsRepository): GetPatientUseCase {
         return GetPatientUseCase(
-            ASyncTransformer(),
             patientsRepository
         )
     }
@@ -23,7 +22,6 @@ class SettingsPatientModule {
     @Provides
     fun provideSavePatientUseCase(patientsRepository: PatientsRepository): SavePatientUseCase {
         return SavePatientUseCase(
-            ASyncTransformer(),
             patientsRepository
         )
     }
@@ -31,7 +29,13 @@ class SettingsPatientModule {
     @Provides
     fun provideDeletePatientUseCase(patientsRepository: PatientsRepository): DeletePatientUseCase {
         return DeletePatientUseCase(
-            ASyncTransformer(),
+            patientsRepository
+        )
+    }
+
+    @Provides
+    fun provideUpdatePatientNameByDeviceIdUseCase(patientsRepository: PatientsRepository): UpdatePatientNameByDeviceIdUseCase {
+        return UpdatePatientNameByDeviceIdUseCase(
             patientsRepository
         )
     }
@@ -40,12 +44,14 @@ class SettingsPatientModule {
     fun provideSettingsPatientViewModelFactory(
         savePatientUseCase: SavePatientUseCase,
         getPatientUseCase: GetPatientUseCase,
-        deletePatientUseCase: DeletePatientUseCase
+        deletePatientUseCase: DeletePatientUseCase,
+        updatePatientNameByDeviceIdUseCase: UpdatePatientNameByDeviceIdUseCase
     ): SettingsPatientViewModelFactory {
         return SettingsPatientViewModelFactory(
             savePatientUseCase,
             getPatientUseCase,
-            deletePatientUseCase
+            deletePatientUseCase,
+            updatePatientNameByDeviceIdUseCase
         )
     }
 
