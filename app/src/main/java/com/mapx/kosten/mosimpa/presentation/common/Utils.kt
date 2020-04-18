@@ -31,7 +31,7 @@ class Utils {
             return when(id) {
                 SENSOR_O2_ID -> " %"
                 SENSOR_HEART_ID -> " Lpm"
-                SENSOR_BLOOD_ID -> " "
+                SENSOR_BLOOD_ID -> ""
                 SENSOR_TEMPERATURE_ID -> " °C"
                 else -> EMPTY_STRING
             }
