@@ -1,5 +1,7 @@
 package com.mapx.kosten.mosimpa.data.repositories
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Transformations
 import com.mapx.kosten.mosimpa.data.db.MosimpaDatabase
 import com.mapx.kosten.mosimpa.data.db.dao.PatientsDao
 import com.mapx.kosten.mosimpa.data.entities.PatientDB
@@ -42,4 +44,12 @@ class PatientsRepositoryImpl(
 
     override suspend fun getDeviceIdByPatientId(id: Long) =
         dao.getDeviceIdByPatientId(id)?.deviceId ?: ""
+
+    val patients: LiveData<List<PatientEntity>> = Transformations.map(
+        dao.observePatients()
+    ) { it.map { mapperDBtoEntity.mapFrom(it) } }
+
+    override fun observePatients(): LiveData<List<PatientEntity>> {
+        return patients
+    }
 }

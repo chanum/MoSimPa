@@ -1,5 +1,6 @@
 package com.mapx.kosten.mosimpa.data.db.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.mapx.kosten.mosimpa.data.db.Contants.Companion.PATIENTS_TABLE
 import com.mapx.kosten.mosimpa.data.entities.PatientDB
@@ -26,4 +27,7 @@ interface PatientsDao {
 
     @Query("DELETE FROM " + PATIENTS_TABLE + " WHERE id=:id")
     suspend fun removePatient(id: Long)
+
+    @Query("SELECT * FROM " + PATIENTS_TABLE)
+    fun observePatients(): LiveData<List<PatientDB>>
 }

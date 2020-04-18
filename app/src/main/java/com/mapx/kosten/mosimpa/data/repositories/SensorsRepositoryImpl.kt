@@ -112,6 +112,7 @@ class SensorsRepositoryImpl(
             // check if exist in the
             if (id !in devices) {
                 devices.add(id)
+                // set in the Patients DB
             }
 
             val currentTopic = "reads/${currentPatient.deviceId}"

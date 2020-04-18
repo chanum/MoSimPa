@@ -1,10 +1,13 @@
 package com.mapx.kosten.mosimpa.presentation.fragments.patients
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.mapx.kosten.mosimpa.domain.entites.PatientEntity
 import com.mapx.kosten.mosimpa.domain.interactors.device.SubscribeToAllDevices
 import com.mapx.kosten.mosimpa.domain.interactors.patient.GetPatientsUseCase
+import com.mapx.kosten.mosimpa.domain.interactors.patient.ObservePatientsUseCase
 import com.mapx.kosten.mosimpa.domain.interactors.sensor.ConnectClientMqttUseCase
 import com.mapx.kosten.mosimpa.presentation.common.SingleLiveEvent
 import kotlinx.coroutines.*
@@ -12,11 +15,15 @@ import kotlinx.coroutines.*
 class PatientsViewModel(
     private val getPatientsUseCase: GetPatientsUseCase,
     private val connectClientMqttUseCase: ConnectClientMqttUseCase,
-    private val subscribeToAllDevices: SubscribeToAllDevices
+    private val subscribeToAllDevices: SubscribeToAllDevices,
+    private val observePatientsUseCase: ObservePatientsUseCase
 ): ViewModel() {
 
     private val viewModelJob = SupervisorJob()
     private val viewModelScope = CoroutineScope(viewModelJob + Dispatchers.Main)
+
+    // TODO see FLow
+    var patients: LiveData<List<PatientEntity>> = observePatientsUseCase.invoke()
 
     var viewState: MutableLiveData<PatientsViewState> = MutableLiveData()
     var errorState: SingleLiveEvent<Throwable?> = SingleLiveEvent()
@@ -32,22 +39,9 @@ class PatientsViewModel(
         }
     }
 
-    fun connect() {
+    fun connectAndSubscribeToAll() {
         viewModelScope.launch {
             connectClientMqttUseCase.invoke()
-        }
-    }
-
-    fun loadPatients() {
-        viewModelScope.launch {
-            val patients = getPatientsUseCase.invoke()
-            val newViewState = viewState.value?.copy(
-                isEmpty = patients.isEmpty(),
-                isLoading = false,
-                patients = patients)
-            viewState.value = newViewState
-            errorState.value = null
-            Log.i(javaClass.simpleName, "Rcv Ok")
         }
     }
 

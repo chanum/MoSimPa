@@ -4,6 +4,7 @@ import com.mapx.kosten.mosimpa.domain.data.PatientsRepository
 import com.mapx.kosten.mosimpa.domain.data.SensorsRepository
 import com.mapx.kosten.mosimpa.domain.interactors.device.SubscribeToAllDevices
 import com.mapx.kosten.mosimpa.domain.interactors.patient.GetPatientsUseCase
+import com.mapx.kosten.mosimpa.domain.interactors.patient.ObservePatientsUseCase
 import com.mapx.kosten.mosimpa.domain.interactors.sensor.ConnectClientMqttUseCase
 import com.mapx.kosten.mosimpa.presentation.fragments.patients.PatientsViewModelFactory
 import dagger.Module
@@ -33,17 +34,26 @@ class PatientsModule {
         )
     }
 
+    @Provides
+    fun provideObservePatientsUseCase(patientsRepository: PatientsRepository): ObservePatientsUseCase {
+        return ObservePatientsUseCase(
+            patientsRepository
+        )
+    }
+
 
     @Provides
     fun providePatientsViewModelFactory(
         getPatientsUseCase: GetPatientsUseCase,
         connectClientMqttUseCase: ConnectClientMqttUseCase,
-        subscribeToAllDevices: SubscribeToAllDevices
+        subscribeToAllDevices: SubscribeToAllDevices,
+        observePatientsUseCase: ObservePatientsUseCase
     ): PatientsViewModelFactory {
         return PatientsViewModelFactory(
             getPatientsUseCase,
             connectClientMqttUseCase,
-            subscribeToAllDevices
+            subscribeToAllDevices,
+            observePatientsUseCase
         )
     }
 

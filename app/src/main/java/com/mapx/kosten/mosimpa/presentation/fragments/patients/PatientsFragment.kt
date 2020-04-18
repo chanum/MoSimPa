@@ -50,8 +50,8 @@ class PatientsFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.viewState.observe(viewLifecycleOwner, Observer {
-            if (it != null) handleViewState(it)
+        viewModel.patients.observe(viewLifecycleOwner, Observer {
+            if (it != null) handlePatients(it)
         })
         viewModel.errorState.observe(viewLifecycleOwner, Observer { throwable ->
             throwable?.let {
@@ -81,8 +81,7 @@ class PatientsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.connect()
-        viewModel.loadPatients()
+        viewModel.connectAndSubscribeToAll()
     }
 
     override fun onDestroy() {
@@ -90,10 +89,12 @@ class PatientsFragment : Fragment() {
         (activity?.application as App).releasePatientsComponent()
     }
 
-    private fun handleViewState(state: PatientsViewState) {
-        progressBar.visibility = if (state.isLoading) View.VISIBLE else View.GONE
-        emptyMessage.visibility = if (!state.isLoading && state.isEmpty) View.VISIBLE else View.GONE
-        state.patients?.let { adapter.setPatients(it) }
+    private fun handlePatients(patients: List<PatientEntity>) {
+        progressBar.visibility = View.GONE
+        if (patients.isEmpty()) {
+            emptyMessage.visibility = View.VISIBLE
+        }
+        adapter.setPatients(patients)
     }
 
     private fun goToDetailView(patientEntity: PatientEntity, view: View) {
@@ -107,8 +108,7 @@ class PatientsFragment : Fragment() {
     }
 
     private fun scanDevices() {
-        viewModel.scanDevices()
-        // subscribe to reads/#
+        // viewModel.scanDevices()
         // get all devices
         // look in the DB if exits
         // add to DB
