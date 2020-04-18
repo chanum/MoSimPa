@@ -7,6 +7,7 @@ import com.mapx.kosten.mosimpa.domain.entites.PatientEntity
 import com.mapx.kosten.mosimpa.domain.interactors.patient.DeletePatientUseCase
 import com.mapx.kosten.mosimpa.domain.interactors.patient.GetPatientUseCase
 import com.mapx.kosten.mosimpa.domain.interactors.patient.SavePatientUseCase
+import com.mapx.kosten.mosimpa.domain.interactors.patient.UpdatePatientNameByDeviceIdUseCase
 import com.mapx.kosten.mosimpa.presentation.common.SingleLiveEvent
 import com.mapx.kosten.mosimpa.presentation.fragments.settingsPatient.SettingsPatientFragment.Companion.SAVE_ERROR
 import com.mapx.kosten.mosimpa.presentation.fragments.settingsPatient.SettingsPatientFragment.Companion.SAVE_OK
@@ -18,7 +19,8 @@ import kotlinx.coroutines.launch
 class SettingsPatientViewModel(
     private val savePatientUseCase: SavePatientUseCase,
     private val getPatientUseCase: GetPatientUseCase,
-    private val deletePatientUseCase: DeletePatientUseCase
+    private val deletePatientUseCase: DeletePatientUseCase,
+    private val updatePatientNameByDeviceIdUseCase: UpdatePatientNameByDeviceIdUseCase
 ) : ViewModel() {
 
     private val viewModelJob = SupervisorJob()
@@ -36,8 +38,19 @@ class SettingsPatientViewModel(
         val patient = PatientEntity(deviceId = id, name = name)
         // TODO check if deviceID exits
         // save Patient
+//        viewModelScope.launch {
+//            val patients = savePatientUseCase.invoke(patient)
+//            val newViewState = viewState.value?.copy(
+//                saveStatus = 0,
+//                close = true,
+//                isLoading = false)
+//            viewState.value = newViewState
+//            errorState.value = null
+//            Log.i(javaClass.simpleName, "Rcv Ok")
+//        }
+
         viewModelScope.launch {
-            val patients = savePatientUseCase.invoke(patient)
+            val patients = updatePatientNameByDeviceIdUseCase.invoke(patient)
             val newViewState = viewState.value?.copy(
                 saveStatus = 0,
                 close = true,
@@ -46,6 +59,7 @@ class SettingsPatientViewModel(
             errorState.value = null
             Log.i(javaClass.simpleName, "Rcv Ok")
         }
+
     }
 
     fun getPatient(id: Long) {

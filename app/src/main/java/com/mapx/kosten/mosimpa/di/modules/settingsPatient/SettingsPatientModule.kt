@@ -4,6 +4,7 @@ import com.mapx.kosten.mosimpa.domain.data.PatientsRepository
 import com.mapx.kosten.mosimpa.domain.interactors.patient.DeletePatientUseCase
 import com.mapx.kosten.mosimpa.domain.interactors.patient.GetPatientUseCase
 import com.mapx.kosten.mosimpa.domain.interactors.patient.SavePatientUseCase
+import com.mapx.kosten.mosimpa.domain.interactors.patient.UpdatePatientNameByDeviceIdUseCase
 import com.mapx.kosten.mosimpa.presentation.fragments.settingsPatient.SettingsPatientViewModelFactory
 import dagger.Module
 import dagger.Provides
@@ -33,15 +34,24 @@ class SettingsPatientModule {
     }
 
     @Provides
+    fun provideUpdatePatientNameByDeviceIdUseCase(patientsRepository: PatientsRepository): UpdatePatientNameByDeviceIdUseCase {
+        return UpdatePatientNameByDeviceIdUseCase(
+            patientsRepository
+        )
+    }
+
+    @Provides
     fun provideSettingsPatientViewModelFactory(
         savePatientUseCase: SavePatientUseCase,
         getPatientUseCase: GetPatientUseCase,
-        deletePatientUseCase: DeletePatientUseCase
+        deletePatientUseCase: DeletePatientUseCase,
+        updatePatientNameByDeviceIdUseCase: UpdatePatientNameByDeviceIdUseCase
     ): SettingsPatientViewModelFactory {
         return SettingsPatientViewModelFactory(
             savePatientUseCase,
             getPatientUseCase,
-            deletePatientUseCase
+            deletePatientUseCase,
+            updatePatientNameByDeviceIdUseCase
         )
     }
 

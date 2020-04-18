@@ -1,5 +1,7 @@
 package com.mapx.kosten.mosimpa.data.repositories
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Transformations
 import com.mapx.kosten.mosimpa.data.db.MosimpaDatabase
 import com.mapx.kosten.mosimpa.data.db.dao.PatientsDao
 import com.mapx.kosten.mosimpa.data.entities.PatientDB
@@ -37,9 +39,30 @@ class PatientsRepositoryImpl(
         return if (item == null)
                 dao.insertPatient(mapperEntityToDB.mapFrom(patient))
             else
-                dao.updatePatient(mapperEntityToDB.mapFrom(patient)).toLong()
+            INVALID_PATIENT_DB_ID
+    }
+
+    override suspend fun updateNameByDeviceId(patient: PatientEntity): Long {
+        val item = dao.getPatientByDeviceId(patient.deviceId)
+        if (item != null) {
+            val patient = item.copy(name = patient.name)
+            return dao.updatePatient(patient).toLong()
+        }
+        return INVALID_PATIENT_DB_ID
     }
 
     override suspend fun getDeviceIdByPatientId(id: Long) =
         dao.getDeviceIdByPatientId(id)?.deviceId ?: ""
+
+    val patients: LiveData<List<PatientEntity>> = Transformations.map(
+        dao.observePatients()
+    ) { it.map { mapperDBtoEntity.mapFrom(it) } }
+
+    override fun observePatients(): LiveData<List<PatientEntity>> {
+        return patients
+    }
+
+    companion object {
+        const val INVALID_PATIENT_DB_ID = -1L
+    }
 }

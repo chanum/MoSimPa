@@ -2,7 +2,7 @@ package com.mapx.kosten.mosimpa.data.client
 
 import android.content.Context
 import android.util.Log
-import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SERVER_URI
+import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SERVER_URI_PREFIX
 import org.eclipse.paho.android.service.MqttAndroidClient
 import org.eclipse.paho.client.mqttv3.*
 import org.eclipse.paho.client.mqttv3.MqttClient
@@ -23,7 +23,7 @@ class MqttClient(
     }
 
     fun initialize(url: String) {
-        val uri = "tcp://" + url
+        val uri = SERVER_URI_PREFIX + url
         val clientId = MqttClient.generateClientId()
         client = MqttAndroidClient(context, uri, clientId)
     }

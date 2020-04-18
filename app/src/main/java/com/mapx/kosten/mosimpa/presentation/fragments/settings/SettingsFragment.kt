@@ -51,8 +51,8 @@ class SettingsFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.viewState.observe(viewLifecycleOwner, Observer {
-            if (it != null) handleViewState(it)
+        viewModel.patients.observe(viewLifecycleOwner, Observer {
+            if (it != null) handlePatients(it)
         })
         viewModel.errorState.observe(viewLifecycleOwner, Observer { throwable ->
             throwable?.let {
@@ -86,20 +86,17 @@ class SettingsFragment : Fragment() {
         recyclerView.adapter = adapter
     }
 
-    override fun onResume() {
-        super.onResume()
-        viewModel.loadPatients()
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         (activity?.application as App).releaseSettingsComponent()
     }
 
-    private fun handleViewState(state: SettingsViewState) {
-        progressBar.visibility = if (state.isLoading) View.VISIBLE else View.GONE
-        emptyMessage.visibility = if (!state.isLoading && state.isEmpty) View.VISIBLE else View.GONE
-        state.patients?.let { adapter.setPatients(it) }
+    private fun handlePatients(patients: List<PatientEntity>) {
+        progressBar.visibility = View.GONE
+        if (patients.isEmpty()) {
+            emptyMessage.visibility = View.VISIBLE
+        }
+        adapter.setPatients(patients)
     }
 
     private fun goToDetailView(patient: PatientEntity, view: View) {

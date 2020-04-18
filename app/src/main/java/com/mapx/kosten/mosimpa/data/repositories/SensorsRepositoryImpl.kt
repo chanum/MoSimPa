@@ -2,6 +2,7 @@ package com.mapx.kosten.mosimpa.data.repositories
 
 import android.content.Context
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.mapx.kosten.mosimpa.data.client.MqttClient
 import com.mapx.kosten.mosimpa.data.db.MosimpaDatabase
@@ -9,6 +10,7 @@ import com.mapx.kosten.mosimpa.data.db.dao.*
 import com.mapx.kosten.mosimpa.data.entities.*
 import com.mapx.kosten.mosimpa.data.mappers.*
 import com.mapx.kosten.mosimpa.data.preferences.BrokerIpPreferenceImpl
+import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SERVER_URI_PREFIX
 import com.mapx.kosten.mosimpa.domain.data.SensorsRepository
 import com.mapx.kosten.mosimpa.domain.entites.*
 import kotlinx.coroutines.CoroutineScope
@@ -44,6 +46,11 @@ class SensorsRepositoryImpl(
     private var sensorTempCount: Long = 0
 
     private var devices = mutableListOf<String>()
+    val deviceList: MutableLiveData<String> = MutableLiveData()
+
+    override fun observeDevices(): LiveData<String> {
+        return deviceList
+    }
 
     /* ---------------------------------------------------------------------------------------*/
     val sensorO2: LiveData<SensorO2Entity> = Transformations.map(
@@ -86,23 +93,35 @@ class SensorsRepositoryImpl(
     /* ---------------------------------------------------------------------------------------*/
     override suspend fun connectMqtt() {
         withContext(Dispatchers.IO) {
-            val ip = getBrokerIp()
+            val url = getBrokerIp()
             if (::mqttClient.isInitialized) {
-                mqttClient.close()
+                if (isANewUrl(url)) {
+                    mqttClient.close()
+                    connectAndSubscribe(url)
+                }
+            } else {
+                connectAndSubscribe(url)
             }
-            mqttClient = MqttClient(context, ip)
-
-            // TODO call from VM??
-            subscribeToAll()
         }
+    }
+
+    private suspend fun connectAndSubscribe(url: String) {
+        mqttClient = MqttClient(context, url)
+        subscribeToAll()
+    }
+
+    private fun isANewUrl(url: String): Boolean {
+        val urlClient = mqttClient.client.serverURI
+        return !urlClient.equals(SERVER_URI_PREFIX + url)
     }
 
     /* ---------------------------------------------------------------------------------------*/
     override suspend fun subscribeToAll() {
-        withContext(Dispatchers.IO) {
+        // FIXME
+        // withContext(Dispatchers.IO) {
             val topic = arrayOf("reads/#")
             mqttClient.connect(topic, ::subscribeToAllRsp)
-        }
+        //}
     }
 
     private fun subscribeToAllRsp(topic: String, message: MqttMessage) {
@@ -112,6 +131,7 @@ class SensorsRepositoryImpl(
             // check if exist in the
             if (id !in devices) {
                 devices.add(id)
+                deviceList.value = id
             }
 
             val currentTopic = "reads/${currentPatient.deviceId}"
