@@ -10,6 +10,7 @@ import com.mapx.kosten.mosimpa.data.db.dao.*
 import com.mapx.kosten.mosimpa.data.entities.*
 import com.mapx.kosten.mosimpa.data.mappers.*
 import com.mapx.kosten.mosimpa.data.preferences.BrokerIpPreferenceImpl
+import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SERVER_URI_PREFIX
 import com.mapx.kosten.mosimpa.domain.data.SensorsRepository
 import com.mapx.kosten.mosimpa.domain.entites.*
 import kotlinx.coroutines.CoroutineScope
@@ -92,15 +93,26 @@ class SensorsRepositoryImpl(
     /* ---------------------------------------------------------------------------------------*/
     override suspend fun connectMqtt() {
         withContext(Dispatchers.IO) {
-            val ip = getBrokerIp()
+            val url = getBrokerIp()
             if (::mqttClient.isInitialized) {
-                mqttClient.close()
+                if (isANewUrl(url)) {
+                    mqttClient.close()
+                    connectAndSubscribe(url)
+                }
+            } else {
+                connectAndSubscribe(url)
             }
-            mqttClient = MqttClient(context, ip)
-
-            // TODO call from VM??
-            subscribeToAll()
         }
+    }
+
+    private suspend fun connectAndSubscribe(url: String) {
+        mqttClient = MqttClient(context, url)
+        subscribeToAll()
+    }
+
+    private fun isANewUrl(url: String): Boolean {
+        val urlClient = mqttClient.client.serverURI
+        return !urlClient.equals(SERVER_URI_PREFIX + url)
     }
 
     /* ---------------------------------------------------------------------------------------*/
