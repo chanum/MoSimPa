@@ -54,12 +54,10 @@ class PatientsRepositoryImpl(
     override suspend fun getDeviceIdByPatientId(id: Long) =
         dao.getDeviceIdByPatientId(id)?.deviceId ?: ""
 
-    val patients: LiveData<List<PatientEntity>> = Transformations.map(
-        dao.observePatients()
-    ) { it.map { mapperDBtoEntity.mapFrom(it) } }
-
     override fun observePatients(): LiveData<List<PatientEntity>> {
-        return patients
+        return Transformations.map(dao.observePatients()) {
+            it.map { mapperDBtoEntity.mapFrom(it) }
+        }
     }
 
     companion object {

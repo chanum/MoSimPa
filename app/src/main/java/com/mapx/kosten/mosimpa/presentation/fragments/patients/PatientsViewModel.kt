@@ -1,10 +1,7 @@
 package com.mapx.kosten.mosimpa.presentation.fragments.patients
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.mapx.kosten.mosimpa.domain.entites.PatientEntity
 import com.mapx.kosten.mosimpa.domain.interactors.device.ObserveDevicesUseCase
 import com.mapx.kosten.mosimpa.domain.interactors.device.SubscribeToAllDevices
@@ -23,9 +20,6 @@ class PatientsViewModel(
     private val observeDevicesUseCase: ObserveDevicesUseCase,
     private val savePatientUseCase: SavePatientUseCase
 ): ViewModel() {
-
-    private val viewModelJob = SupervisorJob()
-    private val viewModelScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
     // TODO see FLow
     var patients: LiveData<List<PatientEntity>> = observePatientsUseCase.invoke()
@@ -47,15 +41,8 @@ class PatientsViewModel(
 
     fun updateDevices(device: String) {
         val patient = PatientEntity(deviceId = device)
-        // TODO check if deviceID exits
-        // save Patient
         viewModelScope.launch {
             savePatientUseCase.invoke(patient)
         }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        viewModelJob.cancel()
     }
 }

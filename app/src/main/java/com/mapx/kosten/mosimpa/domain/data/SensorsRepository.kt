@@ -6,8 +6,8 @@ import com.mapx.kosten.mosimpa.domain.entites.*
 interface SensorsRepository {
     suspend fun connectMqtt()
 
-    suspend fun subscribeId(patient: PatientEntity)
-    suspend fun unSubscribeId(patient: PatientEntity)
+    fun subscribeId(patient: PatientEntity)
+    fun unSubscribeId(patient: PatientEntity)
 
     suspend fun subscribeToAll()
 
