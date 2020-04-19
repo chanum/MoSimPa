@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
+import androidx.lifecycle.liveData
 import com.mapx.kosten.mosimpa.data.client.MqttClient
 import com.mapx.kosten.mosimpa.data.db.MosimpaDatabase
 import com.mapx.kosten.mosimpa.data.db.dao.*
@@ -53,41 +54,40 @@ class SensorsRepositoryImpl(
     }
 
     /* ---------------------------------------------------------------------------------------*/
-    val sensorO2: LiveData<SensorO2Entity> = Transformations.map(
-        sensorO2Dao.getData()
-    ) { it?.let { mapperO2DBtoEntity.mapFrom(it) } }
+//    override fun getO2Data(patient: PatientEntity) = liveData<SensorO2Entity?> {
+//        emitSource(
+//            Transformations.map(sensorO2Dao.getData()) {
+//                it?.let { mapperO2DBtoEntity.mapFrom(it) }
+//            }
+//        )
+//    }
 
-    val sensorBlood: LiveData<SensorBloodEntity> = Transformations.map(
-        sensorBloodDao.getData()
-    ) { it?.let { mapperBloodDBtoEntity.mapFrom(it) } }
-
-    val sensorHeart: LiveData<SensorHeartEntity> = Transformations.map(
-        sensorHeartDao.getData()
-    ) { it?.let { mapperHeartDBtoEntity.mapFrom(it) } }
-
-    val sensorTemp: LiveData<SensorTempEntity> = Transformations.map(
-        sensorTempDao.getData()
-    ) { it?.let { mapperTempDBtoEntity.mapFrom(it) } }
-
-    /* ---------------------------------------------------------------------------------------*/
     override fun getO2Data(patient: PatientEntity): LiveData<SensorO2Entity> {
         currentPatient = patient
-        return sensorO2
+        return Transformations.map(sensorO2Dao.getData()) {
+            it?.let { mapperO2DBtoEntity.mapFrom(it) }
+        }
     }
 
     override fun getBloodData(patient: PatientEntity): LiveData<SensorBloodEntity> {
         currentPatient = patient
-        return sensorBlood
+        return Transformations.map(sensorBloodDao.getData()) {
+            it?.let { mapperBloodDBtoEntity.mapFrom(it) }
+        }
     }
 
     override fun getHeartData(patient: PatientEntity): LiveData<SensorHeartEntity> {
         currentPatient = patient
-        return sensorHeart
+        return Transformations.map(sensorHeartDao.getData()) {
+            it?.let { mapperHeartDBtoEntity.mapFrom(it) }
+        }
     }
 
     override fun getTempData(patient: PatientEntity): LiveData<SensorTempEntity> {
         currentPatient = patient
-        return sensorTemp
+        return Transformations.map(sensorTempDao.getData()) {
+            it?.let { mapperTempDBtoEntity.mapFrom(it) }
+        }
     }
 
     /* ---------------------------------------------------------------------------------------*/
@@ -142,15 +142,15 @@ class SensorsRepositoryImpl(
     }
 
     /* ---------------------------------------------------------------------------------------*/
-    override suspend fun subscribeId(patient: PatientEntity) {
-        withContext(Dispatchers.IO) {
+    override fun subscribeId(patient: PatientEntity) {
+        // withContext(Dispatchers.IO) {
             currentPatient.id = patient.id
             currentPatient.deviceId = patient.deviceId
             // val topic = arrayOf("reads/${currentPatient.deviceId}")
             // val topic = "reads/${currentPatient.deviceId}"
             // mqttClient.connect(topic, ::subscribeIdRsp)
             // mqttClient.subscribeTopic(topic)
-        }
+        // }
     }
 
     private fun subscribeIdRsp(topic: String, message: MqttMessage) {
@@ -162,12 +162,12 @@ class SensorsRepositoryImpl(
     }
 
     /* ---------------------------------------------------------------------------------------*/
-    override suspend fun unSubscribeId(patient: PatientEntity) {
-        withContext(Dispatchers.IO) {
+    override fun unSubscribeId(patient: PatientEntity) {
+        // withContext(Dispatchers.IO) {
             val st = String.format("%02x", patient.deviceId)
             val topic = "reads/${st}"
             mqttClient.unSubscribe(topic)
-        }
+        // }
     }
 
     /* ---------------------------------------------------------------------------------------*/

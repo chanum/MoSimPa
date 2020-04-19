@@ -1,7 +1,6 @@
 package com.mapx.kosten.mosimpa.presentation.fragments.sensors
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.mapx.kosten.mosimpa.domain.entites.*
 import com.mapx.kosten.mosimpa.domain.interactors.patient.GetDeviceIdByPatientId
 import com.mapx.kosten.mosimpa.domain.interactors.sensor.*
@@ -18,13 +17,14 @@ class SensorsViewModel(
     private val getDeviceIdByPatientId: GetDeviceIdByPatientId
 ): ViewModel() {
 
-    private val viewModelJob = SupervisorJob()
-    private val viewModelScope = CoroutineScope(viewModelJob + Dispatchers.Main)
-
     var currentPatient = PatientEntity()
     var errorState: SingleLiveEvent<Throwable?> = SingleLiveEvent()
     // TODO see FLow
     var sensorO2Value: LiveData<SensorO2Entity> = getO2DataUseCase.invoke(currentPatient)
+//    val sensorO2Value = liveData(Dispatchers.IO)  {
+//        val value = getO2DataUseCase.invoke(currentPatient)
+//        emit(value)
+//    }
     var sensorBloodValue: LiveData<SensorBloodEntity> = getBloodDataUseCase.invoke(currentPatient)
     var sensorHeartValue: LiveData<SensorHeartEntity> = getHeartDataUseCase.invoke(currentPatient)
     var sensorTempValue: LiveData<SensorTempEntity> = getTempDataUseCase.invoke(currentPatient)
@@ -43,11 +43,7 @@ class SensorsViewModel(
     override fun onCleared() {
         super.onCleared()
         currentPatient = PatientEntity()
-        sensorO2Value = getO2DataUseCase.invoke(currentPatient)
-        sensorBloodValue = getBloodDataUseCase.invoke(currentPatient)
-        sensorHeartValue = getHeartDataUseCase.invoke(currentPatient)
-        sensorTempValue = getTempDataUseCase.invoke(currentPatient)
-        viewModelJob.cancel()
+        subscribeIdUseCase.invoke(currentPatient)
     }
 
 }

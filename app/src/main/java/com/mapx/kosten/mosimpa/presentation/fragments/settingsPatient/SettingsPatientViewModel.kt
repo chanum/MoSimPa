@@ -3,6 +3,7 @@ package com.mapx.kosten.mosimpa.presentation.fragments.settingsPatient
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.mapx.kosten.mosimpa.domain.entites.PatientEntity
 import com.mapx.kosten.mosimpa.domain.interactors.patient.DeletePatientUseCase
 import com.mapx.kosten.mosimpa.domain.interactors.patient.GetPatientUseCase
@@ -23,9 +24,6 @@ class SettingsPatientViewModel(
     private val updatePatientNameByDeviceIdUseCase: UpdatePatientNameByDeviceIdUseCase
 ) : ViewModel() {
 
-    private val viewModelJob = SupervisorJob()
-    private val viewModelScope = CoroutineScope(viewModelJob + Dispatchers.Main)
-
     var viewState: MutableLiveData<SettingsPatientViewState> = MutableLiveData()
     var errorState: SingleLiveEvent<Throwable?> = SingleLiveEvent()
 
@@ -36,19 +34,6 @@ class SettingsPatientViewModel(
 
     fun savePatient(id: String, name: String) {
         val patient = PatientEntity(deviceId = id, name = name)
-        // TODO check if deviceID exits
-        // save Patient
-//        viewModelScope.launch {
-//            val patients = savePatientUseCase.invoke(patient)
-//            val newViewState = viewState.value?.copy(
-//                saveStatus = 0,
-//                close = true,
-//                isLoading = false)
-//            viewState.value = newViewState
-//            errorState.value = null
-//            Log.i(javaClass.simpleName, "Rcv Ok")
-//        }
-
         viewModelScope.launch {
             val patients = updatePatientNameByDeviceIdUseCase.invoke(patient)
             val newViewState = viewState.value?.copy(
@@ -96,11 +81,6 @@ class SettingsPatientViewModel(
             errorState.value = null
             Log.i(javaClass.simpleName, "Rcv Ok")
         }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        viewModelJob.cancel()
     }
 
 }
