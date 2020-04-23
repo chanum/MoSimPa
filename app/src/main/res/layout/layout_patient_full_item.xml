@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     style="@style/CommonRecyclerViewShape"
     android:layout_height="wrap_content"
-    tools:layout_editor_absoluteX="20dp"
-    tools:layout_editor_absoluteY="5dp">
+    android:layout_width="match_parent">
 
     <TextView
         android:id="@+id/tv_item_patient_name"
@@ -14,9 +12,19 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/patient_item_name"
+        android:gravity="start"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/view_divisor_0"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/colorPrimaryLight"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_item_patient_name"/>
 
     <TextView
         android:id="@+id/tv_item_patient_int_id"
@@ -25,9 +33,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/patient_item_interment_id"
+        android:gravity="start"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_item_patient_name" />
+        app:layout_constraintTop_toBottomOf="@+id/view_divisor_0" />
 
     <TextView
         android:id="@+id/tv_item_patient_age"
@@ -36,6 +45,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/patient_item_age"
+        android:gravity="start"
         app:layout_constraintEnd_toStartOf="@+id/tv_item_patient_gender"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,6 +58,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/patient_item_gender"
+        android:gravity="start"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/tv_item_patient_age"
@@ -60,6 +71,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/patient_item_location"
+        android:gravity="start"
         app:layout_constraintEnd_toStartOf="@+id/tv_item_patient_location_type"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -72,6 +84,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/patient_item_location_type"
+        android:gravity="start"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/tv_item_patient_location"
@@ -82,106 +95,50 @@
         style="@style/CommonItemSubTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/patient_item_interment_id"
+        android:text="@string/patient_item_device_id"
+        android:gravity="start"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.562"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_item_patient_location" />
 
-    <TextView
-        android:id="@+id/tv_item_patient_o2_title"
-        style="@style/CommonItemTitle"
-        android:layout_width="wrap_content"
+    <include
+        android:id="@+id/layout_o2_item"
+        layout="@layout/layout_o2_item"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="@string/patient_item_o2_title"
-        app:layout_constraintEnd_toStartOf="@+id/tv_item_patient_o2_value"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_heart_item" />
+
+    <include
+        android:id="@+id/layout_blood_item"
+        layout="@layout/layout_blood_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_item_patient_device_id" />
 
-    <TextView
-        android:id="@+id/tv_item_patient_o2_value"
-        style="@style/CommonItemTitle"
-        android:layout_width="wrap_content"
+    <include
+        android:id="@+id/layout_heart_item"
+        layout="@layout/layout_heart_item"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="@string/patient_item_o2_value"
-        app:layout_constraintEnd_toStartOf="@+id/tv_item_patient_blood_title"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/tv_item_patient_o2_title"
-        app:layout_constraintTop_toBottomOf="@+id/tv_item_patient_device_id" />
-
-    <TextView
-        android:id="@+id/tv_item_patient_blood_title"
-        style="@style/CommonItemTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/patient_item_blood_title"
-        app:layout_constraintEnd_toStartOf="@+id/tv_item_patient_blood_value"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/tv_item_patient_o2_value"
-        app:layout_constraintTop_toBottomOf="@+id/tv_item_patient_device_id" />
-
-    <TextView
-        android:id="@+id/tv_item_patient_blood_value"
-        style="@style/CommonItemTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/patient_item_blood_value"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/tv_item_patient_blood_title"
-        app:layout_constraintTop_toBottomOf="@+id/tv_item_patient_device_id" />
-
-    <TextView
-        android:id="@+id/tv_item_patient_heart_title"
-        style="@style/CommonItemTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/patient_item_heart_title"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_item_patient_heart_value"
-        app:layout_constraintEnd_toStartOf="@+id/tv_item_patient_heart_value"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tv_item_patient_heart_value" />
+        app:layout_constraintTop_toBottomOf="@+id/layout_blood_item" />
 
-    <TextView
-        android:id="@+id/tv_item_patient_heart_value"
-        style="@style/CommonItemTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/patient_item_heart_value"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_item_patient_temp_title"
-        app:layout_constraintEnd_toStartOf="@+id/tv_item_patient_temp_title"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/tv_item_patient_heart_title"
-        app:layout_constraintTop_toTopOf="@+id/tv_item_patient_temp_title" />
-
-
-    <TextView
-        android:id="@+id/tv_item_patient_temp_title"
-        style="@style/CommonItemTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/patient_item_temp_title"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_item_patient_temp_value"
-        app:layout_constraintEnd_toStartOf="@+id/tv_item_patient_temp_value"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/tv_item_patient_heart_value"
-        app:layout_constraintTop_toTopOf="@+id/tv_item_patient_temp_value" />
-
-    <TextView
-        android:id="@+id/tv_item_patient_temp_value"
-        style="@style/CommonItemTitle"
-        android:layout_width="wrap_content"
+    <include
+        layout="@layout/layout_temperature_item"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="@string/patient_item_temp_value"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/tv_item_patient_temp_title"
-        app:layout_constraintTop_toBottomOf="@+id/tv_item_patient_blood_value" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_o2_item" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
