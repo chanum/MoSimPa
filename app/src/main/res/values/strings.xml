@@ -25,6 +25,25 @@
     <string name="patient_item_date">15 feb. 2020</string>
     <string name="patient_item_prefix">"Id: %1$s"</string>
 
+    <string name="patient_item_name">Carlos F. Pérez</string>
+    <string name="patient_item_age">Edad: %1$s</string>
+    <string name="patient_item_gender">Género: %1$s</string>
+    <string name="patient_item_interment_id">Nº internación: %1$s</string>
+    <string name="patient_item_device_id">Device Id: %1$s</string>
+    <string name="patient_item_location">Lugar: Hospital Penna</string>
+    <string name="patient_item_location_type">Cama: ABC12</string>
+
+    <string name="patient_item_o2_title">Sat. Oxígeno:</string>
+    <string name="patient_item_o2_value">92 %</string>
+    <string name="patient_item_heart_title">Frec. Cardíaca:</string>
+    <string name="patient_item_heart_value">110 bpm</string>
+    <string name="patient_item_blood_title">Presión Sang:</string>
+    <string name="patient_item_blood_sys_value">114 Sys</string>
+    <string name="patient_item_blood_dia_value">89 Dia</string>
+    <string name="patient_item_temp_title">Temp. Corporal:</string>
+    <string name="patient_item_temp_value">28 ºC</string>
+
+
     <!-- Patient Fragment -->
     <string name="patients_progress">No hay pacientes cargados</string>
 

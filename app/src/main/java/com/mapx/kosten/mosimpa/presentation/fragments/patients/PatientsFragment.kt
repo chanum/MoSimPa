@@ -32,7 +32,7 @@ class PatientsFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var progressBar: ProgressBar
     private lateinit var emptyMessage: TextView
-    private lateinit var adapter: PatientsAdapter
+    private lateinit var adapter: PatientsFullAdapter
     private lateinit var scanButton: FloatingActionButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,7 +75,7 @@ class PatientsFragment : Fragment() {
              scanDevices()
         }
 
-        adapter = PatientsAdapter{ node, view ->
+        adapter = PatientsFullAdapter{ node, view ->
             goToDetailView(node, view)
         }
         recyclerView.layoutManager = LinearLayoutManager(activity)
