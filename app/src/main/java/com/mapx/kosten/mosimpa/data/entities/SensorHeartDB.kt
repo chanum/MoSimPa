@@ -8,16 +8,16 @@ import com.mapx.kosten.mosimpa.data.db.Constants.Companion.SENSOR_HEART_TABLE
 @Entity(tableName = SENSOR_HEART_TABLE,
     foreignKeys = [
         ForeignKey(
-            entity = PatientDB::class,
+            entity = InternmentDB::class,
             parentColumns = ["id"],
-            childColumns = ["patientId"],
+            childColumns = ["patient_id"],
             onDelete = ForeignKey.CASCADE)
     ]
 )
 data class SensorHeartDB(
     @PrimaryKey(autoGenerate = true)
     val id: Int = -1,
-    val patientId: Long = -1,
+    val patient_id: Long = -1,
     val time: Long = -1,
     val heartR: Int = -1,
     val HR_AR: Boolean = false

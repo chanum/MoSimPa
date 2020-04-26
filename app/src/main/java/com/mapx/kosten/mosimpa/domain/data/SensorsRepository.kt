@@ -4,18 +4,19 @@ import androidx.lifecycle.LiveData
 import com.mapx.kosten.mosimpa.domain.entites.*
 
 interface SensorsRepository {
+
     suspend fun connectMqtt()
 
-    fun subscribeId(patient: PatientEntity)
-    fun unSubscribeId(patient: PatientEntity)
+    fun subscribeId(internment: InternmentEntity)
+    fun unSubscribeId(internment: InternmentEntity)
 
     suspend fun subscribeToAll()
 
     fun observeDevices(): LiveData<String>
 
-    fun getO2Data(patient: PatientEntity): LiveData<SensorO2Entity>
-    fun getBloodData(patient: PatientEntity): LiveData<SensorBloodEntity>
-    fun getHeartData(patient: PatientEntity): LiveData<SensorHeartEntity>
-    fun getTempData(patient: PatientEntity): LiveData<SensorTempEntity>
+    fun getO2Data(internment: InternmentEntity): LiveData<SensorO2Entity>
+    fun getBloodData(internment: InternmentEntity): LiveData<SensorBloodEntity>
+    fun getHeartData(internment: InternmentEntity): LiveData<SensorHeartEntity>
+    fun getTempData(internment: InternmentEntity): LiveData<SensorTempEntity>
 
 }

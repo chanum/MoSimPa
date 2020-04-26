@@ -12,4 +12,7 @@ interface InternmentsDao {
 
     @Query("SELECT * FROM " + INTERNMENTS_TABLE)
     fun getAll(): LiveData<List<InternmentDB>>
+
+    @Query("SELECT * FROM " + INTERNMENTS_TABLE + " WHERE id=:id LIMIT 1")
+    suspend fun getDeviceIdById(id: Long): InternmentDB?
 }

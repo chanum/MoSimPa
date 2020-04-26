@@ -5,14 +5,17 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.fragment.app.Fragment
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mapx.kosten.mosimpa.R
 import com.mapx.kosten.mosimpa.domain.entites.InternmentEntity
 import com.mapx.kosten.mosimpa.presentation.common.App
@@ -29,6 +32,7 @@ class InternmentsFragment : Fragment() {
     private lateinit var progressBar: ProgressBar
     private lateinit var emptyMessage: TextView
     private lateinit var adapter: InternmentsAdapter
+    private lateinit var refreshBtn: FloatingActionButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,10 +60,16 @@ class InternmentsFragment : Fragment() {
         progressBar = rootLayout.findViewById(R.id.pb_internments)
         emptyMessage = rootLayout.findViewById(R.id.tv_internments_empty)
         recyclerView = rootLayout.findViewById(R.id.rv_internments)
+        refreshBtn = rootLayout.findViewById(R.id.fab_internments_refresh)
 
         adapter = InternmentsAdapter{ node, view ->
             goToDetailView(node, view)
         }
+
+        refreshBtn.setOnClickListener{
+            updateInternments()
+        }
+
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = adapter
     }
@@ -89,8 +99,12 @@ class InternmentsFragment : Fragment() {
     }
 
     private fun goToDetails(id: Long) {
-       // val action = PatientsFragmentDirections.actionPatientsFragmentToSensorsFragment(id)
-       // findNavController().navigate(action)
+       val action = InternmentsFragmentDirections.actionPatientsFragmentToSensorsFragment(id)
+       findNavController().navigate(action)
+    }
+
+    private fun updateInternments() {
+        //TODO
     }
 
 }

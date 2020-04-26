@@ -15,11 +15,13 @@ class InternmentsRepositoryImpl(
     private val dao: InternmentsDao = database.internmentDao()
     private val mapperDBtoEntity = InternmentDataToEntityMapper()
 
-
     override fun getAll(): LiveData<List<InternmentEntity>> {
         return Transformations.map(dao.getAll()) {
             it.map { mapperDBtoEntity.mapFrom(it) }
         }
     }
+
+    override suspend fun getDeviceIdById(id: Long) =
+        dao.getDeviceIdById(id)?.device ?: ""
 
 }
