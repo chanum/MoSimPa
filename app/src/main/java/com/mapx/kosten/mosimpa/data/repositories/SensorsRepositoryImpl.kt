@@ -10,6 +10,7 @@ import com.mapx.kosten.mosimpa.data.db.dao.*
 import com.mapx.kosten.mosimpa.data.entities.*
 import com.mapx.kosten.mosimpa.data.mappers.*
 import com.mapx.kosten.mosimpa.data.preferences.BrokerIpPreferenceImpl
+import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.DEFAULT_MAC_ADDRESS
 import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SERVER_URI_PREFIX
 import com.mapx.kosten.mosimpa.domain.data.SensorsRepository
 import com.mapx.kosten.mosimpa.domain.entites.*
@@ -49,6 +50,8 @@ class SensorsRepositoryImpl(
     private var sensorBloodCount: Long = 0
     private var sensorHeartCount: Long = 0
     private var sensorTempCount: Long = 0
+
+    private var macAddress: String = DEFAULT_MAC_ADDRESS
 
     private var devices = mutableListOf<String>()
     val deviceList: MutableLiveData<String> = MutableLiveData()
@@ -98,7 +101,8 @@ class SensorsRepositoryImpl(
     }
 
     /* ---------------------------------------------------------------------------------------*/
-    override suspend fun connectMqtt() {
+    override suspend fun connectMqtt(mac: String) {
+        macAddress = mac
         withContext(Dispatchers.IO) {
             val url = getBrokerIp()
             if (::mqttClient.isInitialized) {
@@ -123,12 +127,9 @@ class SensorsRepositoryImpl(
     }
 
     /* ---------------------------------------------------------------------------------------*/
-    val fakeMac = "aabbccddeeff"
-
     override suspend fun subscribeToAll() {
-        // FIXME MAC
         // withContext(Dispatchers.IO) {
-            val topic = arrayOf("monitor/$fakeMac", "reads/#")
+            val topic = arrayOf("monitor/$macAddress", "reads/#")
             mqttClient.connect(topic, ::subscribeToAllRsp)
         //}
     }
@@ -149,9 +150,7 @@ class SensorsRepositoryImpl(
             if (currentTopic.equals(topic)) {
                 parseAndSaveSensor(message.toString())
             }
-        } else if (topic.startsWith("monitor/$fakeMac")) {
-            // FIXME MAC
-            // update list in DB
+        } else if (topic.startsWith("monitor/$macAddress")) {
             parseAndSavePatients(message.toString())
         }
     }
@@ -160,7 +159,7 @@ class SensorsRepositoryImpl(
         // only once
         if (!updatePatientsFlag) {
             val topic = "datakeeper/query"
-            val msg = "{\"mac\":\"$fakeMac\",\"command\":\"internments\",\"id\":\"123AABB\"}"
+            val msg = "{\"mac\":\"$macAddress\",\"command\":\"internments\",\"id\":\"123AABB\"}"
             mqttClient.publishMessage(topic, msg)
             updatePatientsFlag = true
         }

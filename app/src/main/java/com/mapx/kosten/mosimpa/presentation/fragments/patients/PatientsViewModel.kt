@@ -2,6 +2,7 @@ package com.mapx.kosten.mosimpa.presentation.fragments.patients
 
 import android.util.Log
 import androidx.lifecycle.*
+import com.mapx.kosten.mosimpa.domain.common.Constants
 import com.mapx.kosten.mosimpa.domain.entites.InternmentEntity
 import com.mapx.kosten.mosimpa.domain.entites.PatientEntity
 import com.mapx.kosten.mosimpa.domain.interactors.device.ObserveDevicesUseCase
@@ -43,7 +44,7 @@ class PatientsViewModel(
 
     fun connectAndSubscribeToAll() {
         viewModelScope.launch {
-            connectClientMqttUseCase.invoke()
+            connectClientMqttUseCase.invoke(Constants.DEFAULT_MAC_ADDRESS)
         }
     }
 

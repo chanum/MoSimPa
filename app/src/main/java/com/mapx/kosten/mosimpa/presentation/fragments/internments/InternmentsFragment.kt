@@ -1,11 +1,12 @@
 package com.mapx.kosten.mosimpa.presentation.fragments.internments
 
+import android.content.Context
+import android.net.wifi.WifiManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.fragment.app.Fragment
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mapx.kosten.mosimpa.R
+import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.DEFAULT_MAC_ADDRESS
 import com.mapx.kosten.mosimpa.domain.entites.InternmentEntity
 import com.mapx.kosten.mosimpa.presentation.common.App
 import com.mapx.kosten.mosimpa.presentation.common.Utils.Companion.INVALID_PATIENT_ID
@@ -33,6 +35,7 @@ class InternmentsFragment : Fragment() {
     private lateinit var emptyMessage: TextView
     private lateinit var adapter: InternmentsAdapter
     private lateinit var refreshBtn: FloatingActionButton
+    private var macAddress: String = DEFAULT_MAC_ADDRESS
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +55,7 @@ class InternmentsFragment : Fragment() {
         viewModel.internments.observe(viewLifecycleOwner, Observer {
             if (it != null) handleInternments(it)
         })
+        macAddress = getMacAddress(context)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -76,7 +80,7 @@ class InternmentsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.connectAndSubscribeToAll()
+        viewModel.connectAndSubscribeToAll(macAddress)
     }
 
     override fun onDestroy() {
@@ -104,7 +108,18 @@ class InternmentsFragment : Fragment() {
     }
 
     private fun updateInternments() {
-        //TODO
+        viewModel.connectAndSubscribeToAll(macAddress)
+    }
+
+    // TODO move to use case
+    fun getMacAddress(context: Context?): String {
+        var mac = DEFAULT_MAC_ADDRESS
+        context?.let {
+            val manager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+            val info = manager.connectionInfo
+            mac = info.macAddress.toUpperCase()
+        }
+        return mac.replace(":","")
     }
 
 }
