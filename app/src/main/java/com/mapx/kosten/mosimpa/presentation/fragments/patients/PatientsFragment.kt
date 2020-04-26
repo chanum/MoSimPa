@@ -110,8 +110,8 @@ class PatientsFragment : Fragment() {
     }
 
     private fun goToAddPatient(id: Long) {
-       val action = PatientsFragmentDirections.actionPatientsFragmentToSensorsFragment(id)
-        findNavController().navigate(action)
+       // val action = PatientsFragmentDirections.actionPatientsFragmentToSensorsFragment(id)
+        //findNavController().navigate(action)
     }
 
     private fun scanDevices() {

@@ -38,15 +38,15 @@ class PatientsFullAdapter constructor(
 
     class PatientCellViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(patientEntity: PatientEntity, listener: (PatientEntity, View) -> Unit) = with(itemView) {
-            tv_item_patient_name.text = patientEntity.name
-            tv_item_patient_device_id.text =
+            tv_item_internment_patient_name.text = patientEntity.name
+            tv_item_internment_device_id.text =
                 context.resources.getString(
                     R.string.patient_item_prefix,
                     patientEntity.deviceId
                 )
-            tv_item_patient_gender.text =
+            tv_item_internment_patient_gender.text =
                 context.resources.getString(R.string.patient_item_sex, patientEntity.sex)
-            tv_item_patient_location_type.text =
+            tv_item_internment_location_type.text =
                 context.resources.getString(R.string.patient_item_bed, patientEntity.bed)
             // tv_item_patient_date.text = patient.dateTime.toString()
 

@@ -5,5 +5,5 @@ import com.mapx.kosten.mosimpa.domain.data.SensorsRepository
 class ConnectClientMqttUseCase(
     private val sensorsRepository: SensorsRepository
 ) {
-    suspend fun invoke() = sensorsRepository.connectMqtt()
+    suspend fun invoke(mac: String) = sensorsRepository.connectMqtt(mac)
 }

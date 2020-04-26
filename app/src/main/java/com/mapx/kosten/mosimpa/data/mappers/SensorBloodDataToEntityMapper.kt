@@ -8,7 +8,7 @@ class SensorBloodDataToEntityMapper {
     fun mapFrom(from: SensorBloodDB): SensorBloodEntity {
         return SensorBloodEntity(
             id = from.id,
-            patientId = from.patientId,
+            patientId = from.patient_id,
             time = from.time,
             sys = from.sys,
             dia = from.dia

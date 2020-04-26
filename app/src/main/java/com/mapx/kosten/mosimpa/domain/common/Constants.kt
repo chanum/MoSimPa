@@ -4,6 +4,8 @@ class Constants {
     companion object{
         const val SERVER_URI = "tcp://192.168.0.83"
 
+        const val DEFAULT_MAC_ADDRESS = "AABBCCDDEEFF"
+
         const val SERVER_URI_PREFIX = "tcp://"
 
         const val EMPTY_STRING = ""

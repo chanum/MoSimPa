@@ -5,7 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.mapx.kosten.mosimpa.data.db.Contants.Companion.SENSOR_TEMP_TABLE
+import com.mapx.kosten.mosimpa.data.db.Constants.Companion.SENSOR_TEMP_TABLE
 import com.mapx.kosten.mosimpa.data.entities.SensorTempDB
 
 @Dao

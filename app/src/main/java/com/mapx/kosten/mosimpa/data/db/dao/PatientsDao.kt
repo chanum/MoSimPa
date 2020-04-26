@@ -2,7 +2,7 @@ package com.mapx.kosten.mosimpa.data.db.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.mapx.kosten.mosimpa.data.db.Contants.Companion.PATIENTS_TABLE
+import com.mapx.kosten.mosimpa.data.db.Constants.Companion.PATIENTS_TABLE
 import com.mapx.kosten.mosimpa.data.entities.PatientDB
 
 @Dao

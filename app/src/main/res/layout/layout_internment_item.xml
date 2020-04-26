@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/CommonRecyclerViewShape"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent">
+
+    <TextView
+        android:id="@+id/tv_item_internment_patient_name"
+        style="@style/CommonItemTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/internment_item_patient_name"
+        android:gravity="start"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/view_divisor_0"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/colorPrimaryLight"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_item_internment_patient_name"/>
+
+    <TextView
+        android:id="@+id/tv_item_internment_id"
+        style="@style/CommonItemSubTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/internments_item_id"
+        android:gravity="start"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_divisor_0" />
+
+    <TextView
+        android:id="@+id/tv_item_internment_patient_age"
+        style="@style/CommonItemSubTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/internments_item_patient_age"
+        android:gravity="start"
+        app:layout_constraintEnd_toStartOf="@+id/tv_item_internment_patient_gender"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_item_internment_id" />
+
+    <TextView
+        android:id="@+id/tv_item_internment_patient_gender"
+        style="@style/CommonItemSubTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/internments_item_patient_gender"
+        android:gravity="start"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/tv_item_internment_patient_age"
+        app:layout_constraintTop_toBottomOf="@+id/tv_item_internment_id" />
+
+    <TextView
+        android:id="@+id/tv_item_internment_location"
+        style="@style/CommonItemSubTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/internments_item_location"
+        android:gravity="start"
+        app:layout_constraintEnd_toStartOf="@+id/tv_item_internment_location_type"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_item_internment_patient_age" />
+
+    <TextView
+        android:id="@+id/tv_item_internment_location_type"
+        style="@style/CommonItemSubTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/internments_item_location_type"
+        android:gravity="start"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/tv_item_internment_location"
+        app:layout_constraintTop_toBottomOf="@+id/tv_item_internment_patient_age" />
+
+    <TextView
+        android:id="@+id/tv_item_internment_device_id"
+        style="@style/CommonItemSubTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/internments_item_device_id"
+        android:gravity="start"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.562"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_item_internment_location" />
+
+    <include
+        android:id="@+id/layout_o2_item"
+        layout="@layout/layout_o2_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_heart_item" />
+
+    <include
+        android:id="@+id/layout_blood_item"
+        layout="@layout/layout_blood_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_item_internment_device_id" />
+
+    <include
+        android:id="@+id/layout_heart_item"
+        layout="@layout/layout_heart_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_blood_item" />
+
+    <include
+        android:id="@+id/layout_temperature_item"
+        layout="@layout/layout_temperature_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_o2_item" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
