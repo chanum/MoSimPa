@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/frameLayoutInternments"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_internments"
+        style="@style/CommonRecyclerView" />
+
+    <TextView
+        android:id="@+id/tv_internments_empty"
+        style="@style/CommonTextViewRVEmpty"
+        android:text="@string/internments_progress" />
+
+    <ProgressBar
+        android:id="@+id/pb_internments"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

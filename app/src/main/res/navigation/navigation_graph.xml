@@ -7,9 +7,8 @@
 
     <fragment
         android:id="@+id/main_dest"
-        android:name="com.mapx.kosten.mosimpa.presentation.fragments.patients.PatientsFragment"
-        android:label="@string/nav_label_patients"
-        tools:layout="@layout/activity_main">
+        android:name="com.mapx.kosten.mosimpa.presentation.fragments.internments.InternmentsFragment"
+        android:label="@string/nav_label_internments">
         <action
             android:id="@+id/action_patientsFragment_to_sensorsFragment"
             app:destination="@id/sensors_dest"

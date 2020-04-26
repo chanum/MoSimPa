@@ -17,4 +17,5 @@ interface SensorsRepository {
     fun getBloodData(patient: PatientEntity): LiveData<SensorBloodEntity>
     fun getHeartData(patient: PatientEntity): LiveData<SensorHeartEntity>
     fun getTempData(patient: PatientEntity): LiveData<SensorTempEntity>
+
 }

@@ -1,9 +1,11 @@
 package com.mapx.kosten.mosimpa.di.modules.patients
 
+import com.mapx.kosten.mosimpa.domain.data.InternmentsRepository
 import com.mapx.kosten.mosimpa.domain.data.PatientsRepository
 import com.mapx.kosten.mosimpa.domain.data.SensorsRepository
 import com.mapx.kosten.mosimpa.domain.interactors.device.ObserveDevicesUseCase
 import com.mapx.kosten.mosimpa.domain.interactors.device.SubscribeToAllDevices
+import com.mapx.kosten.mosimpa.domain.interactors.patient.GetInternmentsUseCase
 import com.mapx.kosten.mosimpa.domain.interactors.patient.GetPatientsUseCase
 import com.mapx.kosten.mosimpa.domain.interactors.patient.ObservePatientsUseCase
 import com.mapx.kosten.mosimpa.domain.interactors.patient.SavePatientUseCase
@@ -51,6 +53,13 @@ class PatientsModule {
     }
 
     @Provides
+    fun provideGetInternmentsUseCase(internmentsRepository: InternmentsRepository): GetInternmentsUseCase {
+        return GetInternmentsUseCase(
+            internmentsRepository
+        )
+    }
+
+    @Provides
     fun provideSavePatientUseCase(patientsRepository: PatientsRepository): SavePatientUseCase {
         return SavePatientUseCase(
             patientsRepository
@@ -64,7 +73,8 @@ class PatientsModule {
         subscribeToAllDevices: SubscribeToAllDevices,
         observePatientsUseCase: ObservePatientsUseCase,
         observeDevicesUseCase: ObserveDevicesUseCase,
-        savePatientUseCase: SavePatientUseCase
+        savePatientUseCase: SavePatientUseCase,
+        getInternmentsUseCase: GetInternmentsUseCase
     ): PatientsViewModelFactory {
         return PatientsViewModelFactory(
             getPatientsUseCase,
@@ -72,7 +82,8 @@ class PatientsModule {
             subscribeToAllDevices,
             observePatientsUseCase,
             observeDevicesUseCase,
-            savePatientUseCase
+            savePatientUseCase,
+            getInternmentsUseCase
         )
     }
 

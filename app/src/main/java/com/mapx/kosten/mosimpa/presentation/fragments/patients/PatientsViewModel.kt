@@ -2,9 +2,11 @@ package com.mapx.kosten.mosimpa.presentation.fragments.patients
 
 import android.util.Log
 import androidx.lifecycle.*
+import com.mapx.kosten.mosimpa.domain.entites.InternmentEntity
 import com.mapx.kosten.mosimpa.domain.entites.PatientEntity
 import com.mapx.kosten.mosimpa.domain.interactors.device.ObserveDevicesUseCase
 import com.mapx.kosten.mosimpa.domain.interactors.device.SubscribeToAllDevices
+import com.mapx.kosten.mosimpa.domain.interactors.patient.GetInternmentsUseCase
 import com.mapx.kosten.mosimpa.domain.interactors.patient.GetPatientsUseCase
 import com.mapx.kosten.mosimpa.domain.interactors.patient.ObservePatientsUseCase
 import com.mapx.kosten.mosimpa.domain.interactors.patient.SavePatientUseCase
@@ -18,11 +20,13 @@ class PatientsViewModel(
     private val subscribeToAllDevices: SubscribeToAllDevices,
     private val observePatientsUseCase: ObservePatientsUseCase,
     private val observeDevicesUseCase: ObserveDevicesUseCase,
-    private val savePatientUseCase: SavePatientUseCase
+    private val savePatientUseCase: SavePatientUseCase,
+    private val getInternmentsUseCase: GetInternmentsUseCase
 ): ViewModel() {
 
     // TODO see FLow
     var patients: LiveData<List<PatientEntity>> = observePatientsUseCase.invoke()
+    var internments: LiveData<List<InternmentEntity>> = getInternmentsUseCase.invoke()
     var devices: LiveData<String> = observeDevicesUseCase.invoke()
 
     var viewState: MutableLiveData<PatientsViewState> = MutableLiveData()
@@ -31,6 +35,10 @@ class PatientsViewModel(
     init {
         val viewState = PatientsViewState()
         this.viewState.value = viewState
+    }
+
+    fun getActiveInternments() {
+
     }
 
     fun connectAndSubscribeToAll() {
@@ -42,7 +50,7 @@ class PatientsViewModel(
     fun updateDevices(device: String) {
         val patient = PatientEntity(deviceId = device)
         viewModelScope.launch {
-            savePatientUseCase.invoke(patient)
+            // savePatientUseCase.invoke(patient)
         }
     }
 }

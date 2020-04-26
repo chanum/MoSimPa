@@ -10,7 +10,8 @@
     <string name="bottom_menu_info">Información</string>
 
     <!-- Navigation Graph-->
-    <string name="nav_label_patients">MoSimPa</string>
+    <string name="nav_label_internments">MoSimPa</string>
+    <string name="nav_label_patients">Pacientes</string>
     <string name="nav_label_settings">Configuración</string>
     <string name="nav_label_settings_patient">Editar</string>
     <string name="nav_label_sensors">Monitor</string>
@@ -25,13 +26,14 @@
     <string name="patient_item_date">15 feb. 2020</string>
     <string name="patient_item_prefix">"Id: %1$s"</string>
 
-    <string name="patient_item_name">Carlos F. Pérez</string>
-    <string name="patient_item_age">Edad: %1$s</string>
-    <string name="patient_item_gender">Género: %1$s</string>
-    <string name="patient_item_interment_id">Nº internación: %1$s</string>
-    <string name="patient_item_device_id">Device Id: %1$s</string>
-    <string name="patient_item_location">Lugar: Hospital Penna</string>
-    <string name="patient_item_location_type">Cama: ABC12</string>
+    <!-- Internment Adapter -->
+    <string name="internment_item_patient_name">%1$s %2$s</string>
+    <string name="internments_item_id">Nº Internación: %1$d</string>
+    <string name="internments_item_patient_age">Edad: %1$d</string>
+    <string name="internments_item_patient_gender">Género: %1$s</string>
+    <string name="internments_item_location">Lugar: %1$s</string>
+    <string name="internments_item_location_type">%1$s</string>
+    <string name="internments_item_device_id">Device Id: %1$s</string>
 
     <string name="patient_item_o2_title">Sat. Oxígeno:</string>
     <string name="patient_item_o2_value">92 %</string>
@@ -43,6 +45,8 @@
     <string name="patient_item_temp_title">Temp. Corporal:</string>
     <string name="patient_item_temp_value">28 ºC</string>
 
+    <!-- Internments Fragment -->
+    <string name="internments_progress">No hay internaciones cargadas</string>
 
     <!-- Patient Fragment -->
     <string name="patients_progress">No hay pacientes cargados</string>

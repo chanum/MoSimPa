@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
-import androidx.lifecycle.liveData
 import com.mapx.kosten.mosimpa.data.client.MqttClient
 import com.mapx.kosten.mosimpa.data.db.MosimpaDatabase
 import com.mapx.kosten.mosimpa.data.db.dao.*
@@ -31,12 +30,17 @@ class SensorsRepositoryImpl(
     private val sensorHeartDao: SensorHeartDao = database.sensorHeartDao()
     private val sensorTempDao: SensorTempDao = database.sensorTempDao()
 
+    private val internmentsDao: InternmentsDao = database.internmentDao()
+    private val locationDao: LocationDao = database.locationDao()
+    private val patients2Dao: Patients2Dao = database.patients2Dao()
+
     private val mapperO2DBtoEntity = SensorO2DataToEntityMapper()
     private val mapperHeartDBtoEntity = SensorHeartDataToEntityMapper()
     private val mapperBloodDBtoEntity = SensorBloodDataToEntityMapper()
     private val mapperTempDBtoEntity = SensorTempDataToEntityMapper()
 
     private val mapperMqttToDd = SensorMqttToEntityMapper()
+    private val mapperInternmentsMqttToDd = InternmentsMqttToEntityRspMapper()
 
     private lateinit var mqttClient: MqttClient
 
@@ -48,6 +52,9 @@ class SensorsRepositoryImpl(
 
     private var devices = mutableListOf<String>()
     val deviceList: MutableLiveData<String> = MutableLiveData()
+
+    private var updatePatientsFlag = false
+    private var updatePatientsFlag2 = false
 
     override fun observeDevices(): LiveData<String> {
         return deviceList
@@ -116,16 +123,20 @@ class SensorsRepositoryImpl(
     }
 
     /* ---------------------------------------------------------------------------------------*/
+    val fakeMac = "aabbccddeeff"
+
     override suspend fun subscribeToAll() {
-        // FIXME
+        // FIXME MAC
         // withContext(Dispatchers.IO) {
-            val topic = arrayOf("reads/#")
+            val topic = arrayOf("monitor/$fakeMac", "reads/#")
             mqttClient.connect(topic, ::subscribeToAllRsp)
         //}
     }
 
     private fun subscribeToAllRsp(topic: String, message: MqttMessage) {
         if (topic.startsWith("reads/")) {
+            // TODO find a better way
+            updatePatients()
             // trim topic
             val id = topic.substring(6)
             // check if exist in the
@@ -138,8 +149,23 @@ class SensorsRepositoryImpl(
             if (currentTopic.equals(topic)) {
                 parseAndSaveSensor(message.toString())
             }
+        } else if (topic.startsWith("monitor/$fakeMac")) {
+            // FIXME MAC
+            // update list in DB
+            parseAndSavePatients(message.toString())
         }
     }
+
+    private fun updatePatients() {
+        // only once
+        if (!updatePatientsFlag) {
+            val topic = "datakeeper/query"
+            val msg = "{\"mac\":\"$fakeMac\",\"command\":\"internments\",\"id\":\"123AABB\"}"
+            mqttClient.publishMessage(topic, msg)
+            updatePatientsFlag = true
+        }
+    }
+
 
     /* ---------------------------------------------------------------------------------------*/
     override fun subscribeId(patient: PatientEntity) {
@@ -168,6 +194,33 @@ class SensorsRepositoryImpl(
             val topic = "reads/${st}"
             mqttClient.unSubscribe(topic)
         // }
+    }
+
+    /* ---------------------------------------------------------------------------------------*/
+
+    private fun parseAndSavePatients(msg: String) {
+        val internmentList = mapperInternmentsMqttToDd.mapFrom(msg)
+        internmentList.let {
+            // TODO mapper to DB
+            it.internments.forEach {
+                // add internment to DB
+                val internment = InternmentDB(
+                    id = it.internment_id,
+                    device = it.device,
+                    patient = it.patient,
+                    location = it.location,
+                    alarms = it.alarms
+                )
+                saveIntermentToDb(internment)
+            }
+        }
+    }
+
+
+    private fun saveIntermentToDb(internment: InternmentDB) {
+        CoroutineScope(Dispatchers.IO).launch {
+            internmentsDao.insert(internment)
+        }
     }
 
     /* ---------------------------------------------------------------------------------------*/

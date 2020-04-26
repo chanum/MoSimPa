@@ -1,4 +1,4 @@
-package com.mapx.kosten.mosimpa.presentation.fragments.patients
+package com.mapx.kosten.mosimpa.presentation.fragments.internments
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -10,24 +10,14 @@ import com.mapx.kosten.mosimpa.domain.interactors.patient.ObservePatientsUseCase
 import com.mapx.kosten.mosimpa.domain.interactors.patient.SavePatientUseCase
 import com.mapx.kosten.mosimpa.domain.interactors.sensor.ConnectClientMqttUseCase
 
-class PatientsViewModelFactory (
-    private val getPatientsUseCase: GetPatientsUseCase,
+class InternmentsViewModelFactory (
     private val connectClientMqttUseCase: ConnectClientMqttUseCase,
-    private val subscribeToAllDevices: SubscribeToAllDevices,
-    private val observePatientsUseCase: ObservePatientsUseCase,
-    private val observeDevicesUseCase: ObserveDevicesUseCase,
-    private val savePatientUseCase: SavePatientUseCase,
     private val getInternmentsUseCase: GetInternmentsUseCase
     ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return PatientsViewModel(
-            getPatientsUseCase,
+        return InternmentsViewModel(
             connectClientMqttUseCase,
-            subscribeToAllDevices,
-            observePatientsUseCase,
-            observeDevicesUseCase,
-            savePatientUseCase,
             getInternmentsUseCase
         ) as T
     }

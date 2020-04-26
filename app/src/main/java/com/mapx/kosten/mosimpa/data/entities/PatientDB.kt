@@ -2,7 +2,7 @@ package com.mapx.kosten.mosimpa.data.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.mapx.kosten.mosimpa.data.db.Contants.Companion.PATIENTS_TABLE
+import com.mapx.kosten.mosimpa.data.db.Constants.Companion.PATIENTS_TABLE
 
 @Entity(tableName = PATIENTS_TABLE)
 data class PatientDB(

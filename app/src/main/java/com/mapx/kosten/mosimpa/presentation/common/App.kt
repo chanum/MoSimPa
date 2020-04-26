@@ -6,6 +6,8 @@ import com.mapx.kosten.mosimpa.di.MainComponent
 import com.mapx.kosten.mosimpa.di.modules.AppModule
 import com.mapx.kosten.mosimpa.di.modules.DataModule
 import com.mapx.kosten.mosimpa.di.modules.NetworkModule
+import com.mapx.kosten.mosimpa.di.modules.internments.InternmentsModule
+import com.mapx.kosten.mosimpa.di.modules.internments.InternmentsSubComponent
 import com.mapx.kosten.mosimpa.di.modules.patients.PatientsModule
 import com.mapx.kosten.mosimpa.di.modules.patients.PatientsSubComponent
 import com.mapx.kosten.mosimpa.di.modules.sensors.SensorsModule
@@ -18,6 +20,7 @@ import com.mapx.kosten.mosimpa.di.modules.settingsPatient.SettingsPatientSubComp
 class App: Application() {
 
     lateinit var mainComponent: MainComponent
+    private var internmentsSubComponent: InternmentsSubComponent? = null
     private var patientsSubComponent: PatientsSubComponent? = null
     private var settingsSubComponent: SettingsSubComponent? = null
     private var settingsPatientSubComponent: SettingsPatientSubComponent? = null
@@ -34,6 +37,16 @@ class App: Application() {
             .networkModule(NetworkModule())
             .dataModule(DataModule())
             .build()
+    }
+
+    // Internments
+    fun createInternmentsComponent(): InternmentsSubComponent {
+        internmentsSubComponent = mainComponent.plus(InternmentsModule())
+        return internmentsSubComponent!!
+    }
+
+    fun releaseInternmentsComponent() {
+        internmentsSubComponent = null
     }
 
     // Patients

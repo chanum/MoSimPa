@@ -3,7 +3,7 @@ package com.mapx.kosten.mosimpa.data.entities
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
-import com.mapx.kosten.mosimpa.data.db.Contants.Companion.SENSOR_TEMP_TABLE
+import com.mapx.kosten.mosimpa.data.db.Constants.Companion.SENSOR_TEMP_TABLE
 
 @Entity(tableName = SENSOR_TEMP_TABLE,
     foreignKeys = [
