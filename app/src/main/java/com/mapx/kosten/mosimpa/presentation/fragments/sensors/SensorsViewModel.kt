@@ -45,7 +45,7 @@ class SensorsViewModel(
     override fun onCleared() {
         super.onCleared()
         currentInternment = InternmentEntity()
-        subscribeIdUseCase.invoke(currentInternment)
+        // subscribeIdUseCase.invoke(currentInternment)
     }
 
 }

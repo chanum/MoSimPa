@@ -5,6 +5,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mapx.kosten.mosimpa.R
+import com.mapx.kosten.mosimpa.domain.entites.SensorBloodEntity
+import com.mapx.kosten.mosimpa.domain.entites.SensorHeartEntity
+import com.mapx.kosten.mosimpa.domain.entites.SensorO2Entity
+import com.mapx.kosten.mosimpa.domain.entites.SensorTempEntity
 import com.mapx.kosten.mosimpa.presentation.entities.InternmentView
 import kotlinx.android.synthetic.main.layout_blood_item.view.*
 import kotlinx.android.synthetic.main.layout_heart_item.view.*
@@ -40,6 +44,40 @@ class InternmentsAdapter constructor(
         notifyDataSetChanged()
     }
 
+    // TODO replace with generic
+    fun setO2Value(sensor: SensorO2Entity) {
+        val idx = internments.indexOfFirst { it.id == sensor.patientId }
+        if (idx > INVALID_INDEX) {
+            internments[idx].sensorO2.spo2 = sensor.spo2
+            notifyItemChanged(idx, internments[idx])
+        }
+    }
+
+    fun setHeartValue(sensor: SensorHeartEntity) {
+        val idx = internments.indexOfFirst { it.id == sensor.patientId }
+        if (idx > INVALID_INDEX) {
+            internments[idx].sensorHeart.heartR = sensor.heartR
+            notifyItemChanged(idx, internments[idx])
+        }
+    }
+
+    fun setBloodValue(sensor: SensorBloodEntity) {
+        val idx = internments.indexOfFirst { it.id == sensor.patientId }
+        if (idx > INVALID_INDEX) {
+            internments[idx].sensorBlood.sys = sensor.sys
+            internments[idx].sensorBlood.dia = sensor.dia
+            notifyItemChanged(idx, internments[idx])
+        }
+    }
+
+    fun setTempValue(sensor: SensorTempEntity) {
+        val idx = internments.indexOfFirst { it.id == sensor.patientId }
+        if (idx > INVALID_INDEX) {
+            internments[idx].sensorTemp.temp = sensor.temp
+            notifyItemChanged(idx, internments[idx])
+        }
+    }
+
     class PatientCellViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(internmentEntity: InternmentView, listener: (InternmentView, View) -> Unit) = with(itemView) {
             tv_item_internment_patient_name.text = context.resources.getString(
@@ -72,14 +110,18 @@ class InternmentsAdapter constructor(
                 internmentEntity.deviceId
             )
 
-            tv_internment_item_o2_value.text = "11"
-            tv_internment_item_blood_dia_value.text = "22"
-            tv_internment_item_blood_sys_value.text = "33"
-            tv_internment_item_heart_value.text = "44"
-            tv_internment_item_temp_value.text = "55"
+            tv_internment_item_o2_value.text = internmentEntity.sensorO2.spo2.toString()
+            tv_internment_item_blood_dia_value.text = internmentEntity.sensorBlood.dia.toString()
+            tv_internment_item_blood_sys_value.text = internmentEntity.sensorBlood.sys.toString()
+            tv_internment_item_heart_value.text = internmentEntity.sensorHeart.heartR.toString()
+            tv_internment_item_temp_value.text = internmentEntity.sensorTemp.temp.toString()
 
             setOnClickListener { listener(internmentEntity, itemView) }
         }
+    }
+
+    companion object {
+        private const val INVALID_INDEX = -1
     }
 }
 

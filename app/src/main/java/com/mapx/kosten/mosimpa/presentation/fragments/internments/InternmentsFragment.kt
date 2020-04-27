@@ -140,24 +140,18 @@ class InternmentsFragment : Fragment() {
     }
 
     private fun handleViewSensorO2State(sensor: SensorO2Entity) {
-       /* val index = SensorsFragment.SENSOR_O2_IDX
-        if (index > SensorsFragment.INVALID_SENSOR) {
-            val item = adapter.internments.find { it.id == sensor.patientId }
-            item.id = Constants.SENSOR_O2_ID
-            item.value = sensor.spo2
-            adapter.notifyItemChanged(index, item)
-        }*/
+        adapter.setO2Value(sensor)
     }
 
     private fun handleViewSensorHeartState(sensor: SensorHeartEntity) {
-
+        adapter.setHeartValue(sensor)
     }
 
     private fun handleViewSensorBloodState(sensor: SensorBloodEntity) {
-
+        adapter.setBloodValue(sensor)
     }
 
     private fun handleViewSensorTempState(sensor: SensorTempEntity) {
-
+        adapter.setTempValue(sensor)
     }
 }
