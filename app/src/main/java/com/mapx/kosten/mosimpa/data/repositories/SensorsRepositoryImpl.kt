@@ -11,7 +11,12 @@ import com.mapx.kosten.mosimpa.data.entities.*
 import com.mapx.kosten.mosimpa.data.mappers.*
 import com.mapx.kosten.mosimpa.data.preferences.BrokerIpPreferenceImpl
 import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.DEFAULT_MAC_ADDRESS
+import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_BLOOD_ID
+import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_HEART_ID
+import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_O2_ID
+import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_TEMPERATURE_ID
 import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SERVER_URI_PREFIX
+import com.mapx.kosten.mosimpa.domain.common.Utils.Companion.scaleSensorValueByID
 import com.mapx.kosten.mosimpa.domain.data.SensorsRepository
 import com.mapx.kosten.mosimpa.domain.entites.*
 import kotlinx.coroutines.CoroutineScope
@@ -234,7 +239,7 @@ class SensorsRepositoryImpl(
                 id = 0,
                 patient_id = currentPatient.id,
                 time = sensorList.spo2[0].time,
-                spo2 = sensorList.spo2[0].spO2,
+                spo2 = scaleSensorValueByID(SENSOR_O2_ID, sensorList.spo2[0].spO2),
                 r = sensorList.spo2[0].r
             )
             saveO2Sensor(sensorO2DB)
@@ -244,8 +249,8 @@ class SensorsRepositoryImpl(
                 id = 0,
                 patient_id = currentPatient.id,
                 time = sensorList.bloodP[0].time,
-                sys = sensorList.bloodP[0].sys,
-                dia = sensorList.bloodP[0].dia
+                sys = scaleSensorValueByID(SENSOR_BLOOD_ID, sensorList.bloodP[0].sys.toFloat()).toInt(),
+                dia = scaleSensorValueByID(SENSOR_BLOOD_ID, sensorList.bloodP[0].dia.toFloat()).toInt()
             )
             saveBloodSensor(sensorBloodDB)
         } else if (jsonObject.has(SENSOR_HEART_JSON_KEY)) {
@@ -254,7 +259,7 @@ class SensorsRepositoryImpl(
                 id = 0,
                 patient_id = currentPatient.id,
                 time = sensorList.heartR[0].time,
-                heartR = sensorList.heartR[0].heartR,
+                heartR = scaleSensorValueByID(SENSOR_HEART_ID, sensorList.heartR[0].heartR.toFloat()).toInt(),
                 HR_AR = sensorList.heartR[0].HR_AR
             )
             saveHeartSensor(sensorHeartDB)
@@ -264,7 +269,7 @@ class SensorsRepositoryImpl(
                 id = 0,
                 patient_id = currentPatient.id,
                 time = sensorList.bodyT[0].time,
-                temp = sensorList.bodyT[0].temp
+                temp = scaleSensorValueByID(SENSOR_TEMPERATURE_ID, sensorList.bodyT[0].temp)
             )
             saveTempSensor(sensorTempDB)
         }

@@ -5,10 +5,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mapx.kosten.mosimpa.R
+import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_BLOOD_ID
+import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_HEART_ID
+import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_O2_ID
+import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_TEMPERATURE_ID
 import com.mapx.kosten.mosimpa.domain.entites.SensorBloodEntity
 import com.mapx.kosten.mosimpa.domain.entites.SensorHeartEntity
 import com.mapx.kosten.mosimpa.domain.entites.SensorO2Entity
 import com.mapx.kosten.mosimpa.domain.entites.SensorTempEntity
+import com.mapx.kosten.mosimpa.presentation.common.Utils.Companion.getSensorStringValue
 import com.mapx.kosten.mosimpa.presentation.entities.InternmentView
 import kotlinx.android.synthetic.main.layout_blood_item.view.*
 import kotlinx.android.synthetic.main.layout_heart_item.view.*
@@ -110,11 +115,11 @@ class InternmentsAdapter constructor(
                 internmentEntity.deviceId
             )
 
-            tv_internment_item_o2_value.text = internmentEntity.sensorO2.spo2.toString()
-            tv_internment_item_blood_dia_value.text = internmentEntity.sensorBlood.dia.toString()
-            tv_internment_item_blood_sys_value.text = internmentEntity.sensorBlood.sys.toString()
-            tv_internment_item_heart_value.text = internmentEntity.sensorHeart.heartR.toString()
-            tv_internment_item_temp_value.text = internmentEntity.sensorTemp.temp.toString()
+            tv_internment_item_o2_value.text = getSensorStringValue(SENSOR_O2_ID, internmentEntity.sensorO2.spo2)
+            tv_internment_item_blood_dia_value.text = getSensorStringValue(SENSOR_BLOOD_ID, internmentEntity.sensorBlood.dia.toFloat())
+            tv_internment_item_blood_sys_value.text = getSensorStringValue(SENSOR_BLOOD_ID, internmentEntity.sensorBlood.sys.toFloat())
+            tv_internment_item_heart_value.text = getSensorStringValue(SENSOR_HEART_ID, internmentEntity.sensorHeart.heartR.toFloat())
+            tv_internment_item_temp_value.text = getSensorStringValue(SENSOR_TEMPERATURE_ID, internmentEntity.sensorTemp.temp)
 
             setOnClickListener { listener(internmentEntity, itemView) }
         }

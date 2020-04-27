@@ -9,10 +9,11 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.mapx.kosten.mosimpa.R
+import com.mapx.kosten.mosimpa.domain.common.Utils.Companion.scaleSensorValueByID
 import com.mapx.kosten.mosimpa.domain.entites.SensorEntity
+import com.mapx.kosten.mosimpa.presentation.common.Utils.Companion.getSensorStringValue
 import com.mapx.kosten.mosimpa.presentation.common.Utils.Companion.getSensorSufixByID
 import com.mapx.kosten.mosimpa.presentation.common.Utils.Companion.getSensorValueColorByID
-import com.mapx.kosten.mosimpa.presentation.common.Utils.Companion.scaleSensorValueByID
 import kotlinx.android.synthetic.main.layout_sensor_item.view.*
 
 
@@ -54,12 +55,11 @@ class SensorsAdapter constructor(
 
         fun bind(sensor: SensorEntity, listener: (SensorEntity, View) -> Unit) = with(itemView) {
             tv_item_sensor_title.text = sensor.name
-            val convertValue = scaleSensorValueByID(sensor.id, sensor.value)
-            tv_item_sensor_value.text = "%.2f".format(convertValue) + getSensorSufixByID(sensor.id)
+            tv_item_sensor_value.text = getSensorStringValue(sensor.id, sensor.value)
             tv_item_sensor_value.setTextColor(
                 ContextCompat.getColor(
                     context,
-                    getSensorValueColorByID(sensor.id, convertValue)
+                    getSensorValueColorByID(sensor.id, sensor.value)
                 )
             )
 
