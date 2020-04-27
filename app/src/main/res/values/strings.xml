@@ -1,9 +1,6 @@
 <resources>
     <string name="app_name">MoSimPa</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
     <!-- Bottom navigation -->
     <string name="bottom_menu_main">Pacientes</string>
     <string name="bottom_menu_settings">Configuración</string>
@@ -16,15 +13,6 @@
     <string name="nav_label_settings_patient">Editar</string>
     <string name="nav_label_sensors">Monitor</string>
     <string name="nav_label_info">Información</string>
-
-    <!-- Patient Adapter -->
-    <string name="patient_item_title">Paciente</string>
-    <string name="patient_item_id">"Id: 1234567890"</string>
-    <string name="patient_item_sex">Sexo: %1$s</string>
-    <string name="patient_item_bed">Cama: %1$s</string>
-    <string name="patient_item_status">-----</string>
-    <string name="patient_item_date">15 feb. 2020</string>
-    <string name="patient_item_prefix">"Id: %1$s"</string>
 
     <!-- Internment Adapter -->
     <string name="internment_item_patient_name">%1$s %2$s</string>
@@ -48,30 +36,15 @@
     <!-- Internments Fragment -->
     <string name="internments_progress">No hay internaciones cargadas</string>
 
-    <!-- Patient Fragment -->
-    <string name="patients_progress">No hay pacientes cargados</string>
-
     <!-- Settings Item  -->
     <string name="settings_patient_item_name">Juan Carlos Perez</string>
     <string name="settings_patient_item_id">1234567890123</string>
 
     <!-- Settings -->
-    <string name="settings_progress">No hay pacientes cargados</string>
     <string name="settings_title_broker_ip">Broker IP</string>
     <string name="settings_hint_broker_ip">192.168.0.83</string>
     <string name="settings_ip_saved">Broker ip guardada</string>
-
-    <!-- Settings Patient -->
-    <string name="settings_patient_title">Agregar Paciente</string>
-    <string name="settings_patient_hint_name">Nombre</string>
-    <string name="settings_patient_hint_id">Id</string>
-    <string name="settings_patient_save_btn">Guardar</string>
-    <string name="settings_patient_cancel_btn">Cancelar</string>
-    <string name="settings_patient_delete_btn">Eliminar</string>
-    <string name="settings_patient_error_name">Nombre inválido</string>
-    <string name="settings_patient_error_id">Id inválido</string>
-    <string name="settings_patient_error_save">Error Guardar Paciente</string>
-    <string name="settings_patient_error">Error</string>
+    <string name="settings_ip_save_btn">Guardar</string>
 
     <!-- Sensor Item -->
     <string name="sensor_item_title">Pulsaciones</string>
