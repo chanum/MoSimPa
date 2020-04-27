@@ -8,17 +8,27 @@ import com.mapx.kosten.mosimpa.domain.interactors.patient.GetInternmentsUseCase
 import com.mapx.kosten.mosimpa.domain.interactors.patient.GetPatientsUseCase
 import com.mapx.kosten.mosimpa.domain.interactors.patient.ObservePatientsUseCase
 import com.mapx.kosten.mosimpa.domain.interactors.patient.SavePatientUseCase
-import com.mapx.kosten.mosimpa.domain.interactors.sensor.ConnectClientMqttUseCase
+import com.mapx.kosten.mosimpa.domain.interactors.sensor.*
 
 class InternmentsViewModelFactory (
     private val connectClientMqttUseCase: ConnectClientMqttUseCase,
-    private val getInternmentsUseCase: GetInternmentsUseCase
+    private val getInternmentsUseCase: GetInternmentsUseCase,
+    private val subscribeIdUseCase: SubscribeIdUseCase,
+    private val getO2DataUseCase: GetSensorO2DataUseCase,
+    private val getBloodDataUseCase: GetSensorBloodDataUseCase,
+    private val getHeartDataUseCase: GetSensorHeartDataUseCase,
+    private val getTempDataUseCase: GetSensorTempDataUseCase
     ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return InternmentsViewModel(
             connectClientMqttUseCase,
-            getInternmentsUseCase
+            getInternmentsUseCase,
+            subscribeIdUseCase,
+            getO2DataUseCase,
+            getBloodDataUseCase,
+            getHeartDataUseCase,
+            getTempDataUseCase
         ) as T
     }
 }

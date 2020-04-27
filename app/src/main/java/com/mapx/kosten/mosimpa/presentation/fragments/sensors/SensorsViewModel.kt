@@ -32,7 +32,6 @@ class SensorsViewModel(
     var sensorHeartValue: LiveData<SensorHeartEntity> = getHeartDataUseCase.invoke(currentInternment)
     var sensorTempValue: LiveData<SensorTempEntity> = getTempDataUseCase.invoke(currentInternment)
 
-
     fun subscribePatient(id: Long) {
         var deviceId = ""
         viewModelScope.launch {

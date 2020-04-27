@@ -35,15 +35,15 @@
     <string name="internments_item_location_type">%1$s</string>
     <string name="internments_item_device_id">Device Id: %1$s</string>
 
-    <string name="patient_item_o2_title">Sat. Oxígeno:</string>
-    <string name="patient_item_o2_value">92 %</string>
-    <string name="patient_item_heart_title">Frec. Cardíaca:</string>
-    <string name="patient_item_heart_value">110 bpm</string>
-    <string name="patient_item_blood_title">Presión Sang:</string>
-    <string name="patient_item_blood_sys_value">114 Sys</string>
-    <string name="patient_item_blood_dia_value">89 Dia</string>
-    <string name="patient_item_temp_title">Temp. Corporal:</string>
-    <string name="patient_item_temp_value">28 ºC</string>
+    <string name="internments_item_o2_title">Sat. Oxígeno:</string>
+    <string name="internments_item_o2_value">92 %</string>
+    <string name="internments_item_heart_title">Frec. Cardíaca:</string>
+    <string name="internments_item_heart_value">110 bpm</string>
+    <string name="internments_item_blood_title">Presión Sang:</string>
+    <string name="internments_item_blood_sys_value">114 Sys</string>
+    <string name="internments_item_blood_dia_value">89 Dia</string>
+    <string name="internments_item_temp_title">Temp. Corporal:</string>
+    <string name="internments_item_temp_value">28 ºC</string>
 
     <!-- Internments Fragment -->
     <string name="internments_progress">No hay internaciones cargadas</string>

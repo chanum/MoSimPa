@@ -19,9 +19,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mapx.kosten.mosimpa.R
 import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.DEFAULT_MAC_ADDRESS
-import com.mapx.kosten.mosimpa.domain.entites.InternmentEntity
+import com.mapx.kosten.mosimpa.domain.entites.*
 import com.mapx.kosten.mosimpa.presentation.common.App
 import com.mapx.kosten.mosimpa.presentation.common.Utils.Companion.INVALID_PATIENT_ID
+import com.mapx.kosten.mosimpa.presentation.entities.InternmentView
 import javax.inject.Inject
 
 class InternmentsFragment : Fragment() {
@@ -52,10 +53,22 @@ class InternmentsFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        macAddress = getMacAddress(context)
         viewModel.internments.observe(viewLifecycleOwner, Observer {
             if (it != null) handleInternments(it)
         })
-        macAddress = getMacAddress(context)
+        viewModel.sensorO2Value.observe(viewLifecycleOwner, Observer {
+            it?.let{ handleViewSensorO2State(it) }
+        })
+        viewModel.sensorBloodValue.observe(viewLifecycleOwner, Observer {
+            it?.let{ handleViewSensorBloodState(it) }
+        })
+        viewModel.sensorHeartValue.observe(viewLifecycleOwner, Observer {
+            it?.let{ handleViewSensorHeartState(it) }
+        })
+        viewModel.sensorTempValue.observe(viewLifecycleOwner, Observer {
+            it?.let{ handleViewSensorTempState(it) }
+        })
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -88,18 +101,21 @@ class InternmentsFragment : Fragment() {
         (activity?.application as App).releaseInternmentsComponent()
     }
 
-    private fun handleInternments(internments: List<InternmentEntity>) {
+    private fun handleInternments(internments: List<InternmentView>) {
         progressBar.visibility = View.GONE
         emptyMessage.visibility = View.GONE
         if (internments.isEmpty()) {
             emptyMessage.visibility = View.VISIBLE
         }
         adapter.setPatients(internments)
+        internments.forEach {
+            viewModel.subscribePatient(it)
+        }
     }
 
-    private fun goToDetailView(internmentEntity: InternmentEntity, view: View) {
-        Log.i(javaClass.simpleName, "goToDetailView(): $internmentEntity")
-        if (internmentEntity.id > INVALID_PATIENT_ID) goToDetails(internmentEntity.id)
+    private fun goToDetailView(internment: InternmentView, view: View) {
+        Log.i(javaClass.simpleName, "goToDetailView(): $internment")
+        if (internment.id > INVALID_PATIENT_ID) goToDetails(internment.id)
     }
 
     private fun goToDetails(id: Long) {
@@ -119,7 +135,29 @@ class InternmentsFragment : Fragment() {
             val info = manager.connectionInfo
             mac = info.macAddress.toUpperCase()
         }
-        return mac.replace(":","")
+        //return mac.replace(":","")
+        return "aabbccddeeff"
     }
 
+    private fun handleViewSensorO2State(sensor: SensorO2Entity) {
+       /* val index = SensorsFragment.SENSOR_O2_IDX
+        if (index > SensorsFragment.INVALID_SENSOR) {
+            val item = adapter.internments.find { it.id == sensor.patientId }
+            item.id = Constants.SENSOR_O2_ID
+            item.value = sensor.spo2
+            adapter.notifyItemChanged(index, item)
+        }*/
+    }
+
+    private fun handleViewSensorHeartState(sensor: SensorHeartEntity) {
+
+    }
+
+    private fun handleViewSensorBloodState(sensor: SensorBloodEntity) {
+
+    }
+
+    private fun handleViewSensorTempState(sensor: SensorTempEntity) {
+
+    }
 }
