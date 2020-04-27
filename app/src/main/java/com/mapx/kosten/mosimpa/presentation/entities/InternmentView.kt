@@ -5,7 +5,7 @@ import com.mapx.kosten.mosimpa.domain.entites.*
 data class InternmentView(
     var id: Long = -1,
     var deviceId: String = "",
-    var patient: Patient2Entity = Patient2Entity(),
+    var patient: PatientEntity = PatientEntity(),
     var alarms: AlarmsEntity = AlarmsEntity(),
     var location: LocationEntity = LocationEntity(),
     var sensorO2: SensorO2Entity = SensorO2Entity(),

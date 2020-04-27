@@ -37,8 +37,6 @@ class SensorsRepositoryImpl(
     private val sensorTempDao: SensorTempDao = database.sensorTempDao()
 
     private val internmentsDao: InternmentsDao = database.internmentDao()
-    private val locationDao: LocationDao = database.locationDao()
-    private val patients2Dao: Patients2Dao = database.patients2Dao()
 
     private val mapperO2DBtoEntity = SensorO2DataToEntityMapper()
     private val mapperHeartDBtoEntity = SensorHeartDataToEntityMapper()

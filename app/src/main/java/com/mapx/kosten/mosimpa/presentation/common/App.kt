@@ -8,22 +8,16 @@ import com.mapx.kosten.mosimpa.di.modules.DataModule
 import com.mapx.kosten.mosimpa.di.modules.NetworkModule
 import com.mapx.kosten.mosimpa.di.modules.internments.InternmentsModule
 import com.mapx.kosten.mosimpa.di.modules.internments.InternmentsSubComponent
-import com.mapx.kosten.mosimpa.di.modules.patients.PatientsModule
-import com.mapx.kosten.mosimpa.di.modules.patients.PatientsSubComponent
 import com.mapx.kosten.mosimpa.di.modules.sensors.SensorsModule
 import com.mapx.kosten.mosimpa.di.modules.sensors.SensorsSubComponent
 import com.mapx.kosten.mosimpa.di.modules.settings.SettingsModule
 import com.mapx.kosten.mosimpa.di.modules.settings.SettingsSubComponent
-import com.mapx.kosten.mosimpa.di.modules.settingsPatient.SettingsPatientModule
-import com.mapx.kosten.mosimpa.di.modules.settingsPatient.SettingsPatientSubComponent
 
 class App: Application() {
 
     lateinit var mainComponent: MainComponent
     private var internmentsSubComponent: InternmentsSubComponent? = null
-    private var patientsSubComponent: PatientsSubComponent? = null
     private var settingsSubComponent: SettingsSubComponent? = null
-    private var settingsPatientSubComponent: SettingsPatientSubComponent? = null
     private var sensorsSubComponent: SensorsSubComponent? = null
 
     override fun onCreate() {
@@ -49,16 +43,6 @@ class App: Application() {
         internmentsSubComponent = null
     }
 
-    // Patients
-    fun createPatientsComponent(): PatientsSubComponent {
-        patientsSubComponent = mainComponent.plus(PatientsModule())
-        return patientsSubComponent!!
-    }
-
-    fun releasePatientsComponent() {
-        patientsSubComponent = null
-    }
-
     // Settings
     fun createSettingsComponent(): SettingsSubComponent {
         settingsSubComponent = mainComponent.plus(SettingsModule())
@@ -67,16 +51,6 @@ class App: Application() {
 
     fun releaseSettingsComponent() {
         settingsSubComponent = null
-    }
-
-    // Settings Patient
-    fun createSettingsPatientComponent(): SettingsPatientSubComponent {
-        settingsPatientSubComponent = mainComponent.plus(SettingsPatientModule())
-        return settingsPatientSubComponent!!
-    }
-
-    fun releaseSettingsPatientComponent() {
-        settingsPatientSubComponent = null
     }
 
     // Sensors

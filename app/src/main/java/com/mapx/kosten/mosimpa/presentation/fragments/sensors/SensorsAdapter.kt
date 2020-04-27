@@ -9,10 +9,8 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.mapx.kosten.mosimpa.R
-import com.mapx.kosten.mosimpa.domain.common.Utils.Companion.scaleSensorValueByID
 import com.mapx.kosten.mosimpa.domain.entites.SensorEntity
 import com.mapx.kosten.mosimpa.presentation.common.Utils.Companion.getSensorStringValue
-import com.mapx.kosten.mosimpa.presentation.common.Utils.Companion.getSensorSufixByID
 import com.mapx.kosten.mosimpa.presentation.common.Utils.Companion.getSensorValueColorByID
 import kotlinx.android.synthetic.main.layout_sensor_item.view.*
 
