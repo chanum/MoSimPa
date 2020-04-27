@@ -19,7 +19,7 @@ class SensorsAdapter constructor(
     private val onSensorSelected: (SensorEntity, View) -> Unit
 ) : RecyclerView.Adapter<SensorsAdapter.SensorCellViewHolder>() {
 
-    var sensorEntities: List<SensorEntity> = mutableListOf()
+    private var sensorEntities: List<SensorEntity> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SensorCellViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(
@@ -41,6 +41,12 @@ class SensorsAdapter constructor(
     fun setSensors(sensors: List<SensorEntity>) {
         this.sensorEntities = sensors
         notifyDataSetChanged()
+    }
+
+    fun updateSensorValue(index: Int, value: Float) {
+        val item = sensorEntities[index]
+        item.value = value
+        notifyItemChanged(index, item)
     }
 
     class SensorCellViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

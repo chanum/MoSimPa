@@ -105,43 +105,19 @@ class SensorsFragment : Fragment() {
     }
 
     private fun handleViewSensorO2State(sensor: SensorO2Entity) {
-        val index = SENSOR_O2_IDX
-        if (index > INVALID_SENSOR) {
-            val item = adapter.sensorEntities[index]
-            item.id = SENSOR_O2_ID
-            item.value = sensor.spo2
-            adapter.notifyItemChanged(index, item)
-        }
+        adapter.updateSensorValue(SENSOR_O2_IDX, sensor.spo2)
     }
 
     private fun handleViewSensorHeartState(sensor: SensorHeartEntity) {
-        val index = SENSOR_HEART_IDX
-        if (index > INVALID_SENSOR) {
-            val item = adapter.sensorEntities[index]
-            item.id = SENSOR_HEART_ID
-            item.value = sensor.heartR.toFloat()
-            adapter.notifyItemChanged(index, item)
-        }
+        adapter.updateSensorValue(SENSOR_HEART_IDX, sensor.heartR.toFloat())
     }
 
     private fun handleViewSensorBloodState(sensor: SensorBloodEntity) {
-        val index = SENSOR_BLOOD_IDX
-        if (index > INVALID_SENSOR) {
-            val item = adapter.sensorEntities[index]
-            item.id = SENSOR_BLOOD_ID
-            item.value = sensor.sys.toFloat()
-            adapter.notifyItemChanged(index, item)
-        }
+        adapter.updateSensorValue(SENSOR_BLOOD_IDX, sensor.sys.toFloat())
     }
 
     private fun handleViewSensorTempState(sensor: SensorTempEntity) {
-        val index = SENSOR_TEMPERATURE_IDX
-        if (index > INVALID_SENSOR) {
-            val item = adapter.sensorEntities[index]
-            item.id = SENSOR_TEMPERATURE_ID
-            item.value = sensor.temp
-            adapter.notifyItemChanged(index, item)
-        }
+        adapter.updateSensorValue(SENSOR_TEMPERATURE_IDX, sensor.temp)
     }
 
     private fun goToDetailView(sensorEntity: SensorEntity, view: View) {
@@ -182,7 +158,6 @@ class SensorsFragment : Fragment() {
     }
 
     companion object {
-        const val INVALID_SENSOR = -1
         const val SENSOR_O2_IDX = 0
         const val SENSOR_HEART_IDX = 1
         const val SENSOR_BLOOD_IDX = 2

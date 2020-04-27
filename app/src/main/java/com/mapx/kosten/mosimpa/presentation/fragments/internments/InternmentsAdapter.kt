@@ -3,6 +3,7 @@ package com.mapx.kosten.mosimpa.presentation.fragments.internments
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.mapx.kosten.mosimpa.R
 import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_BLOOD_ID
@@ -13,6 +14,7 @@ import com.mapx.kosten.mosimpa.domain.entites.SensorBloodEntity
 import com.mapx.kosten.mosimpa.domain.entites.SensorHeartEntity
 import com.mapx.kosten.mosimpa.domain.entites.SensorO2Entity
 import com.mapx.kosten.mosimpa.domain.entites.SensorTempEntity
+import com.mapx.kosten.mosimpa.presentation.common.Utils
 import com.mapx.kosten.mosimpa.presentation.common.Utils.Companion.getSensorStringValue
 import com.mapx.kosten.mosimpa.presentation.entities.InternmentView
 import kotlinx.android.synthetic.main.layout_blood_item.view.*
@@ -25,7 +27,7 @@ class InternmentsAdapter constructor(
     private val onPatientSelected: (InternmentView, View) -> Unit
 ) : RecyclerView.Adapter<InternmentsAdapter.PatientCellViewHolder>() {
 
-    var internments: List<InternmentView> = listOf()
+    private var internments: List<InternmentView> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PatientCellViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(
@@ -116,11 +118,35 @@ class InternmentsAdapter constructor(
             )
 
             tv_internment_item_o2_value.text = getSensorStringValue(SENSOR_O2_ID, internmentEntity.sensorO2.spo2)
+            tv_internment_item_o2_value.setTextColor(
+                ContextCompat.getColor(
+                context,
+                    Utils.getSensorValueColorByID(SENSOR_O2_ID, internmentEntity.sensorO2.spo2)
+            ))
             tv_internment_item_blood_dia_value.text = getSensorStringValue(SENSOR_BLOOD_ID, internmentEntity.sensorBlood.dia.toFloat())
+            tv_internment_item_blood_dia_value.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    Utils.getSensorValueColorByID(SENSOR_BLOOD_ID, internmentEntity.sensorO2.spo2)
+                ))
             tv_internment_item_blood_sys_value.text = getSensorStringValue(SENSOR_BLOOD_ID, internmentEntity.sensorBlood.sys.toFloat())
+            tv_internment_item_blood_sys_value.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    Utils.getSensorValueColorByID(SENSOR_BLOOD_ID, internmentEntity.sensorO2.spo2)
+                ))
             tv_internment_item_heart_value.text = getSensorStringValue(SENSOR_HEART_ID, internmentEntity.sensorHeart.heartR.toFloat())
+            tv_internment_item_heart_value.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    Utils.getSensorValueColorByID(SENSOR_HEART_ID, internmentEntity.sensorO2.spo2)
+                ))
             tv_internment_item_temp_value.text = getSensorStringValue(SENSOR_TEMPERATURE_ID, internmentEntity.sensorTemp.temp)
-
+            tv_internment_item_temp_value.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    Utils.getSensorValueColorByID(SENSOR_TEMPERATURE_ID, internmentEntity.sensorO2.spo2)
+                ))
             setOnClickListener { listener(internmentEntity, itemView) }
         }
     }
