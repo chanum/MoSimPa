@@ -2,7 +2,7 @@ package com.mapx.kosten.mosimpa.presentation.fragments.sensors
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.mapx.kosten.mosimpa.domain.interactors.patient.GetDeviceIdByInternmentId
+import com.mapx.kosten.mosimpa.domain.interactors.internments.GetDeviceIdByInternmentId
 import com.mapx.kosten.mosimpa.domain.interactors.sensor.*
 
 class SensorsViewModelFactory(

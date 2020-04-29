@@ -41,7 +41,7 @@ class Utils {
             return when(id) {
                 SENSOR_O2_ID -> "%.1f".format(value) + " %"
                 SENSOR_HEART_ID -> "%.0f".format(value) + " Lpm"
-                SENSOR_BLOOD_ID -> "%.0f".format(value)
+                SENSOR_BLOOD_ID -> "%.0f".format(value) + " Sys"
                 SENSOR_TEMPERATURE_ID -> "%.1f".format(value) + " °C"
                 else -> EMPTY_STRING
             }

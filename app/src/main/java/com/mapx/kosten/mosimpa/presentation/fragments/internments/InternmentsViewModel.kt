@@ -4,8 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.MQTT_CONNECTION_OK
 import com.mapx.kosten.mosimpa.domain.entites.*
-import com.mapx.kosten.mosimpa.domain.interactors.patient.GetInternmentsUseCase
+import com.mapx.kosten.mosimpa.domain.interactors.internments.GetInternmentsUseCase
 import com.mapx.kosten.mosimpa.domain.interactors.sensor.*
 import com.mapx.kosten.mosimpa.presentation.entities.InternmentView
 import com.mapx.kosten.mosimpa.presentation.mappers.InternmentEntityToViewMapper
@@ -14,6 +15,7 @@ import kotlinx.coroutines.launch
 class InternmentsViewModel(
     private val connectClientMqttUseCase: ConnectClientMqttUseCase,
     private val getInternmentsUseCase: GetInternmentsUseCase,
+    private val updateInternmentsUseCase: UpdateInternmentsUseCase,
     private val subscribeIdUseCase: SubscribeIdUseCase,
     private val getO2DataUseCase: GetSensorO2DataUseCase,
     private val getBloodDataUseCase: GetSensorBloodDataUseCase,
@@ -33,16 +35,19 @@ class InternmentsViewModel(
     var sensorHeartValue: LiveData<SensorHeartEntity> = getHeartDataUseCase.invoke(currentInternment)
     var sensorTempValue: LiveData<SensorTempEntity> = getTempDataUseCase.invoke(currentInternment)
 
-
-    init {
-        // currentInternment = InternmentEntity()
-    }
-
-
     fun connectAndSubscribeToAll(mac: String) {
         viewModelScope.launch {
-            connectClientMqttUseCase.invoke(mac)
+            val status = connectClientMqttUseCase.invoke(mac)
+            if (status.equals(MQTT_CONNECTION_OK)) {
+                refreshInternments()
+            } else {
+                // TODO error connection
+            }
         }
+    }
+
+    fun refreshInternments() {
+        updateInternmentsUseCase.invoke()
     }
 
     fun subscribePatient(internment: InternmentView) {

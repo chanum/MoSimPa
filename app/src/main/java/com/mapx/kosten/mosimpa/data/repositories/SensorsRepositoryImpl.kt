@@ -11,6 +11,7 @@ import com.mapx.kosten.mosimpa.data.entities.*
 import com.mapx.kosten.mosimpa.data.mappers.*
 import com.mapx.kosten.mosimpa.data.preferences.BrokerIpPreferenceImpl
 import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.DEFAULT_MAC_ADDRESS
+import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.MQTT_CONNECTION_OK
 import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_BLOOD_ID
 import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_HEART_ID
 import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_O2_ID
@@ -25,6 +26,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.eclipse.paho.client.mqttv3.MqttMessage
 import org.json.JSONObject
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 class SensorsRepositoryImpl(
     private val context: Context,
@@ -59,22 +62,13 @@ class SensorsRepositoryImpl(
     private var devices = mutableListOf<String>()
     val deviceList: MutableLiveData<String> = MutableLiveData()
 
-    private var updatePatientsFlag = false
-    private var updatePatientsFlag2 = false
+    private var updatePatientsFlag = true
 
     override fun observeDevices(): LiveData<String> {
         return deviceList
     }
 
     /* ---------------------------------------------------------------------------------------*/
-//    override fun getO2Data(patient: PatientEntity) = liveData<SensorO2Entity?> {
-//        emitSource(
-//            Transformations.map(sensorO2Dao.getData()) {
-//                it?.let { mapperO2DBtoEntity.mapFrom(it) }
-//            }
-//        )
-//    }
-
     override fun getO2Data(internment: InternmentEntity): LiveData<SensorO2Entity> {
         currentPatient = internment
         return Transformations.map(sensorO2Dao.getData()) {
@@ -104,24 +98,26 @@ class SensorsRepositoryImpl(
     }
 
     /* ---------------------------------------------------------------------------------------*/
-    override suspend fun connectMqtt(mac: String) {
+    override suspend fun connectMqtt(mac: String): String {
         macAddress = mac
-        withContext(Dispatchers.IO) {
+        return withContext(Dispatchers.IO) {
+            var status = ""
             val url = getBrokerIp()
             if (::mqttClient.isInitialized) {
                 if (isANewUrl(url)) {
                     mqttClient.close()
-                    connectAndSubscribe(url)
+                    status = connectAndSubscribe(url)
                 }
             } else {
-                connectAndSubscribe(url)
+                status = connectAndSubscribe(url)
             }
+            status
         }
     }
 
-    private suspend fun connectAndSubscribe(url: String) {
+    private suspend fun connectAndSubscribe(url: String): String {
         mqttClient = MqttClient(context, url)
-        subscribeToAll()
+        return subscribeToAll()
     }
 
     private fun isANewUrl(url: String): Boolean {
@@ -130,17 +126,32 @@ class SensorsRepositoryImpl(
     }
 
     /* ---------------------------------------------------------------------------------------*/
-    override suspend fun subscribeToAll() {
-        // withContext(Dispatchers.IO) {
-            val topic = arrayOf("monitor/$macAddress", "reads/#")
-            mqttClient.connect(topic, ::subscribeToAllRsp)
-        //}
+
+    override suspend fun subscribeToAll(): String {
+        val topics = arrayOf("monitor/$macAddress", "reads/#")
+        return suspendCoroutine { msg ->
+            mqttClient.connect(topics) { topic: String, message: MqttMessage?  ->
+                if(topic.equals(MQTT_CONNECTION_OK)) {
+                    msg.resume(topic)
+                } else {
+                   subscribeToAllRsp(topic, message)
+                }
+            }
+        }
     }
 
-    private fun subscribeToAllRsp(topic: String, message: MqttMessage) {
+    /* ---------------------------------------------------------------------------------------*/
+//    override suspend fun subscribeToAll() {
+//        // withContext(Dispatchers.IO) {
+//            val topic = arrayOf("monitor/$macAddress", "reads/#")
+//            mqttClient.connect(topic, ::subscribeToAllRsp)
+//        //}
+//    }
+
+    private fun subscribeToAllRsp(topic: String, message: MqttMessage?) {
         if (topic.startsWith("reads/")) {
             // TODO find a better way
-            updatePatients()
+            // updatePatients()
             // trim topic
             val id = topic.substring(6)
             // check if exist in the
@@ -158,16 +169,21 @@ class SensorsRepositoryImpl(
         }
     }
 
-    private fun updatePatients() {
-        // only once
-        if (!updatePatientsFlag) {
-            val topic = "datakeeper/query"
-            val msg = "{\"mac\":\"$macAddress\",\"command\":\"internments\",\"id\":\"123AABB\"}"
-            mqttClient.publishMessage(topic, msg)
-            updatePatientsFlag = true
+    override fun updateInternments() {
+        // TODO id
+        if (::mqttClient.isInitialized) {
+            //if (updatePatientsFlag) {
+                val topic = "datakeeper/query"
+                val msg = "{\"mac\":\"$macAddress\",\"command\":\"internments\",\"id\":\"123AABB\"}"
+                mqttClient.publishMessage(topic, msg)
+                // updatePatientsFlag = false
+            //}
         }
     }
 
+    private fun updatePatients() {
+        updatePatientsFlag = true
+    }
 
     /* ---------------------------------------------------------------------------------------*/
     override fun subscribeId(internment: InternmentEntity) {

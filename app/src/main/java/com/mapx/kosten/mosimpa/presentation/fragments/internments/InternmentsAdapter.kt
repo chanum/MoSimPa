@@ -123,18 +123,25 @@ class InternmentsAdapter constructor(
                 context,
                     Utils.getSensorValueColorByID(SENSOR_O2_ID, internmentEntity.sensorO2.spo2)
             ))
-            tv_internment_item_blood_dia_value.text = getSensorStringValue(SENSOR_BLOOD_ID, internmentEntity.sensorBlood.dia.toFloat())
+
+            tv_internment_item_blood_dia_value.text = context.resources.getString(
+                R.string.internments_item_blood_dia_value,
+                internmentEntity.sensorBlood.dia.toString())
             tv_internment_item_blood_dia_value.setTextColor(
                 ContextCompat.getColor(
                     context,
                     Utils.getSensorValueColorByID(SENSOR_BLOOD_ID, internmentEntity.sensorO2.spo2)
                 ))
-            tv_internment_item_blood_sys_value.text = getSensorStringValue(SENSOR_BLOOD_ID, internmentEntity.sensorBlood.sys.toFloat())
+
+            tv_internment_item_blood_sys_value.text = context.resources.getString(
+                R.string.internments_item_blood_sys_value,
+                internmentEntity.sensorBlood.sys.toString())
             tv_internment_item_blood_sys_value.setTextColor(
                 ContextCompat.getColor(
                     context,
                     Utils.getSensorValueColorByID(SENSOR_BLOOD_ID, internmentEntity.sensorO2.spo2)
                 ))
+
             tv_internment_item_heart_value.text = getSensorStringValue(SENSOR_HEART_ID, internmentEntity.sensorHeart.heartR.toFloat())
             tv_internment_item_heart_value.setTextColor(
                 ContextCompat.getColor(

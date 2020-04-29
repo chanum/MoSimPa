@@ -84,7 +84,7 @@ class InternmentsFragment : Fragment() {
         }
 
         refreshBtn.setOnClickListener{
-            updateInternments()
+            viewModel.refreshInternments()
         }
 
         recyclerView.layoutManager = LinearLayoutManager(activity)
@@ -121,10 +121,6 @@ class InternmentsFragment : Fragment() {
     private fun goToDetails(id: Long) {
        val action = InternmentsFragmentDirections.actionPatientsFragmentToSensorsFragment(id)
        findNavController().navigate(action)
-    }
-
-    private fun updateInternments() {
-        viewModel.connectAndSubscribeToAll(macAddress)
     }
 
     // TODO move to use case

@@ -1,4 +1,4 @@
-package com.mapx.kosten.mosimpa.domain.interactors.patient
+package com.mapx.kosten.mosimpa.domain.interactors.internments
 
 import com.mapx.kosten.mosimpa.domain.data.InternmentsRepository
 

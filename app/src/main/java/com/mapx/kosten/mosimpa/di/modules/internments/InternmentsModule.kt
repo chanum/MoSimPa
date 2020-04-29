@@ -2,7 +2,7 @@ package com.mapx.kosten.mosimpa.di.modules.internments
 
 import com.mapx.kosten.mosimpa.domain.data.InternmentsRepository
 import com.mapx.kosten.mosimpa.domain.data.SensorsRepository
-import com.mapx.kosten.mosimpa.domain.interactors.patient.GetInternmentsUseCase
+import com.mapx.kosten.mosimpa.domain.interactors.internments.GetInternmentsUseCase
 import com.mapx.kosten.mosimpa.domain.interactors.sensor.*
 import com.mapx.kosten.mosimpa.presentation.fragments.internments.InternmentsViewModelFactory
 import dagger.Module
@@ -22,6 +22,13 @@ class InternmentsModule {
     fun provideGetInternmentsUseCase(internmentsRepository: InternmentsRepository): GetInternmentsUseCase {
         return GetInternmentsUseCase(
             internmentsRepository
+        )
+    }
+
+    @Provides
+    fun provideUpdateInternmentsUseCase(sensorsRepository: SensorsRepository): UpdateInternmentsUseCase {
+        return UpdateInternmentsUseCase(
+            sensorsRepository
         )
     }
 
@@ -65,6 +72,7 @@ class InternmentsModule {
         connectClientMqttUseCase: ConnectClientMqttUseCase,
         getInternmentsUseCase: GetInternmentsUseCase,
         subscribeIdUseCase: SubscribeIdUseCase,
+        updateInternmentsUseCase: UpdateInternmentsUseCase,
         getSensorO2DataUseCase: GetSensorO2DataUseCase,
         getSensorBloodDataUseCase: GetSensorBloodDataUseCase,
         getSensorHeartDataUseCase: GetSensorHeartDataUseCase,
@@ -73,6 +81,7 @@ class InternmentsModule {
         return InternmentsViewModelFactory(
             connectClientMqttUseCase,
             getInternmentsUseCase,
+            updateInternmentsUseCase,
             subscribeIdUseCase,
             getSensorO2DataUseCase,
             getSensorBloodDataUseCase,

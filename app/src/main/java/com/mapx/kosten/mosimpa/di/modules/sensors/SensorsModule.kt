@@ -2,7 +2,7 @@ package com.mapx.kosten.mosimpa.di.modules.sensors
 
 import com.mapx.kosten.mosimpa.domain.data.InternmentsRepository
 import com.mapx.kosten.mosimpa.domain.data.SensorsRepository
-import com.mapx.kosten.mosimpa.domain.interactors.patient.GetDeviceIdByInternmentId
+import com.mapx.kosten.mosimpa.domain.interactors.internments.GetDeviceIdByInternmentId
 import com.mapx.kosten.mosimpa.domain.interactors.sensor.*
 import com.mapx.kosten.mosimpa.presentation.fragments.sensors.SensorsViewModelFactory
 import dagger.Module

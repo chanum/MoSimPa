@@ -2,7 +2,7 @@ package com.mapx.kosten.mosimpa.presentation.fragments.sensors
 
 import androidx.lifecycle.*
 import com.mapx.kosten.mosimpa.domain.entites.*
-import com.mapx.kosten.mosimpa.domain.interactors.patient.GetDeviceIdByInternmentId
+import com.mapx.kosten.mosimpa.domain.interactors.internments.GetDeviceIdByInternmentId
 import com.mapx.kosten.mosimpa.domain.interactors.sensor.*
 import com.mapx.kosten.mosimpa.presentation.common.SingleLiveEvent
 import kotlinx.coroutines.*
