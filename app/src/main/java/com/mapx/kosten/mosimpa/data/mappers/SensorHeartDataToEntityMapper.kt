@@ -8,7 +8,7 @@ class SensorHeartDataToEntityMapper {
     fun mapFrom(from: SensorHeartDB): SensorHeartEntity {
         return SensorHeartEntity(
             id = from.id,
-            patientId = from.patient_id,
+            patientId = from.internment_id,
             time = from.time,
             heartR = from.heartR,
             HR_AR = from.HR_AR

@@ -14,6 +14,8 @@ interface SensorO2Dao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(sensor: SensorO2DB)
 
+    // @Query("SELECT * FROM " + SENSOR_O2_TABLE + " WHERE internment_id=:internmentId LIMIT 1" )
+    // fun getData(internmentId: Long): LiveData<SensorO2DB>
     @Query("SELECT * FROM " + SENSOR_O2_TABLE + " ORDER BY id DESC LIMIT 1" )
     fun getData(): LiveData<SensorO2DB>
 

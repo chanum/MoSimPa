@@ -251,7 +251,7 @@ class SensorsRepositoryImpl(
             // TODO mapper
             val sensorO2DB = SensorO2DB(
                 id = 0,
-                patient_id = currentPatient.id,
+                internment_id = currentPatient.id,
                 time = sensorList.spo2[0].time,
                 spo2 = scaleSensorValueByID(SENSOR_O2_ID, sensorList.spo2[0].spO2),
                 r = sensorList.spo2[0].r
@@ -261,7 +261,7 @@ class SensorsRepositoryImpl(
             val sensorList = mapperMqttToDd.mapFromBlood(msg)
             val sensorBloodDB = SensorBloodDB(
                 id = 0,
-                patient_id = currentPatient.id,
+                internment_id = currentPatient.id,
                 time = sensorList.bloodP[0].time,
                 sys = scaleSensorValueByID(SENSOR_BLOOD_ID, sensorList.bloodP[0].sys.toFloat()).toInt(),
                 dia = scaleSensorValueByID(SENSOR_BLOOD_ID, sensorList.bloodP[0].dia.toFloat()).toInt()
@@ -271,7 +271,7 @@ class SensorsRepositoryImpl(
             val sensorList = mapperMqttToDd.mapFromHeart(msg)
             val sensorHeartDB = SensorHeartDB(
                 id = 0,
-                patient_id = currentPatient.id,
+                internment_id = currentPatient.id,
                 time = sensorList.heartR[0].time,
                 heartR = scaleSensorValueByID(SENSOR_HEART_ID, sensorList.heartR[0].heartR.toFloat()).toInt(),
                 HR_AR = sensorList.heartR[0].HR_AR
@@ -281,7 +281,7 @@ class SensorsRepositoryImpl(
             val sensorList = mapperMqttToDd.mapFromTemp(msg)
             val sensorTempDB = SensorTempDB(
                 id = 0,
-                patient_id = currentPatient.id,
+                internment_id = currentPatient.id,
                 time = sensorList.bodyT[0].time,
                 temp = scaleSensorValueByID(SENSOR_TEMPERATURE_ID, sensorList.bodyT[0].temp)
             )
