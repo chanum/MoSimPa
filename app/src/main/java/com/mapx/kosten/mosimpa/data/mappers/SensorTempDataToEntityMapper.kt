@@ -8,7 +8,7 @@ class SensorTempDataToEntityMapper {
     fun mapFrom(from: SensorTempDB): SensorTempEntity {
         return SensorTempEntity(
             id = from.id,
-            patientId = from.internment_id,
+            internmentId = from.internment_id,
             time = from.time,
             temp = from.temp
         )

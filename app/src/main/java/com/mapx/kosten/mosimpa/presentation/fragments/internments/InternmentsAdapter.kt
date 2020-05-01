@@ -53,7 +53,7 @@ class InternmentsAdapter constructor(
 
     // TODO replace with generic
     fun setO2Value(sensor: SensorO2Entity) {
-        val idx = internments.indexOfFirst { it.id == sensor.patientId }
+        val idx = internments.indexOfFirst { it.id == sensor.internmentId }
         if (idx > INVALID_INDEX) {
             internments[idx].sensorO2.spo2 = sensor.spo2
             notifyItemChanged(idx, internments[idx])
@@ -61,7 +61,7 @@ class InternmentsAdapter constructor(
     }
 
     fun setHeartValue(sensor: SensorHeartEntity) {
-        val idx = internments.indexOfFirst { it.id == sensor.patientId }
+        val idx = internments.indexOfFirst { it.id == sensor.internmentId }
         if (idx > INVALID_INDEX) {
             internments[idx].sensorHeart.heartR = sensor.heartR
             notifyItemChanged(idx, internments[idx])
@@ -69,7 +69,7 @@ class InternmentsAdapter constructor(
     }
 
     fun setBloodValue(sensor: SensorBloodEntity) {
-        val idx = internments.indexOfFirst { it.id == sensor.patientId }
+        val idx = internments.indexOfFirst { it.id == sensor.internmentId }
         if (idx > INVALID_INDEX) {
             internments[idx].sensorBlood.sys = sensor.sys
             internments[idx].sensorBlood.dia = sensor.dia
@@ -78,7 +78,7 @@ class InternmentsAdapter constructor(
     }
 
     fun setTempValue(sensor: SensorTempEntity) {
-        val idx = internments.indexOfFirst { it.id == sensor.patientId }
+        val idx = internments.indexOfFirst { it.id == sensor.internmentId }
         if (idx > INVALID_INDEX) {
             internments[idx].sensorTemp.temp = sensor.temp
             notifyItemChanged(idx, internments[idx])

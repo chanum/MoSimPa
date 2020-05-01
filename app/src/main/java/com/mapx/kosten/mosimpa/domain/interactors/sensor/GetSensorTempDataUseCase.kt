@@ -6,5 +6,5 @@ import com.mapx.kosten.mosimpa.domain.entites.InternmentEntity
 class GetSensorTempDataUseCase (
     private val sensorsRepository: SensorsRepository
 ) {
-    fun invoke(internment: InternmentEntity) = sensorsRepository.getTempData(internment)
+    fun invoke() = sensorsRepository.getTempData()
 }

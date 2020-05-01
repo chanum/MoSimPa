@@ -14,11 +14,9 @@ interface SensorsRepository {
 
     fun updateInternments()
 
-    fun observeDevices(): LiveData<String>
-
-    fun getO2Data(internment: InternmentEntity): LiveData<SensorO2Entity>
-    fun getBloodData(internment: InternmentEntity): LiveData<SensorBloodEntity>
-    fun getHeartData(internment: InternmentEntity): LiveData<SensorHeartEntity>
-    fun getTempData(internment: InternmentEntity): LiveData<SensorTempEntity>
+    fun getO2Data(): LiveData<SensorO2Entity>
+    fun getBloodData(): LiveData<SensorBloodEntity>
+    fun getHeartData(): LiveData<SensorHeartEntity>
+    fun getTempData(): LiveData<SensorTempEntity>
 
 }

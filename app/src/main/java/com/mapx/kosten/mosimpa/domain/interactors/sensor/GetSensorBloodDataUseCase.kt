@@ -6,5 +6,5 @@ import com.mapx.kosten.mosimpa.domain.entites.InternmentEntity
 class GetSensorBloodDataUseCase (
     private val sensorsRepository: SensorsRepository
 ) {
-    fun invoke(internment: InternmentEntity) = sensorsRepository.getBloodData(internment)
+    fun invoke() = sensorsRepository.getBloodData()
 }

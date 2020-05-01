@@ -1,9 +1,6 @@
 package com.mapx.kosten.mosimpa.presentation.fragments.internments
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.MQTT_CONNECTION_OK
 import com.mapx.kosten.mosimpa.domain.entites.*
 import com.mapx.kosten.mosimpa.domain.interactors.internments.GetInternmentsUseCase
@@ -30,32 +27,26 @@ class InternmentsViewModel(
         Transformations.map( getInternmentsUseCase.invoke()) {
             list -> list.map { mapperEntityToView.mapFrom(it) }
         }
-    var sensorO2Value: LiveData<SensorO2Entity> = getO2DataUseCase.invoke(currentInternment)
-    var sensorBloodValue: LiveData<SensorBloodEntity> = getBloodDataUseCase.invoke(currentInternment)
-    var sensorHeartValue: LiveData<SensorHeartEntity> = getHeartDataUseCase.invoke(currentInternment)
-    var sensorTempValue: LiveData<SensorTempEntity> = getTempDataUseCase.invoke(currentInternment)
+    var sensorO2Value: LiveData<SensorO2Entity> = getO2DataUseCase.invoke()
+    var sensorBloodValue: LiveData<SensorBloodEntity> = getBloodDataUseCase.invoke()
+    var sensorHeartValue: LiveData<SensorHeartEntity> = getHeartDataUseCase.invoke()
+    var sensorTempValue: LiveData<SensorTempEntity> = getTempDataUseCase.invoke()
 
     fun connectAndSubscribeToAll(mac: String) {
         viewModelScope.launch {
+            // TODO rename: connect Mqtt And Subcribe /monitor and /reads/#
             val status = connectClientMqttUseCase.invoke(mac)
             if (status.equals(MQTT_CONNECTION_OK)) {
+                // publish in datakeeper/query cmd internments
                 refreshInternments()
             } else {
-                // TODO error connection
+                // TODO error connection reconnect? or send a toast?
             }
         }
     }
 
     fun refreshInternments() {
         updateInternmentsUseCase.invoke()
-    }
-
-    fun subscribePatient(internment: InternmentView) {
-        viewModelScope.launch {
-            val internmentEntity = InternmentEntity(id = internment.id, deviceId = internment.deviceId)
-            subscribeIdUseCase.invoke(internmentEntity)
-            currentInternment = internmentEntity
-        }
     }
 
     override fun onCleared() {

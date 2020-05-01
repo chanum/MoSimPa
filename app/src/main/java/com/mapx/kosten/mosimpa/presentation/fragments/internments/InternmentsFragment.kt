@@ -108,9 +108,6 @@ class InternmentsFragment : Fragment() {
             emptyMessage.visibility = View.VISIBLE
         }
         adapter.setPatients(internments)
-        internments.forEach {
-            viewModel.subscribePatient(it)
-        }
     }
 
     private fun goToDetailView(internment: InternmentView, view: View) {

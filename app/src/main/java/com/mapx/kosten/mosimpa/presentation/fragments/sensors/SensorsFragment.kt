@@ -36,7 +36,7 @@ class SensorsFragment : Fragment() {
     private lateinit var progressBar: ProgressBar
     private lateinit var emptyMessage: TextView
     private lateinit var adapter: SensorsAdapter
-    private var patientId: Long = INVALID_PATIENT_ID
+    private var internmentId: Long = INVALID_PATIENT_ID
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,23 +50,23 @@ class SensorsFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_sensors, container, false)
         val safeArgs: SensorsFragmentArgs by navArgs()
-        patientId = safeArgs.patientId
+        internmentId = safeArgs.patientId
         return view
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.sensorO2Value.observe(viewLifecycleOwner, Observer {
-            it?.let{ handleViewSensorO2State(it) }
+            it?.let{ if(it.internmentId == internmentId) handleViewSensorO2State(it) }
         })
         viewModel.sensorBloodValue.observe(viewLifecycleOwner, Observer {
-            it?.let{ handleViewSensorBloodState(it) }
+            it?.let{ if(it.internmentId == internmentId) handleViewSensorBloodState(it) }
         })
         viewModel.sensorHeartValue.observe(viewLifecycleOwner, Observer {
-            it?.let{ handleViewSensorHeartState(it) }
+            it?.let{ if(it.internmentId == internmentId) handleViewSensorHeartState(it) }
         })
         viewModel.sensorTempValue.observe(viewLifecycleOwner, Observer {
-            it?.let{ handleViewSensorTempState(it) }
+            it?.let{ if(it.internmentId == internmentId) handleViewSensorTempState(it) }
         })
         viewModel.errorState.observe(viewLifecycleOwner, Observer { throwable ->
             throwable?.let {
@@ -92,11 +92,6 @@ class SensorsFragment : Fragment() {
         progressBar.visibility = View.VISIBLE
         loadSensors()
         progressBar.visibility = View.GONE
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.subscribePatient(patientId)
     }
 
     override fun onDestroy() {
