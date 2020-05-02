@@ -1,44 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    style="@style/CommonRecyclerViewShape"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layoutBloodItem"
-    android:orientation="horizontal">
+    style="@style/CommonRecyclerViewShape"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/tv_internment_item_blood_title"
         style="@style/CommonItemTitleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/patient_sensor_item_margin"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/internments_item_blood_title"/>
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/internments_item_blood_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_internment_item_blood_sys_value"
         style="@style/CommonItemTitleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/patient_sensor_item_margin"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/internments_item_blood_sys_value" />
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/internments_item_blood_sys_value"
+        app:layout_constraintStart_toEndOf="@+id/tv_internment_item_blood_title"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/textView2"
         style="@style/CommonItemTitleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/patient_sensor_item_margin"
-        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="-"
         android:textColor="@color/black"
-        android:text="-" />
+        app:layout_constraintStart_toEndOf="@+id/tv_internment_item_blood_sys_value"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_internment_item_blood_dia_value"
         style="@style/CommonItemTitleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/internments_item_blood_dia_value"
         android:textColor="@color/black"
-        android:text="@string/internments_item_blood_dia_value" />
-</LinearLayout>
+        app:layout_constraintStart_toEndOf="@+id/textView2"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_internment_item_blood_alarm_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/internments_item_alarms_title"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_internment_item_blood_title" />
+
+    <TextView
+        android:id="@+id/tv_internment_item_blood_alarm_max"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/internments_item_alarms_max"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_internment_item_blood_alarm_min"
+        app:layout_constraintTop_toBottomOf="@+id/tv_internment_item_blood_title" />
+
+    <TextView
+        android:id="@+id/tv_internment_item_blood_alarm_min"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/internments_item_alarms_min"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_internment_item_blood_alarm_title"
+        app:layout_constraintTop_toBottomOf="@+id/tv_internment_item_blood_title" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

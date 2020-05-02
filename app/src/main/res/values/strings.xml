@@ -33,12 +33,12 @@
     <string name="internments_item_temp_title">Temp. Corporal:</string>
     <string name="internments_item_temp_value">28 ºC</string>
 
+    <string name="internments_item_alarms_title">Alarmas:</string>
+    <string name="internments_item_alarms_min">Min: %1$s</string>
+    <string name="internments_item_alarms_max">Max: %1$s</string>
+
     <!-- Internments Fragment -->
     <string name="internments_progress">No hay internaciones cargadas</string>
-
-    <!-- Settings Item  -->
-    <string name="settings_patient_item_name">Juan Carlos Perez</string>
-    <string name="settings_patient_item_id">1234567890123</string>
 
     <!-- Settings -->
     <string name="settings_title_broker_ip">Broker IP</string>
