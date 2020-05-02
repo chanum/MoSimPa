@@ -115,7 +115,7 @@ class SensorsFragment : Fragment() {
     }
 
     private fun handleViewSensorAlarms(alarms: AlarmsEntity) {
-        adapter.updateSensorAlarms(SENSOR_O2_IDX, alarms.spo2_lt, 0F)
+        adapter.updateSensorAlarms(SENSOR_O2_IDX, alarms.spo2_lt, 1000F)
         adapter.updateSensorAlarms(SENSOR_HEART_IDX, alarms.hr_lt, alarms.hr_gt)
         adapter.updateSensorAlarms(SENSOR_BLOOD_IDX, alarms.bp_sys_lt, alarms.bp_sys_gt)
         adapter.updateSensorAlarms(SENSOR_TEMPERATURE_IDX, 0F, alarms.bt_gt)

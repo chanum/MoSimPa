@@ -5,13 +5,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.github.mikephil.charting.components.LimitLine
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.mapx.kosten.mosimpa.R
-import com.mapx.kosten.mosimpa.presentation.entities.SensorView
 import com.mapx.kosten.mosimpa.presentation.common.Utils.Companion.getSensorStringValue
 import com.mapx.kosten.mosimpa.presentation.common.Utils.Companion.getSensorValueColorByID
+import com.mapx.kosten.mosimpa.presentation.entities.SensorView
 import kotlinx.android.synthetic.main.layout_sensor_item.view.*
 
 
@@ -79,6 +80,7 @@ class SensorsAdapter constructor(
                 )
             )
 
+            updateLimits(sensor.alarmMin, sensor.alarmMax)
             updateChart(sensor.value, sensor.id)
 
             setOnClickListener { listener(sensor, itemView) }
@@ -88,6 +90,25 @@ class SensorsAdapter constructor(
             val set = LineDataSet(entries, "Value")
             lineChart.data = LineData(set)
             lineChart.description.text = "Sensor"
+        }
+
+        // TODO try to update only when internments change
+        private fun updateLimits(min: Float, max: Float) {
+            val upperLimit = LimitLine(max, "Max")
+            upperLimit.lineWidth = 2f
+            upperLimit.enableDashedLine(10f, 10f, 0f)
+            upperLimit.labelPosition = LimitLine.LimitLabelPosition.RIGHT_TOP
+            upperLimit.textSize = 10f
+
+            val lowerLimit = LimitLine(min, "Min")
+            lowerLimit.lineWidth = 2f
+            lowerLimit.enableDashedLine(10f, 10f, 0f)
+            lowerLimit.labelPosition = LimitLine.LimitLabelPosition.RIGHT_BOTTOM
+            lowerLimit.textSize = 10f
+
+            lineChart.axisLeft.removeAllLimitLines();
+            lineChart.axisLeft.limitLines.add(upperLimit)
+            lineChart.axisLeft.limitLines.add(lowerLimit)
         }
 
         private fun updateChart(sensorData: Float, id: Int) {
