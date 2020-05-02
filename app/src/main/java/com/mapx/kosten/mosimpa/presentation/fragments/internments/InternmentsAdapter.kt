@@ -140,7 +140,8 @@ class InternmentsAdapter constructor(
                     Utils.getSensorValueColorByID(
                         SENSOR_BLOOD_ID,
                         internmentEntity.sensorBlood.sys.toFloat(),
-                        internmentEntity.alarms
+                        internmentEntity.alarms.bp_sys_lt,
+                        internmentEntity.alarms.bp_sys_gt
                     )
                 )
             )
@@ -166,7 +167,8 @@ class InternmentsAdapter constructor(
                     Utils.getSensorValueColorByID(
                         SENSOR_HEART_ID,
                         internmentEntity.sensorHeart.heartR.toFloat(),
-                        internmentEntity.alarms
+                        internmentEntity.alarms.hr_lt,
+                        internmentEntity.alarms.hr_gt
                     )
                 )
             )
@@ -191,7 +193,8 @@ class InternmentsAdapter constructor(
                     Utils.getSensorValueColorByID(
                         SENSOR_O2_ID,
                         internmentEntity.sensorO2.spo2,
-                        internmentEntity.alarms
+                        internmentEntity.alarms.spo2_lt,
+                        0F
                     )
                 )
             )
@@ -216,7 +219,8 @@ class InternmentsAdapter constructor(
                     Utils.getSensorValueColorByID(
                         SENSOR_TEMPERATURE_ID,
                         internmentEntity.sensorTemp.temp,
-                        internmentEntity.alarms
+                        0F,
+                        internmentEntity.alarms.bt_gt
                     )
                 )
             )

@@ -9,17 +9,17 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.mapx.kosten.mosimpa.R
-import com.mapx.kosten.mosimpa.domain.entites.SensorEntity
+import com.mapx.kosten.mosimpa.presentation.entities.SensorView
 import com.mapx.kosten.mosimpa.presentation.common.Utils.Companion.getSensorStringValue
 import com.mapx.kosten.mosimpa.presentation.common.Utils.Companion.getSensorValueColorByID
 import kotlinx.android.synthetic.main.layout_sensor_item.view.*
 
 
 class SensorsAdapter constructor(
-    private val onSensorSelected: (SensorEntity, View) -> Unit
+    private val onSensorSelected: (SensorView, View) -> Unit
 ) : RecyclerView.Adapter<SensorsAdapter.SensorCellViewHolder>() {
 
-    private var sensorEntities: List<SensorEntity> = mutableListOf()
+    private var sensorViews: List<SensorView> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SensorCellViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(
@@ -30,21 +30,28 @@ class SensorsAdapter constructor(
     }
 
     override fun getItemCount(): Int {
-        return sensorEntities.size
+        return sensorViews.size
     }
 
     override fun onBindViewHolder(holder: SensorCellViewHolder, position: Int) {
-        val sensor = sensorEntities[position]
+        val sensor = sensorViews[position]
         holder.bind(sensor, onSensorSelected)
     }
 
-    fun setSensors(sensors: List<SensorEntity>) {
-        this.sensorEntities = sensors
+    fun setSensors(sensors: List<SensorView>) {
+        this.sensorViews = sensors
         notifyDataSetChanged()
     }
 
+    fun updateSensorAlarms(index: Int, min: Float, max: Float) {
+        val item = sensorViews[index]
+        item.alarmMin = min
+        item.alarmMax = max
+        notifyItemChanged(index, item)
+    }
+
     fun updateSensorValue(index: Int, value: Float) {
-        val item = sensorEntities[index]
+        val item = sensorViews[index]
         item.value = value
         notifyItemChanged(index, item)
     }
@@ -57,19 +64,20 @@ class SensorsAdapter constructor(
             configureSensorChart()
         }
 
-        fun bind(sensor: SensorEntity, listener: (SensorEntity, View) -> Unit) = with(itemView) {
+        fun bind(sensor: SensorView, listener: (SensorView, View) -> Unit) = with(itemView) {
             tv_item_sensor_title.text = sensor.name
             tv_item_sensor_value.text = getSensorStringValue(sensor.id, sensor.value)
-/*            tv_item_sensor_value.setTextColor(
+            tv_item_sensor_value.setTextColor(
                 ContextCompat.getColor(
                     context,
                     getSensorValueColorByID(
                         sensor.id,
                         sensor.value,
-                        internmentEntity.alarms
+                        sensor.alarmMin,
+                        sensor.alarmMax
                     )
                 )
-            )*/
+            )
 
             updateChart(sensor.value, sensor.id)
 

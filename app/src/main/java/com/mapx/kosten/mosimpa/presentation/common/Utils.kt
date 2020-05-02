@@ -51,33 +51,33 @@ class Utils {
             }
         }
 
-        fun getSensorValueColorByID(id: Int, value: Float, alarm: AlarmsEntity): Int {
+        fun getSensorValueColorByID(id: Int, value: Float, min: Float, max: Float): Int {
             val colorOK = R.color.green
             val colorCritical = R.color.red
             return when(id) {
                 SENSOR_O2_ID -> {
-                    if (value <= alarm.spo2_lt) {
+                    if (value <= min) {
                         colorCritical
                     } else {
                         colorOK
                     }
                 }
                 SENSOR_HEART_ID -> {
-                    if (value < alarm.hr_gt || value > alarm.hr_lt ) {
+                    if (value < min || value > max ) {
                         colorCritical
                     } else {
                         colorOK
                     }
                 }
                 SENSOR_BLOOD_ID -> {
-                    if (value < alarm.bp_sys_gt || value > alarm.bp_sys_lt ) {
+                    if (value < min || value > max ) {
                         colorCritical
                     } else {
                         colorOK
                     }
                 }
                 SENSOR_TEMPERATURE_ID -> {
-                    if (value >= alarm.hr_lt) {
+                    if (value >= max) {
                         colorCritical
                     } else {
                         colorOK
