@@ -1,4 +1,4 @@
-package com.mapx.kosten.mosimpa.presentation.fragments.internments
+package com.mapx.kosten.mosimpa.presentation.viewmodels
 
 import androidx.lifecycle.*
 import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.MQTT_CONNECTION_OK

@@ -23,6 +23,8 @@ import com.mapx.kosten.mosimpa.domain.entites.*
 import com.mapx.kosten.mosimpa.presentation.common.App
 import com.mapx.kosten.mosimpa.presentation.common.Utils.Companion.INVALID_PATIENT_ID
 import com.mapx.kosten.mosimpa.presentation.entities.InternmentView
+import com.mapx.kosten.mosimpa.presentation.viewmodels.InternmentsViewModel
+import com.mapx.kosten.mosimpa.presentation.viewmodels.InternmentsViewModelFactory
 import javax.inject.Inject
 
 class InternmentsFragment : Fragment() {

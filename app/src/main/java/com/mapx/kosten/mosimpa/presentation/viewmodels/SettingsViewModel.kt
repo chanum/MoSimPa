@@ -1,4 +1,4 @@
-package com.mapx.kosten.mosimpa.presentation.fragments.settings
+package com.mapx.kosten.mosimpa.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
 import com.mapx.kosten.mosimpa.domain.interactors.settings.GetBrokerConfigUseCase

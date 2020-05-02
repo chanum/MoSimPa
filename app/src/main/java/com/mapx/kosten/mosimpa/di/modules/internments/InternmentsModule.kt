@@ -4,7 +4,7 @@ import com.mapx.kosten.mosimpa.domain.data.InternmentsRepository
 import com.mapx.kosten.mosimpa.domain.data.SensorsRepository
 import com.mapx.kosten.mosimpa.domain.interactors.internments.GetInternmentsUseCase
 import com.mapx.kosten.mosimpa.domain.interactors.sensor.*
-import com.mapx.kosten.mosimpa.presentation.fragments.internments.InternmentsViewModelFactory
+import com.mapx.kosten.mosimpa.presentation.viewmodels.InternmentsViewModelFactory
 import dagger.Module
 import dagger.Provides
 

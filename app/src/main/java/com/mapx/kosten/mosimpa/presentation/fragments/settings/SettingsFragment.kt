@@ -12,6 +12,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.mapx.kosten.mosimpa.R
 import com.mapx.kosten.mosimpa.presentation.common.App
+import com.mapx.kosten.mosimpa.presentation.viewmodels.SettingsViewModel
+import com.mapx.kosten.mosimpa.presentation.viewmodels.SettingsViewModelFactory
 
 import javax.inject.Inject
 

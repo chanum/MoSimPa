@@ -8,8 +8,6 @@ import com.mapx.kosten.mosimpa.di.modules.DataModule
 import com.mapx.kosten.mosimpa.di.modules.NetworkModule
 import com.mapx.kosten.mosimpa.di.modules.internments.InternmentsModule
 import com.mapx.kosten.mosimpa.di.modules.internments.InternmentsSubComponent
-import com.mapx.kosten.mosimpa.di.modules.sensors.SensorsModule
-import com.mapx.kosten.mosimpa.di.modules.sensors.SensorsSubComponent
 import com.mapx.kosten.mosimpa.di.modules.settings.SettingsModule
 import com.mapx.kosten.mosimpa.di.modules.settings.SettingsSubComponent
 
@@ -18,7 +16,6 @@ class App: Application() {
     lateinit var mainComponent: MainComponent
     private var internmentsSubComponent: InternmentsSubComponent? = null
     private var settingsSubComponent: SettingsSubComponent? = null
-    private var sensorsSubComponent: SensorsSubComponent? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -51,16 +48,6 @@ class App: Application() {
 
     fun releaseSettingsComponent() {
         settingsSubComponent = null
-    }
-
-    // Sensors
-    fun createSensorsComponent(): SensorsSubComponent {
-        sensorsSubComponent = mainComponent.plus(SensorsModule())
-        return sensorsSubComponent!!
-    }
-
-    fun releaseSensorsComponent() {
-        sensorsSubComponent = null
     }
 
 }

@@ -1,30 +1,31 @@
-package com.mapx.kosten.mosimpa.presentation.fragments.sensors
+package com.mapx.kosten.mosimpa.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.mapx.kosten.mosimpa.domain.interactors.internments.GetDeviceIdByInternmentId
+import com.mapx.kosten.mosimpa.domain.interactors.internments.GetInternmentsUseCase
 import com.mapx.kosten.mosimpa.domain.interactors.sensor.*
 
-class SensorsViewModelFactory(
+class InternmentsViewModelFactory (
+    private val connectClientMqttUseCase: ConnectClientMqttUseCase,
+    private val getInternmentsUseCase: GetInternmentsUseCase,
+    private val updateInternmentsUseCase: UpdateInternmentsUseCase,
     private val subscribeIdUseCase: SubscribeIdUseCase,
-    private val unSubscribeIdUseCase: UnSubscribeIdUseCase,
     private val getO2DataUseCase: GetSensorO2DataUseCase,
     private val getBloodDataUseCase: GetSensorBloodDataUseCase,
     private val getHeartDataUseCase: GetSensorHeartDataUseCase,
-    private val getTempDataUseCase: GetSensorTempDataUseCase,
-    private val getDeviceIdByInternmentId: GetDeviceIdByInternmentId
-
+    private val getTempDataUseCase: GetSensorTempDataUseCase
     ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return SensorsViewModel(
+        return InternmentsViewModel(
+            connectClientMqttUseCase,
+            getInternmentsUseCase,
+            updateInternmentsUseCase,
             subscribeIdUseCase,
-            unSubscribeIdUseCase,
             getO2DataUseCase,
             getBloodDataUseCase,
             getHeartDataUseCase,
-            getTempDataUseCase,
-            getDeviceIdByInternmentId
+            getTempDataUseCase
         ) as T
     }
 }

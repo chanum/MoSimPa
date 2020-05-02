@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -24,13 +23,15 @@ import com.mapx.kosten.mosimpa.domain.entites.*
 import com.mapx.kosten.mosimpa.presentation.common.App
 import com.mapx.kosten.mosimpa.presentation.common.Utils
 import com.mapx.kosten.mosimpa.presentation.common.Utils.Companion.INVALID_PATIENT_ID
+import com.mapx.kosten.mosimpa.presentation.viewmodels.InternmentsViewModel
+import com.mapx.kosten.mosimpa.presentation.viewmodels.InternmentsViewModelFactory
 import javax.inject.Inject
 
 
 class SensorsFragment : Fragment() {
     @Inject
-    lateinit var factory: SensorsViewModelFactory
-    private lateinit var viewModel: SensorsViewModel
+    lateinit var factory: InternmentsViewModelFactory
+    private lateinit var viewModel: InternmentsViewModel
     private lateinit var rootLayout: CoordinatorLayout
     private lateinit var recyclerView: RecyclerView
     private lateinit var progressBar: ProgressBar
@@ -40,8 +41,8 @@ class SensorsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (activity?.application as App).createSensorsComponent().inject(this)
-        viewModel = ViewModelProvider(this, factory).get(SensorsViewModel::class.java)
+        (activity?.application as App).createInternmentsComponent().inject(this)
+        viewModel = ViewModelProvider(this, factory).get(InternmentsViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -68,11 +69,6 @@ class SensorsFragment : Fragment() {
         viewModel.sensorTempValue.observe(viewLifecycleOwner, Observer {
             it?.let{ if(it.internmentId == internmentId) handleViewSensorTempState(it) }
         })
-        viewModel.errorState.observe(viewLifecycleOwner, Observer { throwable ->
-            throwable?.let {
-                Toast.makeText(activity, it.message, Toast.LENGTH_LONG).show()
-            }
-        })
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -96,7 +92,7 @@ class SensorsFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        (activity?.application as App).releaseSensorsComponent()
+        (activity?.application as App).releaseInternmentsComponent()
     }
 
     private fun handleViewSensorO2State(sensor: SensorO2Entity) {
