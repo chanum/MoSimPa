@@ -10,9 +10,8 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.mapx.kosten.mosimpa.R
 import com.mapx.kosten.mosimpa.domain.entites.SensorEntity
-import com.mapx.kosten.mosimpa.presentation.common.Utils.Companion.getSensorSufixByID
+import com.mapx.kosten.mosimpa.presentation.common.Utils.Companion.getSensorStringValue
 import com.mapx.kosten.mosimpa.presentation.common.Utils.Companion.getSensorValueColorByID
-import com.mapx.kosten.mosimpa.presentation.common.Utils.Companion.scaleSensorValueByID
 import kotlinx.android.synthetic.main.layout_sensor_item.view.*
 
 
@@ -20,7 +19,7 @@ class SensorsAdapter constructor(
     private val onSensorSelected: (SensorEntity, View) -> Unit
 ) : RecyclerView.Adapter<SensorsAdapter.SensorCellViewHolder>() {
 
-    var sensorEntities: List<SensorEntity> = mutableListOf()
+    private var sensorEntities: List<SensorEntity> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SensorCellViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(
@@ -44,6 +43,12 @@ class SensorsAdapter constructor(
         notifyDataSetChanged()
     }
 
+    fun updateSensorValue(index: Int, value: Float) {
+        val item = sensorEntities[index]
+        item.value = value
+        notifyItemChanged(index, item)
+    }
+
     class SensorCellViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val entries = ArrayList<Entry>()
         private val lineChart = itemView.lineChart_sensor
@@ -54,12 +59,11 @@ class SensorsAdapter constructor(
 
         fun bind(sensor: SensorEntity, listener: (SensorEntity, View) -> Unit) = with(itemView) {
             tv_item_sensor_title.text = sensor.name
-            val convertValue = scaleSensorValueByID(sensor.id, sensor.value)
-            tv_item_sensor_value.text = "%.2f".format(convertValue) + getSensorSufixByID(sensor.id)
+            tv_item_sensor_value.text = getSensorStringValue(sensor.id, sensor.value)
             tv_item_sensor_value.setTextColor(
                 ContextCompat.getColor(
                     context,
-                    getSensorValueColorByID(sensor.id, convertValue)
+                    getSensorValueColorByID(sensor.id, sensor.value)
                 )
             )
 

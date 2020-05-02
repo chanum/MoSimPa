@@ -19,4 +19,7 @@ interface SensorBloodDao {
 
     @Query("DELETE FROM " + SENSOR_BLOOD_TABLE)
     fun clear()
+
+    @Query("SELECT * FROM " + SENSOR_BLOOD_TABLE + " WHERE internment_id=:id LIMIT 1" )
+    fun getDataByInternmentId(id: Long): LiveData<SensorBloodDB>
 }

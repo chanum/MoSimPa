@@ -2,25 +2,25 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    style="@style/CommonRecyclerViewShapeBorder"
+    style="@style/CommonRecyclerViewShape"
     android:id="@+id/layoutHeartItem"
     android:orientation="horizontal">
 
     <TextView
-        android:id="@+id/tv_item_patient_heart_title"
+        android:id="@+id/tv_internment_item_heart_title"
         style="@style/CommonItemTitleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/patient_sensor_item_margin"
         android:layout_gravity="center_horizontal"
-        android:text="@string/patient_item_heart_title" />
+        android:text="@string/internments_item_heart_title" />
 
     <TextView
-        android:id="@+id/tv_item_patient_heart_value"
+        android:id="@+id/tv_internment_item_heart_value"
         style="@style/CommonItemTitleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="@string/patient_item_heart_value" />
+        android:text="@string/internments_item_heart_value" />
 
 </LinearLayout>

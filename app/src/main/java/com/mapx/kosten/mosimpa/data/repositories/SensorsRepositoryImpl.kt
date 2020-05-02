@@ -2,16 +2,21 @@ package com.mapx.kosten.mosimpa.data.repositories
 
 import android.content.Context
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
-import com.mapx.kosten.mosimpa.data.client.MqttClient
+import com.mapx.kosten.mosimpa.data.services.client.MqttClient
 import com.mapx.kosten.mosimpa.data.db.MosimpaDatabase
 import com.mapx.kosten.mosimpa.data.db.dao.*
 import com.mapx.kosten.mosimpa.data.entities.*
 import com.mapx.kosten.mosimpa.data.mappers.*
 import com.mapx.kosten.mosimpa.data.preferences.BrokerIpPreferenceImpl
 import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.DEFAULT_MAC_ADDRESS
+import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.MQTT_CONNECTION_OK
+import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_BLOOD_ID
+import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_HEART_ID
+import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_O2_ID
+import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_TEMPERATURE_ID
 import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SERVER_URI_PREFIX
+import com.mapx.kosten.mosimpa.domain.common.Utils.Companion.scaleSensorValueByID
 import com.mapx.kosten.mosimpa.domain.data.SensorsRepository
 import com.mapx.kosten.mosimpa.domain.entites.*
 import kotlinx.coroutines.CoroutineScope
@@ -20,6 +25,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.eclipse.paho.client.mqttv3.MqttMessage
 import org.json.JSONObject
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 class SensorsRepositoryImpl(
     private val context: Context,
@@ -32,8 +39,6 @@ class SensorsRepositoryImpl(
     private val sensorTempDao: SensorTempDao = database.sensorTempDao()
 
     private val internmentsDao: InternmentsDao = database.internmentDao()
-    private val locationDao: LocationDao = database.locationDao()
-    private val patients2Dao: Patients2Dao = database.patients2Dao()
 
     private val mapperO2DBtoEntity = SensorO2DataToEntityMapper()
     private val mapperHeartDBtoEntity = SensorHeartDataToEntityMapper()
@@ -45,7 +50,8 @@ class SensorsRepositoryImpl(
 
     private lateinit var mqttClient: MqttClient
 
-    private var currentPatient = InternmentEntity()
+    private var internments: MutableList<InternmentDB> = mutableListOf()
+
     private var sensorO2Count: Long = 0
     private var sensorBloodCount: Long = 0
     private var sensorHeartCount: Long = 0
@@ -53,72 +59,52 @@ class SensorsRepositoryImpl(
 
     private var macAddress: String = DEFAULT_MAC_ADDRESS
 
-    private var devices = mutableListOf<String>()
-    val deviceList: MutableLiveData<String> = MutableLiveData()
-
-    private var updatePatientsFlag = false
-    private var updatePatientsFlag2 = false
-
-    override fun observeDevices(): LiveData<String> {
-        return deviceList
-    }
-
     /* ---------------------------------------------------------------------------------------*/
-//    override fun getO2Data(patient: PatientEntity) = liveData<SensorO2Entity?> {
-//        emitSource(
-//            Transformations.map(sensorO2Dao.getData()) {
-//                it?.let { mapperO2DBtoEntity.mapFrom(it) }
-//            }
-//        )
-//    }
-
-    override fun getO2Data(internment: InternmentEntity): LiveData<SensorO2Entity> {
-        currentPatient = internment
+    override fun getO2Data(): LiveData<SensorO2Entity> {
         return Transformations.map(sensorO2Dao.getData()) {
             it?.let { mapperO2DBtoEntity.mapFrom(it) }
         }
     }
 
-    override fun getBloodData(internment: InternmentEntity): LiveData<SensorBloodEntity> {
-        currentPatient = internment
+    override fun getBloodData(): LiveData<SensorBloodEntity> {
         return Transformations.map(sensorBloodDao.getData()) {
             it?.let { mapperBloodDBtoEntity.mapFrom(it) }
         }
     }
 
-    override fun getHeartData(internment: InternmentEntity): LiveData<SensorHeartEntity> {
-        currentPatient = internment
+    override fun getHeartData(): LiveData<SensorHeartEntity> {
         return Transformations.map(sensorHeartDao.getData()) {
             it?.let { mapperHeartDBtoEntity.mapFrom(it) }
         }
     }
 
-    override fun getTempData(internment: InternmentEntity): LiveData<SensorTempEntity> {
-        currentPatient = internment
+    override fun getTempData(): LiveData<SensorTempEntity> {
         return Transformations.map(sensorTempDao.getData()) {
             it?.let { mapperTempDBtoEntity.mapFrom(it) }
         }
     }
 
     /* ---------------------------------------------------------------------------------------*/
-    override suspend fun connectMqtt(mac: String) {
+    override suspend fun connectMqtt(mac: String): String {
         macAddress = mac
-        withContext(Dispatchers.IO) {
+        return withContext(Dispatchers.IO) {
+            var status = ""
             val url = getBrokerIp()
             if (::mqttClient.isInitialized) {
                 if (isANewUrl(url)) {
                     mqttClient.close()
-                    connectAndSubscribe(url)
+                    status = connectAndSubscribe(url)
                 }
             } else {
-                connectAndSubscribe(url)
+                status = connectAndSubscribe(url)
             }
+            status
         }
     }
 
-    private suspend fun connectAndSubscribe(url: String) {
+    private suspend fun connectAndSubscribe(url: String): String {
         mqttClient = MqttClient(context, url)
-        subscribeToAll()
+        return subscribeToAll()
     }
 
     private fun isANewUrl(url: String): Boolean {
@@ -127,72 +113,56 @@ class SensorsRepositoryImpl(
     }
 
     /* ---------------------------------------------------------------------------------------*/
-    override suspend fun subscribeToAll() {
-        // withContext(Dispatchers.IO) {
-            val topic = arrayOf("monitor/$macAddress", "reads/#")
-            mqttClient.connect(topic, ::subscribeToAllRsp)
-        //}
+
+    override suspend fun subscribeToAll(): String {
+        val topics = arrayOf("monitor/$macAddress", "reads/#")
+        return suspendCoroutine { msg ->
+            mqttClient.connect(topics) { topic: String, message: MqttMessage?  ->
+                if(topic.equals(MQTT_CONNECTION_OK)) {
+                    msg.resume(topic)
+                } else {
+                   subscribeToAllRsp(topic, message)
+                }
+            }
+        }
     }
 
-    private fun subscribeToAllRsp(topic: String, message: MqttMessage) {
-        if (topic.startsWith("reads/")) {
-            // TODO find a better way
-            updatePatients()
-            // trim topic
-            val id = topic.substring(6)
-            // check if exist in the
-            if (id !in devices) {
-                devices.add(id)
-                deviceList.value = id
-            }
+    /* ---------------------------------------------------------------------------------------*/
 
-            val currentTopic = "reads/${currentPatient.deviceId}"
-            if (currentTopic.equals(topic)) {
-                parseAndSaveSensor(message.toString())
+    private fun subscribeToAllRsp(topic: String, message: MqttMessage?) {
+        if (topic.startsWith("reads/")) {
+            internments.forEach {
+                val deviceId = "reads/${it.device}"
+                if (deviceId.equals(topic)) {
+                    parseAndSaveSensor(message.toString(), it.id)
+                }
             }
         } else if (topic.startsWith("monitor/$macAddress")) {
             parseAndSavePatients(message.toString())
         }
     }
 
-    private fun updatePatients() {
-        // only once
-        if (!updatePatientsFlag) {
+    override fun updateInternments() {
+        // TODO id
+        if (::mqttClient.isInitialized) {
             val topic = "datakeeper/query"
             val msg = "{\"mac\":\"$macAddress\",\"command\":\"internments\",\"id\":\"123AABB\"}"
             mqttClient.publishMessage(topic, msg)
-            updatePatientsFlag = true
         }
     }
 
 
     /* ---------------------------------------------------------------------------------------*/
-    override fun subscribeId(internment: InternmentEntity) {
-        // withContext(Dispatchers.IO) {
-            currentPatient.id = internment.id
-            currentPatient.deviceId = internment.deviceId
-            // val topic = arrayOf("reads/${currentPatient.deviceId}")
-            // val topic = "reads/${currentPatient.deviceId}"
-            // mqttClient.connect(topic, ::subscribeIdRsp)
-            // mqttClient.subscribeTopic(topic)
-        // }
-    }
 
-    private fun subscribeIdRsp(topic: String, message: MqttMessage) {
-        // return data only for the current id
-        val currentTopic = "reads/${currentPatient.deviceId}"
-        if (currentTopic.equals(topic)) {
-            parseAndSaveSensor(message.toString())
-        }
+    override fun subscribeId(internment: InternmentEntity) {
+        // TODO
     }
 
     /* ---------------------------------------------------------------------------------------*/
     override fun unSubscribeId(internment: InternmentEntity) {
-        // withContext(Dispatchers.IO) {
-            val st = String.format("%02x", internment.deviceId)
-            val topic = "reads/${st}"
-            mqttClient.unSubscribe(topic)
-        // }
+        val st = String.format("%02x", internment.deviceId)
+        val topic = "reads/${st}"
+        mqttClient.unSubscribe(topic)
     }
 
     /* ---------------------------------------------------------------------------------------*/
@@ -211,6 +181,7 @@ class SensorsRepositoryImpl(
                     alarms = it.alarms
                 )
                 saveIntermentToDb(internment)
+                internments.add(internment)
             }
         }
     }
@@ -225,16 +196,16 @@ class SensorsRepositoryImpl(
     /* ---------------------------------------------------------------------------------------*/
     // TODO use Generic to identify sensors class
     // and generic to save sensors
-    private fun parseAndSaveSensor(msg: String) {
+    private fun parseAndSaveSensor(msg: String, intermentId: Long) {
         val jsonObject = JSONObject(msg)
         if (jsonObject.has(SENSOR_O2_JSON_KEY)) {
             val sensorList = mapperMqttToDd.mapFromO2(msg)
             // TODO mapper
             val sensorO2DB = SensorO2DB(
                 id = 0,
-                patient_id = currentPatient.id,
+                internment_id = intermentId,
                 time = sensorList.spo2[0].time,
-                spo2 = sensorList.spo2[0].spO2,
+                spo2 = scaleSensorValueByID(SENSOR_O2_ID, sensorList.spo2[0].spO2),
                 r = sensorList.spo2[0].r
             )
             saveO2Sensor(sensorO2DB)
@@ -242,19 +213,19 @@ class SensorsRepositoryImpl(
             val sensorList = mapperMqttToDd.mapFromBlood(msg)
             val sensorBloodDB = SensorBloodDB(
                 id = 0,
-                patient_id = currentPatient.id,
+                internment_id = intermentId,
                 time = sensorList.bloodP[0].time,
-                sys = sensorList.bloodP[0].sys,
-                dia = sensorList.bloodP[0].dia
+                sys = scaleSensorValueByID(SENSOR_BLOOD_ID, sensorList.bloodP[0].sys.toFloat()).toInt(),
+                dia = scaleSensorValueByID(SENSOR_BLOOD_ID, sensorList.bloodP[0].dia.toFloat()).toInt()
             )
             saveBloodSensor(sensorBloodDB)
         } else if (jsonObject.has(SENSOR_HEART_JSON_KEY)) {
             val sensorList = mapperMqttToDd.mapFromHeart(msg)
             val sensorHeartDB = SensorHeartDB(
                 id = 0,
-                patient_id = currentPatient.id,
+                internment_id = intermentId,
                 time = sensorList.heartR[0].time,
-                heartR = sensorList.heartR[0].heartR,
+                heartR = scaleSensorValueByID(SENSOR_HEART_ID, sensorList.heartR[0].heartR.toFloat()).toInt(),
                 HR_AR = sensorList.heartR[0].HR_AR
             )
             saveHeartSensor(sensorHeartDB)
@@ -262,9 +233,9 @@ class SensorsRepositoryImpl(
             val sensorList = mapperMqttToDd.mapFromTemp(msg)
             val sensorTempDB = SensorTempDB(
                 id = 0,
-                patient_id = currentPatient.id,
+                internment_id = intermentId,
                 time = sensorList.bodyT[0].time,
-                temp = sensorList.bodyT[0].temp
+                temp = scaleSensorValueByID(SENSOR_TEMPERATURE_ID, sensorList.bodyT[0].temp)
             )
             saveTempSensor(sensorTempDB)
         }

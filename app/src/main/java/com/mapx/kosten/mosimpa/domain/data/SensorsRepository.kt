@@ -5,18 +5,18 @@ import com.mapx.kosten.mosimpa.domain.entites.*
 
 interface SensorsRepository {
 
-    suspend fun connectMqtt(mac: String)
+    suspend fun connectMqtt(mac: String): String
 
     fun subscribeId(internment: InternmentEntity)
     fun unSubscribeId(internment: InternmentEntity)
 
-    suspend fun subscribeToAll()
+    suspend fun subscribeToAll(): String
 
-    fun observeDevices(): LiveData<String>
+    fun updateInternments()
 
-    fun getO2Data(internment: InternmentEntity): LiveData<SensorO2Entity>
-    fun getBloodData(internment: InternmentEntity): LiveData<SensorBloodEntity>
-    fun getHeartData(internment: InternmentEntity): LiveData<SensorHeartEntity>
-    fun getTempData(internment: InternmentEntity): LiveData<SensorTempEntity>
+    fun getO2Data(): LiveData<SensorO2Entity>
+    fun getBloodData(): LiveData<SensorBloodEntity>
+    fun getHeartData(): LiveData<SensorHeartEntity>
+    fun getTempData(): LiveData<SensorTempEntity>
 
 }

@@ -4,6 +4,9 @@ class Constants {
     companion object{
         const val SERVER_URI = "tcp://192.168.0.83"
 
+        const val MQTT_CONNECTION_OK = "connectComplete"
+        const val MQTT_CONNECTION_FAIL = "connectLost"
+
         const val DEFAULT_MAC_ADDRESS = "AABBCCDDEEFF"
 
         const val SERVER_URI_PREFIX = "tcp://"

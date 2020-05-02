@@ -11,12 +11,10 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.mapx.kosten.mosimpa.R
-import com.mapx.kosten.mosimpa.data.client.MqttClient
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration : AppBarConfiguration
-    // private val topics = arrayOf("#", "reads/b827eb8b862")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,10 +33,6 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBar(navController, appBarConfiguration)
         setupBottomNavMenu(navController)
-
-        // TODO MQQT client move to data di
-        // var mqttClient = MqttClient(this)
-        //mqttClient.connect(topics)
     }
 
     private fun setupBottomNavMenu(

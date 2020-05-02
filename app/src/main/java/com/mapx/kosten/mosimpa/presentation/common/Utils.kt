@@ -1,6 +1,9 @@
 package com.mapx.kosten.mosimpa.presentation.common
 
+import android.content.Context
+import android.net.wifi.WifiManager
 import com.mapx.kosten.mosimpa.R
+import com.mapx.kosten.mosimpa.domain.common.Constants
 import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.EMPTY_STRING
 import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_HEART_ID
 import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_O2_ID
@@ -33,6 +36,16 @@ class Utils {
                 SENSOR_HEART_ID -> " Lpm"
                 SENSOR_BLOOD_ID -> ""
                 SENSOR_TEMPERATURE_ID -> " °C"
+                else -> EMPTY_STRING
+            }
+        }
+
+        fun getSensorStringValue(id: Int, value: Float): String {
+            return when(id) {
+                SENSOR_O2_ID -> "%.1f".format(value) + " %"
+                SENSOR_HEART_ID -> "%.0f".format(value) + " Lpm"
+                SENSOR_BLOOD_ID -> "%.0f".format(value) + " Sys"
+                SENSOR_TEMPERATURE_ID -> "%.1f".format(value) + " °C"
                 else -> EMPTY_STRING
             }
         }
@@ -71,17 +84,6 @@ class Utils {
             }
         }
 
-        fun scaleSensorValueByID(id: Int, value: Float): Float {
-            return when(id) {
-                SENSOR_O2_ID -> value / 10
-                SENSOR_HEART_ID -> value / 10
-                SENSOR_BLOOD_ID -> value
-                SENSOR_TEMPERATURE_ID -> (value * 0.00390625).toFloat()
-                else -> 0F
-            }
-        }
-
-
         fun getSensorMaxValueByID(id: Int): Int {
             return when(id) {
                 SENSOR_O2_ID -> 100
@@ -99,5 +101,17 @@ class Utils {
                 else -> 0
             }
         }
+
+        fun getMacAddress(context: Context?): String {
+            var mac = Constants.DEFAULT_MAC_ADDRESS
+            context?.let {
+                val manager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+                val info = manager.connectionInfo
+                mac = info.macAddress.toUpperCase()
+            }
+            return mac.replace(":","")
+        }
+
     }
+
 }

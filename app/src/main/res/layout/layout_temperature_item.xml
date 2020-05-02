@@ -2,25 +2,25 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    style="@style/CommonRecyclerViewShapeBorder"
+    style="@style/CommonRecyclerViewShape"
     android:id="@+id/layoutTemperatureItem"
     android:orientation="horizontal">
 
     <TextView
-        android:id="@+id/tv_item_patient_temp_title"
+        android:id="@+id/tv_internment_item_temp_title"
         style="@style/CommonItemTitleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/patient_sensor_item_margin"
         android:layout_gravity="center_horizontal"
-        android:text="@string/patient_item_temp_title" />
+        android:text="@string/internments_item_temp_title" />
 
     <TextView
-        android:id="@+id/tv_item_patient_temp_value"
+        android:id="@+id/tv_internment_item_temp_value"
         style="@style/CommonItemTitleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="@string/patient_item_temp_value" />
+        android:text="@string/internments_item_temp_value" />
 
 </LinearLayout>

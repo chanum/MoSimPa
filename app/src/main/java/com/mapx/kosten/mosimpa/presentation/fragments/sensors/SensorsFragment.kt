@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -24,24 +23,26 @@ import com.mapx.kosten.mosimpa.domain.entites.*
 import com.mapx.kosten.mosimpa.presentation.common.App
 import com.mapx.kosten.mosimpa.presentation.common.Utils
 import com.mapx.kosten.mosimpa.presentation.common.Utils.Companion.INVALID_PATIENT_ID
+import com.mapx.kosten.mosimpa.presentation.viewmodels.InternmentsViewModel
+import com.mapx.kosten.mosimpa.presentation.viewmodels.InternmentsViewModelFactory
 import javax.inject.Inject
 
 
 class SensorsFragment : Fragment() {
     @Inject
-    lateinit var factory: SensorsViewModelFactory
-    private lateinit var viewModel: SensorsViewModel
+    lateinit var factory: InternmentsViewModelFactory
+    private lateinit var viewModel: InternmentsViewModel
     private lateinit var rootLayout: CoordinatorLayout
     private lateinit var recyclerView: RecyclerView
     private lateinit var progressBar: ProgressBar
     private lateinit var emptyMessage: TextView
     private lateinit var adapter: SensorsAdapter
-    private var patientId: Long = INVALID_PATIENT_ID
+    private var internmentId: Long = INVALID_PATIENT_ID
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (activity?.application as App).createSensorsComponent().inject(this)
-        viewModel = ViewModelProvider(this, factory).get(SensorsViewModel::class.java)
+        (activity?.application as App).createInternmentsComponent().inject(this)
+        viewModel = ViewModelProvider(this, factory).get(InternmentsViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -50,28 +51,23 @@ class SensorsFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_sensors, container, false)
         val safeArgs: SensorsFragmentArgs by navArgs()
-        patientId = safeArgs.patientId
+        internmentId = safeArgs.patientId
         return view
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.sensorO2Value.observe(viewLifecycleOwner, Observer {
-            it?.let{ handleViewSensorO2State(it) }
+            it?.let{ if(it.internmentId == internmentId) handleViewSensorO2State(it) }
         })
         viewModel.sensorBloodValue.observe(viewLifecycleOwner, Observer {
-            it?.let{ handleViewSensorBloodState(it) }
+            it?.let{ if(it.internmentId == internmentId) handleViewSensorBloodState(it) }
         })
         viewModel.sensorHeartValue.observe(viewLifecycleOwner, Observer {
-            it?.let{ handleViewSensorHeartState(it) }
+            it?.let{ if(it.internmentId == internmentId) handleViewSensorHeartState(it) }
         })
         viewModel.sensorTempValue.observe(viewLifecycleOwner, Observer {
-            it?.let{ handleViewSensorTempState(it) }
-        })
-        viewModel.errorState.observe(viewLifecycleOwner, Observer { throwable ->
-            throwable?.let {
-                Toast.makeText(activity, it.message, Toast.LENGTH_LONG).show()
-            }
+            it?.let{ if(it.internmentId == internmentId) handleViewSensorTempState(it) }
         })
     }
 
@@ -94,54 +90,25 @@ class SensorsFragment : Fragment() {
         progressBar.visibility = View.GONE
     }
 
-    override fun onResume() {
-        super.onResume()
-        viewModel.subscribePatient(patientId)
-    }
-
     override fun onDestroy() {
         super.onDestroy()
-        (activity?.application as App).releaseSensorsComponent()
+        (activity?.application as App).releaseInternmentsComponent()
     }
 
     private fun handleViewSensorO2State(sensor: SensorO2Entity) {
-        val index = SENSOR_O2_IDX
-        if (index > INVALID_SENSOR) {
-            val item = adapter.sensorEntities[index]
-            item.id = SENSOR_O2_ID
-            item.value = sensor.spo2
-            adapter.notifyItemChanged(index, item)
-        }
+        adapter.updateSensorValue(SENSOR_O2_IDX, sensor.spo2)
     }
 
     private fun handleViewSensorHeartState(sensor: SensorHeartEntity) {
-        val index = SENSOR_HEART_IDX
-        if (index > INVALID_SENSOR) {
-            val item = adapter.sensorEntities[index]
-            item.id = SENSOR_HEART_ID
-            item.value = sensor.heartR.toFloat()
-            adapter.notifyItemChanged(index, item)
-        }
+        adapter.updateSensorValue(SENSOR_HEART_IDX, sensor.heartR.toFloat())
     }
 
     private fun handleViewSensorBloodState(sensor: SensorBloodEntity) {
-        val index = SENSOR_BLOOD_IDX
-        if (index > INVALID_SENSOR) {
-            val item = adapter.sensorEntities[index]
-            item.id = SENSOR_BLOOD_ID
-            item.value = sensor.sys.toFloat()
-            adapter.notifyItemChanged(index, item)
-        }
+        adapter.updateSensorValue(SENSOR_BLOOD_IDX, sensor.sys.toFloat())
     }
 
     private fun handleViewSensorTempState(sensor: SensorTempEntity) {
-        val index = SENSOR_TEMPERATURE_IDX
-        if (index > INVALID_SENSOR) {
-            val item = adapter.sensorEntities[index]
-            item.id = SENSOR_TEMPERATURE_ID
-            item.value = sensor.temp
-            adapter.notifyItemChanged(index, item)
-        }
+        adapter.updateSensorValue(SENSOR_TEMPERATURE_IDX, sensor.temp)
     }
 
     private fun goToDetailView(sensorEntity: SensorEntity, view: View) {
@@ -182,7 +149,6 @@ class SensorsFragment : Fragment() {
     }
 
     companion object {
-        const val INVALID_SENSOR = -1
         const val SENSOR_O2_IDX = 0
         const val SENSOR_HEART_IDX = 1
         const val SENSOR_BLOOD_IDX = 2

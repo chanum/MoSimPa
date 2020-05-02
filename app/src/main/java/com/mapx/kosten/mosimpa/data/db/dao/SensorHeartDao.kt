@@ -19,4 +19,7 @@ interface SensorHeartDao {
 
     @Query("DELETE FROM " + SENSOR_HEART_TABLE)
     fun clear()
+
+    @Query("SELECT * FROM " + SENSOR_HEART_TABLE + " WHERE internment_id=:id LIMIT 1" )
+    fun getDataByInternmentId(id: Long): LiveData<SensorHeartDB>
 }

@@ -19,4 +19,7 @@ interface SensorTempDao {
 
     @Query("DELETE FROM " + SENSOR_TEMP_TABLE)
     fun clear()
+
+    @Query("SELECT * FROM " + SENSOR_TEMP_TABLE + " WHERE internment_id=:id LIMIT 1" )
+    fun getDataByInternmentId(id: Long): LiveData<SensorTempDB>
 }

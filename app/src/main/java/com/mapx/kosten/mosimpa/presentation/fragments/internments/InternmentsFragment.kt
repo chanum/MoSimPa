@@ -19,9 +19,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mapx.kosten.mosimpa.R
 import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.DEFAULT_MAC_ADDRESS
-import com.mapx.kosten.mosimpa.domain.entites.InternmentEntity
+import com.mapx.kosten.mosimpa.domain.entites.*
 import com.mapx.kosten.mosimpa.presentation.common.App
 import com.mapx.kosten.mosimpa.presentation.common.Utils.Companion.INVALID_PATIENT_ID
+import com.mapx.kosten.mosimpa.presentation.entities.InternmentView
+import com.mapx.kosten.mosimpa.presentation.viewmodels.InternmentsViewModel
+import com.mapx.kosten.mosimpa.presentation.viewmodels.InternmentsViewModelFactory
 import javax.inject.Inject
 
 class InternmentsFragment : Fragment() {
@@ -52,10 +55,22 @@ class InternmentsFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        macAddress =  "aabbccddeeff" // getMacAddress(context)
         viewModel.internments.observe(viewLifecycleOwner, Observer {
             if (it != null) handleInternments(it)
         })
-        macAddress = getMacAddress(context)
+        viewModel.sensorO2Value.observe(viewLifecycleOwner, Observer {
+            it?.let{ handleViewSensorO2State(it) }
+        })
+        viewModel.sensorBloodValue.observe(viewLifecycleOwner, Observer {
+            it?.let{ handleViewSensorBloodState(it) }
+        })
+        viewModel.sensorHeartValue.observe(viewLifecycleOwner, Observer {
+            it?.let{ handleViewSensorHeartState(it) }
+        })
+        viewModel.sensorTempValue.observe(viewLifecycleOwner, Observer {
+            it?.let{ handleViewSensorTempState(it) }
+        })
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -71,7 +86,7 @@ class InternmentsFragment : Fragment() {
         }
 
         refreshBtn.setOnClickListener{
-            updateInternments()
+            viewModel.refreshInternments()
         }
 
         recyclerView.layoutManager = LinearLayoutManager(activity)
@@ -88,7 +103,7 @@ class InternmentsFragment : Fragment() {
         (activity?.application as App).releaseInternmentsComponent()
     }
 
-    private fun handleInternments(internments: List<InternmentEntity>) {
+    private fun handleInternments(internments: List<InternmentView>) {
         progressBar.visibility = View.GONE
         emptyMessage.visibility = View.GONE
         if (internments.isEmpty()) {
@@ -97,9 +112,9 @@ class InternmentsFragment : Fragment() {
         adapter.setPatients(internments)
     }
 
-    private fun goToDetailView(internmentEntity: InternmentEntity, view: View) {
-        Log.i(javaClass.simpleName, "goToDetailView(): $internmentEntity")
-        if (internmentEntity.id > INVALID_PATIENT_ID) goToDetails(internmentEntity.id)
+    private fun goToDetailView(internment: InternmentView, view: View) {
+        Log.i(javaClass.simpleName, "goToDetailView(): $internment")
+        if (internment.id > INVALID_PATIENT_ID) goToDetails(internment.id)
     }
 
     private fun goToDetails(id: Long) {
@@ -107,19 +122,19 @@ class InternmentsFragment : Fragment() {
        findNavController().navigate(action)
     }
 
-    private fun updateInternments() {
-        viewModel.connectAndSubscribeToAll(macAddress)
+    private fun handleViewSensorO2State(sensor: SensorO2Entity) {
+        adapter.setO2Value(sensor)
     }
 
-    // TODO move to use case
-    fun getMacAddress(context: Context?): String {
-        var mac = DEFAULT_MAC_ADDRESS
-        context?.let {
-            val manager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
-            val info = manager.connectionInfo
-            mac = info.macAddress.toUpperCase()
-        }
-        return mac.replace(":","")
+    private fun handleViewSensorHeartState(sensor: SensorHeartEntity) {
+        adapter.setHeartValue(sensor)
     }
 
+    private fun handleViewSensorBloodState(sensor: SensorBloodEntity) {
+        adapter.setBloodValue(sensor)
+    }
+
+    private fun handleViewSensorTempState(sensor: SensorTempEntity) {
+        adapter.setTempValue(sensor)
+    }
 }

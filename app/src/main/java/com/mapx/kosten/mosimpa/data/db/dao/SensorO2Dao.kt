@@ -19,4 +19,7 @@ interface SensorO2Dao {
 
     @Query("DELETE FROM " + SENSOR_O2_TABLE)
     fun clear()
+
+    @Query("SELECT * FROM " + SENSOR_O2_TABLE + " WHERE internment_id=:id LIMIT 1" )
+    fun getDataByInternmentId(id: Long): LiveData<SensorO2DB>
 }

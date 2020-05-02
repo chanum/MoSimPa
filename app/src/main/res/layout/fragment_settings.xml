@@ -45,7 +45,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:text="@string/settings_patient_save_btn" />
+                android:text="@string/settings_ip_save_btn" />
 
         </RelativeLayout>
 
@@ -54,22 +54,6 @@
             android:layout_height="2dp"
             android:layout_margin="8dp"
             android:background="#c0c0c0"/>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_settings_patients"
-            style="@style/CommonRecyclerView" />
-
-        <TextView
-            android:id="@+id/tv_settings_empty"
-            style="@style/CommonTextViewRVEmpty"
-            android:text="@string/settings_progress" />
-
-        <ProgressBar
-            android:id="@+id/pb_settings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"/>
-
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
