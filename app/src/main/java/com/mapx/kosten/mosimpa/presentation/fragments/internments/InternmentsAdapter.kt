@@ -117,50 +117,126 @@ class InternmentsAdapter constructor(
                 internmentEntity.deviceId
             )
 
-            tv_internment_item_o2_value.text = getSensorStringValue(SENSOR_O2_ID, internmentEntity.sensorO2.spo2)
-            tv_internment_item_o2_value.setTextColor(
-                ContextCompat.getColor(
-                context,
-                    Utils.getSensorValueColorByID(SENSOR_O2_ID, internmentEntity.sensorO2.spo2)
-            ))
-
+            // Blood Pressure - TODO: separate sys and dia - Alarms -------------------------------
             tv_internment_item_blood_dia_value.text = context.resources.getString(
                 R.string.internments_item_blood_dia_value,
-                internmentEntity.sensorBlood.dia.toString())
-            tv_internment_item_blood_dia_value.setTextColor(
+                internmentEntity.sensorBlood.dia.toString()
+            )
+            /*tv_internment_item_blood_dia_value.setTextColor(
                 ContextCompat.getColor(
                     context,
-                    Utils.getSensorValueColorByID(SENSOR_BLOOD_ID, internmentEntity.sensorBlood.dia.toFloat())
-                ))
+                    Utils.getSensorValueColorByID(SENSOR_BLOOD_ID, internmentEntity.sensorBlood.dia.toFloat()
+                    )
+                )
+            )*/
 
             tv_internment_item_blood_sys_value.text = context.resources.getString(
                 R.string.internments_item_blood_sys_value,
-                internmentEntity.sensorBlood.sys.toString())
+                internmentEntity.sensorBlood.sys.toString()
+            )
             tv_internment_item_blood_sys_value.setTextColor(
                 ContextCompat.getColor(
                     context,
-                    Utils.getSensorValueColorByID(SENSOR_BLOOD_ID, internmentEntity.sensorBlood.sys.toFloat())
-                ))
+                    Utils.getSensorValueColorByID(
+                        SENSOR_BLOOD_ID,
+                        internmentEntity.sensorBlood.sys.toFloat(),
+                        internmentEntity.alarms
+                    )
+                )
+            )
+            // Alarm only for sys
+            tv_internment_item_blood_alarm_min.text = context.resources.getString(
+                R.string.internments_item_alarms_min,
+                internmentEntity.alarms.bp_sys_lt.toString()
+            )
+            tv_internment_item_blood_alarm_max.text = context.resources.getString(
+                R.string.internments_item_alarms_max,
+                internmentEntity.alarms.bp_sys_gt.toString()
+            )
 
-            tv_internment_item_heart_value.text = getSensorStringValue(SENSOR_HEART_ID, internmentEntity.sensorHeart.heartR.toFloat())
+            // Heart Rate --------------------------------------------------------------------------
+            tv_internment_item_heart_value.text = getSensorStringValue(
+                SENSOR_HEART_ID,
+                internmentEntity.sensorHeart.heartR.toFloat()
+            )
+
             tv_internment_item_heart_value.setTextColor(
                 ContextCompat.getColor(
                     context,
-                    Utils.getSensorValueColorByID(SENSOR_HEART_ID, internmentEntity.sensorHeart.heartR.toFloat())
-                ))
+                    Utils.getSensorValueColorByID(
+                        SENSOR_HEART_ID,
+                        internmentEntity.sensorHeart.heartR.toFloat(),
+                        internmentEntity.alarms
+                    )
+                )
+            )
 
-            tv_internment_item_temp_value.text = getSensorStringValue(SENSOR_TEMPERATURE_ID, internmentEntity.sensorTemp.temp)
+            tv_internment_item_heart_alarm_min.text = context.resources.getString(
+                R.string.internments_item_alarms_min,
+                internmentEntity.alarms.hr_lt.toString()
+            )
+            tv_internment_item_heart_alarm_max.text = context.resources.getString(
+                R.string.internments_item_alarms_max,
+                internmentEntity.alarms.hr_gt.toString()
+            )
+
+            // Spo2 --------------------------------------------------------------------------------
+            tv_internment_item_o2_value.text = getSensorStringValue(
+                SENSOR_O2_ID,
+                internmentEntity.sensorO2.spo2
+            )
+            tv_internment_item_o2_value.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    Utils.getSensorValueColorByID(
+                        SENSOR_O2_ID,
+                        internmentEntity.sensorO2.spo2,
+                        internmentEntity.alarms
+                    )
+                )
+            )
+
+            tv_internment_item_o2_alarm_min.text = context.resources.getString(
+                R.string.internments_item_alarms_min,
+                internmentEntity.alarms.spo2_lt.toString()
+            )
+            tv_internment_item_o2_alarm_max.text = context.resources.getString(
+                R.string.internments_item_alarms_max,
+                EMPTY_ALARM
+            )
+
+            // Body Temperature -------------------------------------------------------------------
+            tv_internment_item_temp_value.text = getSensorStringValue(
+                SENSOR_TEMPERATURE_ID,
+                internmentEntity.sensorTemp.temp
+            )
             tv_internment_item_temp_value.setTextColor(
                 ContextCompat.getColor(
                     context,
-                    Utils.getSensorValueColorByID(SENSOR_TEMPERATURE_ID, internmentEntity.sensorTemp.temp)
-                ))
+                    Utils.getSensorValueColorByID(
+                        SENSOR_TEMPERATURE_ID,
+                        internmentEntity.sensorTemp.temp,
+                        internmentEntity.alarms
+                    )
+                )
+            )
+            tv_internment_item_temp_alarm_min.text = context.resources.getString(
+                R.string.internments_item_alarms_min,
+                EMPTY_ALARM
+            )
+            tv_internment_item_temp_alarm_max.text = context.resources.getString(
+                R.string.internments_item_alarms_max,
+                internmentEntity.alarms.bt_gt.toString()
+            )
+
+            // item click listener -----------------------------------------------------------------
             setOnClickListener { listener(internmentEntity, itemView) }
         }
     }
 
     companion object {
         private const val INVALID_INDEX = -1
+        private const val EMPTY_ALARM = "---"
     }
 }
 

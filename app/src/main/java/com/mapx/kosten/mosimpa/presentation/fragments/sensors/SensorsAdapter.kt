@@ -60,12 +60,16 @@ class SensorsAdapter constructor(
         fun bind(sensor: SensorEntity, listener: (SensorEntity, View) -> Unit) = with(itemView) {
             tv_item_sensor_title.text = sensor.name
             tv_item_sensor_value.text = getSensorStringValue(sensor.id, sensor.value)
-            tv_item_sensor_value.setTextColor(
+/*            tv_item_sensor_value.setTextColor(
                 ContextCompat.getColor(
                     context,
-                    getSensorValueColorByID(sensor.id, sensor.value)
+                    getSensorValueColorByID(
+                        sensor.id,
+                        sensor.value,
+                        internmentEntity.alarms
+                    )
                 )
-            )
+            )*/
 
             updateChart(sensor.value, sensor.id)
 

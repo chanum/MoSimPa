@@ -173,12 +173,20 @@ class SensorsRepositoryImpl(
             // TODO mapper to DB
             it.internments.forEach {
                 // add internment to DB
+                val alarms = AlarmsEntity (
+                    spo2_lt = scaleSensorValueByID(SENSOR_O2_ID, it.alarms.spo2_lt),
+                    hr_lt = scaleSensorValueByID(SENSOR_O2_ID, it.alarms.hr_lt),
+                    hr_gt = scaleSensorValueByID(SENSOR_O2_ID, it.alarms.hr_gt),
+                    bt_gt= scaleSensorValueByID(SENSOR_O2_ID, it.alarms.bt_gt),
+                    bp_sys_lt = scaleSensorValueByID(SENSOR_O2_ID, it.alarms.bp_sys_lt),
+                    bp_sys_gt= scaleSensorValueByID(SENSOR_O2_ID, it.alarms.bp_sys_gt)
+                )
                 val internment = InternmentDB(
                     id = it.internment_id,
                     device = it.device,
                     patient = it.patient,
                     location = it.location,
-                    alarms = it.alarms
+                    alarms = alarms
                 )
                 saveIntermentToDb(internment)
                 internments.add(internment)

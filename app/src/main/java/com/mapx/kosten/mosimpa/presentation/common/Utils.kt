@@ -9,6 +9,7 @@ import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_HEART_ID
 import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_O2_ID
 import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_BLOOD_ID
 import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_TEMPERATURE_ID
+import com.mapx.kosten.mosimpa.domain.entites.AlarmsEntity
 
 class Utils {
 
@@ -50,29 +51,33 @@ class Utils {
             }
         }
 
-        fun getSensorValueColorByID(id: Int, value: Float): Int {
+        fun getSensorValueColorByID(id: Int, value: Float, alarm: AlarmsEntity): Int {
             val colorOK = R.color.green
             val colorCritical = R.color.red
             return when(id) {
                 SENSOR_O2_ID -> {
-                    if (value <= SENSOR_O2_MIN_CRITICAL) {
+                    if (value <= alarm.spo2_lt) {
                         colorCritical
                     } else {
                         colorOK
                     }
                 }
                 SENSOR_HEART_ID -> {
-                    if (value < SENSOR_HEART_MIN_CRITICAL || value > SENSOR_HEART_MAX_CRITICAL ) {
+                    if (value < alarm.hr_gt || value > alarm.hr_lt ) {
                         colorCritical
                     } else {
                         colorOK
                     }
                 }
                 SENSOR_BLOOD_ID -> {
-                    colorOK
+                    if (value < alarm.bp_sys_gt || value > alarm.bp_sys_lt ) {
+                        colorCritical
+                    } else {
+                        colorOK
+                    }
                 }
                 SENSOR_TEMPERATURE_ID -> {
-                    if (value >= SENSOR_TEMP_MAX_CRITICAL) {
+                    if (value >= alarm.hr_lt) {
                         colorCritical
                     } else {
                         colorOK
