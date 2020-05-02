@@ -3,7 +3,7 @@ package com.mapx.kosten.mosimpa.data.repositories
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
-import com.mapx.kosten.mosimpa.data.client.MqttClient
+import com.mapx.kosten.mosimpa.data.services.client.MqttClient
 import com.mapx.kosten.mosimpa.data.db.MosimpaDatabase
 import com.mapx.kosten.mosimpa.data.db.dao.*
 import com.mapx.kosten.mosimpa.data.entities.*

@@ -11,7 +11,6 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.mapx.kosten.mosimpa.R
-import com.mapx.kosten.mosimpa.data.client.MqttClient
 
 class MainActivity : AppCompatActivity() {
 

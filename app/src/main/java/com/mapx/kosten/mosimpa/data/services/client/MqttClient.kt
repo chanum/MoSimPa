@@ -1,4 +1,4 @@
-package com.mapx.kosten.mosimpa.data.client
+package com.mapx.kosten.mosimpa.data.services.client
 
 import android.content.Context
 import android.util.Log

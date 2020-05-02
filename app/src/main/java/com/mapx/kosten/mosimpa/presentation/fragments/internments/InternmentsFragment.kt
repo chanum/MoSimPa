@@ -55,7 +55,7 @@ class InternmentsFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        macAddress = getMacAddress(context)
+        macAddress =  "aabbccddeeff" // getMacAddress(context)
         viewModel.internments.observe(viewLifecycleOwner, Observer {
             if (it != null) handleInternments(it)
         })
@@ -120,18 +120,6 @@ class InternmentsFragment : Fragment() {
     private fun goToDetails(id: Long) {
        val action = InternmentsFragmentDirections.actionPatientsFragmentToSensorsFragment(id)
        findNavController().navigate(action)
-    }
-
-    // TODO move to use case
-    fun getMacAddress(context: Context?): String {
-        var mac = DEFAULT_MAC_ADDRESS
-        context?.let {
-            val manager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
-            val info = manager.connectionInfo
-            mac = info.macAddress.toUpperCase()
-        }
-        //return mac.replace(":","")
-        return "aabbccddeeff"
     }
 
     private fun handleViewSensorO2State(sensor: SensorO2Entity) {
