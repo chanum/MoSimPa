@@ -40,6 +40,9 @@
     <!-- Internments Fragment -->
     <string name="internments_progress">No hay internaciones cargadas</string>
 
+    <!-- Toast msj -->
+    <string name="connection_error_message">Error Conexión</string>
+
     <!-- Settings -->
     <string name="settings_title_broker_ip">Broker IP</string>
     <string name="settings_hint_broker_ip">192.168.0.83</string>

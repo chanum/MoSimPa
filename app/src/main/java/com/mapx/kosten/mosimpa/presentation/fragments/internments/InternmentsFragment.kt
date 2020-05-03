@@ -1,7 +1,5 @@
 package com.mapx.kosten.mosimpa.presentation.fragments.internments
 
-import android.content.Context
-import android.net.wifi.WifiManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -55,7 +54,16 @@ class InternmentsFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
         macAddress =  "aabbccddeeff" // TODO: getMacAddress(context)
+
+        viewModel.snackBar.observe(viewLifecycleOwner, Observer {
+            if (it != null) showSnack()
+        })
+
+        viewModel.internments.observe(viewLifecycleOwner, Observer {
+            if (it != null) handleInternments(it)
+        })
         viewModel.internments.observe(viewLifecycleOwner, Observer {
             if (it != null) handleInternments(it)
         })
@@ -86,7 +94,7 @@ class InternmentsFragment : Fragment() {
         }
 
         refreshBtn.setOnClickListener{
-            viewModel.refreshInternments()
+            viewModel.connectAndSubscribeToAll(macAddress)
         }
 
         recyclerView.layoutManager = LinearLayoutManager(activity)
@@ -136,5 +144,13 @@ class InternmentsFragment : Fragment() {
 
     private fun handleViewSensorTempState(sensor: SensorTempEntity) {
         adapter.setTempValue(sensor)
+    }
+
+    private fun showSnack() {
+        Toast.makeText(
+            this.context,
+            resources.getString(R.string.connection_error_message),
+            Toast.LENGTH_SHORT
+        ).show()
     }
 }

@@ -32,21 +32,20 @@ class InternmentsViewModel(
     var sensorHeartValue: LiveData<SensorHeartEntity> = getHeartDataUseCase.invoke()
     var sensorTempValue: LiveData<SensorTempEntity> = getTempDataUseCase.invoke()
 
+    val snackBar = MutableLiveData<String?>()
+
     fun connectAndSubscribeToAll(mac: String) {
         viewModelScope.launch {
             // TODO rename: connect Mqtt And Subcribe /monitor and /reads/#
             val status = connectClientMqttUseCase.invoke(mac)
             if (status.equals(MQTT_CONNECTION_OK)) {
                 // publish in datakeeper/query cmd internments
-                refreshInternments()
+                updateInternmentsUseCase.invoke()
             } else {
                 // TODO error connection reconnect? or send a toast?
+                snackBar.value = ""
             }
         }
-    }
-
-    fun refreshInternments() {
-        updateInternmentsUseCase.invoke()
     }
 
     override fun onCleared() {
