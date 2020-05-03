@@ -1,26 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    style="@style/CommonRecyclerViewShape"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layoutHeartItem"
-    android:orientation="horizontal">
+    style="@style/CommonRecyclerViewShape"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/tv_internment_item_heart_title"
         style="@style/CommonItemTitleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/patient_sensor_item_margin"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/internments_item_heart_title" />
+        android:layout_marginStart="8dp"
+        android:text="@string/internments_item_heart_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_internment_item_heart_value"
         style="@style/CommonItemTitleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/internments_item_heart_value" />
+        android:layout_marginStart="8dp"
+        android:text="@string/internments_item_heart_value"
+        app:layout_constraintStart_toEndOf="@+id/tv_internment_item_heart_title"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/tv_internment_item_heart_alarm_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/internments_item_alarms_title"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_internment_item_heart_title" />
+
+    <TextView
+        android:id="@+id/tv_internment_item_heart_alarm_min"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/internments_item_alarms_min"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_internment_item_heart_alarm_title"
+        app:layout_constraintTop_toBottomOf="@+id/tv_internment_item_heart_title" />
+
+    <TextView
+        android:id="@+id/tv_internment_item_heart_alarm_max"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/internments_item_alarms_max"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_internment_item_heart_alarm_min"
+        app:layout_constraintTop_toBottomOf="@+id/tv_internment_item_heart_title" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

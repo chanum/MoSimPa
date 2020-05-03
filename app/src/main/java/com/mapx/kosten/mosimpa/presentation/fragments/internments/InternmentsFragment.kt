@@ -55,7 +55,7 @@ class InternmentsFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        macAddress =  "aabbccddeeff" // getMacAddress(context)
+        macAddress =  "aabbccddeeff" // TODO: getMacAddress(context)
         viewModel.internments.observe(viewLifecycleOwner, Observer {
             if (it != null) handleInternments(it)
         })

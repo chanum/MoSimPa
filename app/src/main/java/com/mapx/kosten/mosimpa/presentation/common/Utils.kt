@@ -9,6 +9,7 @@ import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_HEART_ID
 import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_O2_ID
 import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_BLOOD_ID
 import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_TEMPERATURE_ID
+import com.mapx.kosten.mosimpa.domain.entites.AlarmsEntity
 
 class Utils {
 
@@ -44,35 +45,39 @@ class Utils {
             return when(id) {
                 SENSOR_O2_ID -> "%.1f".format(value) + " %"
                 SENSOR_HEART_ID -> "%.0f".format(value) + " Lpm"
-                SENSOR_BLOOD_ID -> "%.0f".format(value) + " Sys"
+                SENSOR_BLOOD_ID -> "%.0f".format(value) + " mmHg"
                 SENSOR_TEMPERATURE_ID -> "%.1f".format(value) + " °C"
                 else -> EMPTY_STRING
             }
         }
 
-        fun getSensorValueColorByID(id: Int, value: Float): Int {
+        fun getSensorValueColorByID(id: Int, value: Float, min: Float, max: Float): Int {
             val colorOK = R.color.green
             val colorCritical = R.color.red
             return when(id) {
                 SENSOR_O2_ID -> {
-                    if (value <= SENSOR_O2_MIN_CRITICAL) {
+                    if (value <= min) {
                         colorCritical
                     } else {
                         colorOK
                     }
                 }
                 SENSOR_HEART_ID -> {
-                    if (value < SENSOR_HEART_MIN_CRITICAL || value > SENSOR_HEART_MAX_CRITICAL ) {
+                    if (value < min || value > max ) {
                         colorCritical
                     } else {
                         colorOK
                     }
                 }
                 SENSOR_BLOOD_ID -> {
-                    colorOK
+                    if (value < min || value > max ) {
+                        colorCritical
+                    } else {
+                        colorOK
+                    }
                 }
                 SENSOR_TEMPERATURE_ID -> {
-                    if (value >= SENSOR_TEMP_MAX_CRITICAL) {
+                    if (value >= max) {
                         colorCritical
                     } else {
                         colorOK

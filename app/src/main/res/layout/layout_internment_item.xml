@@ -11,9 +11,10 @@
         style="@style/CommonItemTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="@string/internment_item_patient_name"
         android:gravity="start"
+        android:text="@string/internment_item_patient_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -32,9 +33,10 @@
         style="@style/CommonItemSubTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="@string/internments_item_id"
         android:gravity="start"
+        android:text="@string/internments_item_id"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view_divisor_0" />
@@ -44,9 +46,10 @@
         style="@style/CommonItemSubTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="@string/internments_item_patient_age"
         android:gravity="start"
+        android:text="@string/internments_item_patient_age"
         app:layout_constraintEnd_toStartOf="@+id/tv_item_internment_patient_gender"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -70,9 +73,10 @@
         style="@style/CommonItemSubTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="@string/internments_item_location"
         android:gravity="start"
+        android:text="@string/internments_item_location"
         app:layout_constraintEnd_toStartOf="@+id/tv_item_internment_location_type"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -96,8 +100,10 @@
         style="@style/CommonItemSubTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/internments_item_device_id"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:gravity="start"
+        android:text="@string/internments_item_device_id"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.562"
         app:layout_constraintStart_toStartOf="parent"
@@ -106,18 +112,6 @@
     <include
         android:id="@+id/layout_o2_item"
         layout="@layout/layout_o2_item"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layout_heart_item" />
-
-    <include
-        android:id="@+id/layout_blood_item"
-        layout="@layout/layout_blood_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -137,7 +131,19 @@
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layout_blood_item" />
+        app:layout_constraintTop_toBottomOf="@+id/layout_o2_item" />
+
+    <include
+        android:id="@+id/layout_blood_item"
+        layout="@layout/layout_blood_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_heart_item" />
 
     <include
         android:id="@+id/layout_temperature_item"
@@ -151,6 +157,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layout_o2_item" />
+        app:layout_constraintTop_toBottomOf="@+id/layout_blood_item" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
