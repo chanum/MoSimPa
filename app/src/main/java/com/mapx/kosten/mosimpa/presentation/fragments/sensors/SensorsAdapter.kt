@@ -10,6 +10,11 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.mapx.kosten.mosimpa.R
+import com.mapx.kosten.mosimpa.domain.common.Constants
+import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_BLOOD_ID
+import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_HEART_ID
+import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_O2_ID
+import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_TEMPERATURE_ID
 import com.mapx.kosten.mosimpa.presentation.common.Utils.Companion.getSensorStringValue
 import com.mapx.kosten.mosimpa.presentation.common.Utils.Companion.getSensorValueColorByID
 import com.mapx.kosten.mosimpa.presentation.entities.SensorView
@@ -61,9 +66,6 @@ class SensorsAdapter constructor(
         private val entries = ArrayList<Entry>()
         private val lineChart = itemView.lineChart_sensor
 
-        init {
-            configureSensorChart()
-        }
 
         fun bind(sensor: SensorView, listener: (SensorView, View) -> Unit) = with(itemView) {
             tv_item_sensor_title.text = sensor.name
@@ -80,16 +82,37 @@ class SensorsAdapter constructor(
                 )
             )
 
+            configureSensorChart(sensor.id)
             updateLimits(sensor.alarmMin, sensor.alarmMax)
             updateChart(sensor.value, sensor.id)
 
             setOnClickListener { listener(sensor, itemView) }
         }
 
-        private fun configureSensorChart() {
-            val set = LineDataSet(entries, "Value")
+        private fun configureSensorChart(id: Int) {
+            var labelValue = "Value"
+            var labelY = "Sensor"
+            when(id) {
+                SENSOR_O2_ID -> {
+                    labelValue = "SpO2"
+                    labelY = "%"
+                }
+                SENSOR_HEART_ID -> {
+                    labelValue = "HR"
+                    labelY = "Lpm"
+                }
+                SENSOR_BLOOD_ID -> {
+                    labelValue = "BP"
+                    labelY = "mmHg"
+                }
+                SENSOR_TEMPERATURE_ID -> {
+                    labelValue = "Temp"
+                    labelY = "ºC"
+                }
+            }
+            val set = LineDataSet(entries, labelValue)
             lineChart.data = LineData(set)
-            lineChart.description.text = "Sensor"
+            lineChart.description.text = labelY
         }
 
         // TODO try to update only when internments change
@@ -167,7 +190,7 @@ class SensorsAdapter constructor(
 
         companion object {
             const val VISIBLE_X_RANGE = 40F
-            const val VISIBLE_HISTORY = 1000
+            const val VISIBLE_HISTORY = 600
         }
     }
 }

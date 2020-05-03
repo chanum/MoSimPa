@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.Observer
@@ -22,7 +23,7 @@ class SettingsFragment : Fragment() {
     @Inject
     lateinit var factory: SettingsViewModelFactory
     private lateinit var viewModel: SettingsViewModel
-    private lateinit var rootLayout: CoordinatorLayout
+    private lateinit var rootLayout: ConstraintLayout
     private lateinit var brokerIpTxt: EditText
     private lateinit var saveIpButton: Button
 
