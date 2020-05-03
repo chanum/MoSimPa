@@ -90,14 +90,11 @@ class SensorsRepositoryImpl(
         return withContext(Dispatchers.IO) {
             var status = ""
             val url = getBrokerIp()
-            if (::mqttClient.isInitialized) {
-                if (isANewUrl(url)) {
-                    mqttClient.close()
-                    status = connectAndSubscribe(url)
-                }
-            } else {
-                status = connectAndSubscribe(url)
-            }
+            // TODO
+            // if (isANewUrl(url)) {
+                // mqttClient.close()
+            //}
+            status = connectAndSubscribe(url)
             status
         }
     }

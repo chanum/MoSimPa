@@ -1,6 +1,7 @@
 package com.mapx.kosten.mosimpa.presentation.viewmodels
 
 import androidx.lifecycle.*
+import com.mapx.kosten.mosimpa.R
 import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.MQTT_CONNECTION_OK
 import com.mapx.kosten.mosimpa.domain.entites.*
 import com.mapx.kosten.mosimpa.domain.interactors.internments.GetInternmentsUseCase
@@ -32,6 +33,8 @@ class InternmentsViewModel(
     var sensorHeartValue: LiveData<SensorHeartEntity> = getHeartDataUseCase.invoke()
     var sensorTempValue: LiveData<SensorTempEntity> = getTempDataUseCase.invoke()
 
+    val snackBar = MutableLiveData<String?>()
+
     fun connectAndSubscribeToAll(mac: String) {
         viewModelScope.launch {
             // TODO rename: connect Mqtt And Subcribe /monitor and /reads/#
@@ -41,6 +44,7 @@ class InternmentsViewModel(
                 refreshInternments()
             } else {
                 // TODO error connection reconnect? or send a toast?
+                snackBar.value = ""
             }
         }
     }

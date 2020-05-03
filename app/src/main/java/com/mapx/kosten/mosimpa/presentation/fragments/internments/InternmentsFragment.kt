@@ -17,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 import com.mapx.kosten.mosimpa.R
 import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.DEFAULT_MAC_ADDRESS
 import com.mapx.kosten.mosimpa.domain.entites.*
@@ -55,7 +56,16 @@ class InternmentsFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
         macAddress =  "aabbccddeeff" // TODO: getMacAddress(context)
+
+        viewModel.snackBar.observe(viewLifecycleOwner, Observer {
+            if (it != null) showSnack()
+        })
+
+        viewModel.internments.observe(viewLifecycleOwner, Observer {
+            if (it != null) handleInternments(it)
+        })
         viewModel.internments.observe(viewLifecycleOwner, Observer {
             if (it != null) handleInternments(it)
         })
@@ -136,5 +146,14 @@ class InternmentsFragment : Fragment() {
 
     private fun handleViewSensorTempState(sensor: SensorTempEntity) {
         adapter.setTempValue(sensor)
+    }
+
+    private fun showSnack() {
+        val snack = Snackbar.make(
+            rootLayout,
+            resources.getString(R.string.connection_error_message),
+            Snackbar.LENGTH_LONG
+        )
+        snack.show()
     }
 }

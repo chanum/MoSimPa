@@ -26,7 +26,7 @@ class MqttClient(
         const val TAG = "MqttClient"
     }
 
-    fun initialize(url: String) {
+    private fun initialize(url: String) {
         val uri = SERVER_URI_PREFIX + url
         val clientId = MqttClient.generateClientId()
         client = MqttAndroidClient(context, uri, clientId)

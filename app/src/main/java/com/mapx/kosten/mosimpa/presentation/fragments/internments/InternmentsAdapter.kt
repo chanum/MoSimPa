@@ -234,7 +234,23 @@ class InternmentsAdapter constructor(
             )
 
             // item click listener -----------------------------------------------------------------
-            setOnClickListener { listener(internmentEntity, itemView) }
+            // setOnClickListener { listener(internmentEntity, iv_item_internment_expand) }
+            iv_item_internment_detail.setOnClickListener{listener(internmentEntity, itemView) }
+            iv_item_internment_expand.setOnClickListener {
+                var status = View.VISIBLE
+                if (layout_o2_item.visibility == View.VISIBLE) {
+                    iv_item_internment_expand.setImageResource(R.drawable.ic_expand_more)
+                    status = View.GONE
+                } else {
+                    iv_item_internment_expand.setImageResource(R.drawable.ic_expand_less)
+                    status = View.VISIBLE
+                }
+                layout_o2_item.visibility = status
+                layout_heart_item.visibility = status
+                layout_blood_item.visibility = status
+                layout_temperature_item.visibility = status
+            }
+
         }
     }
 
