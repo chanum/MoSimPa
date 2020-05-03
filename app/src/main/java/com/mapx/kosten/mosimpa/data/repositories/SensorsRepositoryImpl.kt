@@ -159,7 +159,6 @@ class SensorsRepositoryImpl(
         }
     }
 
-
     /* ---------------------------------------------------------------------------------------*/
 
     override fun subscribeId(internment: InternmentEntity) {
