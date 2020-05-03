@@ -48,7 +48,7 @@ class SensorsRepositoryImpl(
     private val mapperMqttToDd = SensorMqttToEntityMapper()
     private val mapperInternmentsMqttToDd = InternmentsMqttToEntityRspMapper()
 
-    private lateinit var mqttClient: MqttClient
+    private var mqttClient: MqttClient? = null
 
     private var internments: MutableList<InternmentDB> = mutableListOf()
 
@@ -58,6 +58,14 @@ class SensorsRepositoryImpl(
     private var sensorTempCount: Long = 0
 
     private var macAddress: String = DEFAULT_MAC_ADDRESS
+
+    /* ---------------------------------------------------------------------------------------*/
+    private fun getMqttClient(url: String, createNewInstance: Boolean = false): MqttClient {
+        if (mqttClient == null || createNewInstance) {
+            mqttClient = MqttClient(context, url)
+        }
+        return mqttClient!!
+    }
 
     /* ---------------------------------------------------------------------------------------*/
     override fun getO2Data(): LiveData<SensorO2Entity> {
@@ -90,23 +98,26 @@ class SensorsRepositoryImpl(
         return withContext(Dispatchers.IO) {
             var status = ""
             val url = getBrokerIp()
-            // TODO
-            // if (isANewUrl(url)) {
-                // mqttClient.close()
-            //}
-            status = connectAndSubscribe(url)
+            if (mqttClient != null) {
+                if (isANewUrl(url)) {
+                    mqttClient?.let {it.close()}
+                    getMqttClient(url, true)
+                }
+            } else {
+                getMqttClient(url)
+            }
+            status = subscribeToAll()
             status
         }
     }
 
-    private suspend fun connectAndSubscribe(url: String): String {
-        mqttClient = MqttClient(context, url)
-        return subscribeToAll()
-    }
-
     private fun isANewUrl(url: String): Boolean {
-        val urlClient = mqttClient.client.serverURI
-        return !urlClient.equals(SERVER_URI_PREFIX + url)
+        var result = false
+        mqttClient?.let {
+            val urlClient = it.client.serverURI
+            result = !urlClient.equals(SERVER_URI_PREFIX + url)
+        }
+        return result
     }
 
     /* ---------------------------------------------------------------------------------------*/
@@ -114,7 +125,7 @@ class SensorsRepositoryImpl(
     override suspend fun subscribeToAll(): String {
         val topics = arrayOf("monitor/$macAddress", "reads/#")
         return suspendCoroutine { msg ->
-            mqttClient.connect(topics) { topic: String, message: MqttMessage?  ->
+            mqttClient?.connect(topics) { topic: String, message: MqttMessage?  ->
                 if(topic.equals(MQTT_CONNECTION_OK)) {
                     msg.resume(topic)
                 } else {
@@ -141,10 +152,10 @@ class SensorsRepositoryImpl(
 
     override fun updateInternments() {
         // TODO id
-        if (::mqttClient.isInitialized) {
+        if (mqttClient != null) {
             val topic = "datakeeper/query"
             val msg = "{\"mac\":\"$macAddress\",\"command\":\"internments\",\"id\":\"123AABB\"}"
-            mqttClient.publishMessage(topic, msg)
+            mqttClient?.publishMessage(topic, msg)
         }
     }
 
@@ -159,7 +170,7 @@ class SensorsRepositoryImpl(
     override fun unSubscribeId(internment: InternmentEntity) {
         val st = String.format("%02x", internment.deviceId)
         val topic = "reads/${st}"
-        mqttClient.unSubscribe(topic)
+        mqttClient?.unSubscribe(topic)
     }
 
     /* ---------------------------------------------------------------------------------------*/
