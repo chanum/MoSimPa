@@ -1,7 +1,5 @@
 package com.mapx.kosten.mosimpa.presentation.fragments.internments
 
-import android.content.Context
-import android.net.wifi.WifiManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -17,7 +16,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import com.mapx.kosten.mosimpa.R
 import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.DEFAULT_MAC_ADDRESS
 import com.mapx.kosten.mosimpa.domain.entites.*
@@ -96,7 +94,7 @@ class InternmentsFragment : Fragment() {
         }
 
         refreshBtn.setOnClickListener{
-            viewModel.refreshInternments()
+            viewModel.connectAndSubscribeToAll(macAddress)
         }
 
         recyclerView.layoutManager = LinearLayoutManager(activity)
@@ -149,11 +147,10 @@ class InternmentsFragment : Fragment() {
     }
 
     private fun showSnack() {
-        val snack = Snackbar.make(
-            rootLayout,
+        Toast.makeText(
+            this.context,
             resources.getString(R.string.connection_error_message),
-            Snackbar.LENGTH_LONG
-        )
-        snack.show()
+            Toast.LENGTH_SHORT
+        ).show()
     }
 }

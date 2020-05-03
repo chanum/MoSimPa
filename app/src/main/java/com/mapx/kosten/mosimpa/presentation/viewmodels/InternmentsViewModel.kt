@@ -1,7 +1,6 @@
 package com.mapx.kosten.mosimpa.presentation.viewmodels
 
 import androidx.lifecycle.*
-import com.mapx.kosten.mosimpa.R
 import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.MQTT_CONNECTION_OK
 import com.mapx.kosten.mosimpa.domain.entites.*
 import com.mapx.kosten.mosimpa.domain.interactors.internments.GetInternmentsUseCase
@@ -41,16 +40,12 @@ class InternmentsViewModel(
             val status = connectClientMqttUseCase.invoke(mac)
             if (status.equals(MQTT_CONNECTION_OK)) {
                 // publish in datakeeper/query cmd internments
-                refreshInternments()
+                updateInternmentsUseCase.invoke()
             } else {
                 // TODO error connection reconnect? or send a toast?
                 snackBar.value = ""
             }
         }
-    }
-
-    fun refreshInternments() {
-        updateInternmentsUseCase.invoke()
     }
 
     override fun onCleared() {
