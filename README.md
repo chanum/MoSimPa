@@ -16,5 +16,6 @@ MoSimPa Android App  was designed with clean architecture implemented the S.O.L.
 - Dagger
 - Corutines
 - MPAndroidChart
+- Paho MQTT Client
 
 
