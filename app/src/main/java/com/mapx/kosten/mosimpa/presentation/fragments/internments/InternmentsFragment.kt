@@ -21,6 +21,7 @@ import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.DEFAULT_MAC_ADD
 import com.mapx.kosten.mosimpa.domain.entites.*
 import com.mapx.kosten.mosimpa.presentation.common.App
 import com.mapx.kosten.mosimpa.presentation.common.Utils.Companion.INVALID_PATIENT_ID
+import com.mapx.kosten.mosimpa.presentation.common.Utils.Companion.getMacAddress
 import com.mapx.kosten.mosimpa.presentation.entities.InternmentView
 import com.mapx.kosten.mosimpa.presentation.viewmodels.InternmentsViewModel
 import com.mapx.kosten.mosimpa.presentation.viewmodels.InternmentsViewModelFactory
@@ -55,7 +56,7 @@ class InternmentsFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        macAddress =  "aabbccddeeff" // TODO: getMacAddress(context)
+        macAddress = getMacAddress(context)
 
         viewModel.snackBar.observe(viewLifecycleOwner, Observer {
             if (it != null) showSnack()
