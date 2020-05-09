@@ -6,6 +6,7 @@ import com.mapx.kosten.mosimpa.data.db.dao.*
 import com.mapx.kosten.mosimpa.data.entities.*
 
 @Database(entities = arrayOf(
+    ServerDB::class,
     InternmentDB::class,
     SensorO2DB::class,
     SensorHeartDB::class,
@@ -13,6 +14,7 @@ import com.mapx.kosten.mosimpa.data.entities.*
     SensorTempDB::class),
     version = 1)
 abstract class MosimpaDatabase: RoomDatabase() {
+    abstract fun serverDao(): ServersDao
     abstract fun internmentDao(): InternmentsDao
     abstract fun sensorO2Dao(): SensorO2Dao
     abstract fun sensorHeartDao(): SensorHeartDao

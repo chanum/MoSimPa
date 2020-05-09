@@ -8,7 +8,7 @@ import com.mapx.kosten.mosimpa.data.entities.InternmentDB
 @Dao
 interface InternmentsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(internmentDB: InternmentDB): Long
+    suspend fun insert(internment: InternmentDB): Long
 
     @Query("SELECT * FROM " + INTERNMENTS_TABLE)
     fun getAll(): LiveData<List<InternmentDB>>

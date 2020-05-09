@@ -18,16 +18,5 @@ class Constants {
         const val SENSOR_BLOOD_ID = 3
         const val SENSOR_TEMPERATURE_ID = 4
 
-        const val SENSOR_O2_Y_MAX = 100F
-        const val SENSOR_O2_Y_MIN = 0F
-
-        const val SENSOR_HEART_Y_MAX = 3000F
-        const val SENSOR_HEART_Y_MIN = 100F
-
-        const val SENSOR_BLOOD_Y_MAX = 100F
-        const val SENSOR_BLOOD_Y_MIN = 10F
-
-        const val SENSOR_TEMPERATURE_Y_MAX = 10000F
-        const val SENSOR_TEMPERATURE_Y_MIN = 0F
     }
 }
