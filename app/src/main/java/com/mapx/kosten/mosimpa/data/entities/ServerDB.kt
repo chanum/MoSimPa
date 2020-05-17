@@ -6,7 +6,7 @@ import com.mapx.kosten.mosimpa.data.db.Constants.Companion.SERVERS_TABLE
 
 @Entity(tableName = SERVERS_TABLE)
 data class ServerDB(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     var id: Long = -1,
     var name: String = "",
     var ip: String = "",
