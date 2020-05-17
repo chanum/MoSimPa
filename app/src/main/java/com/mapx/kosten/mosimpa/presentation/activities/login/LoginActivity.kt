@@ -6,8 +6,13 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.RecyclerView
 import com.mapx.kosten.mosimpa.R
+import com.mapx.kosten.mosimpa.presentation.activities.main.MainActivity
+import com.mapx.kosten.mosimpa.presentation.common.ActivityUtils
 import com.mapx.kosten.mosimpa.presentation.common.App
+import com.mapx.kosten.mosimpa.presentation.viewmodels.LoginViewModel
+import com.mapx.kosten.mosimpa.presentation.viewmodels.LoginViewModelFactory
 import javax.inject.Inject
 
 class LoginActivity : AppCompatActivity() {
@@ -19,6 +24,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var serverNameTxt: EditText
     private lateinit var serverIpTxt: EditText
     private lateinit var optionsTxt: TextView
+    private lateinit var serversList: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +37,20 @@ class LoginActivity : AppCompatActivity() {
         serverIpTxt = findViewById(R.id.et_login_ip)
         loginBtn = findViewById(R.id.button_login)
         optionsTxt = findViewById(R.id.tv_login_options)
+        serversList = findViewById(R.id.rv_login_servers)
 
+        serverIpTxt.setText(viewModel.getBrokerIp())
+
+        loginBtn.setOnClickListener{
+            viewModel.setBrokerIp(serverIpTxt.text.toString())
+            goToMain()
+        }
+    }
+
+    private fun goToMain() {
+        val intent = MainActivity.getStartIntent(this)
+        ActivityUtils.startActivityWithCrossFade(this, intent)
+        finish()
     }
 
     override fun onDestroy() {
