@@ -2,6 +2,8 @@ package com.mapx.kosten.mosimpa.presentation.activities.login
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -10,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mapx.kosten.mosimpa.R
+import com.mapx.kosten.mosimpa.domain.entites.ServerEntity
 import com.mapx.kosten.mosimpa.presentation.activities.main.MainActivity
 import com.mapx.kosten.mosimpa.presentation.common.ActivityUtils
 import com.mapx.kosten.mosimpa.presentation.common.App
@@ -46,9 +49,10 @@ class LoginActivity : AppCompatActivity() {
             if (saveServer()) { goToMain() }
         }
 
-        adapter = ServersAdapter{ node, view ->
-            //goToDetailView(node, view)
-        }
+        adapter = ServersAdapter(
+            { node, view -> selectServerItem(node, view) },
+            { node, view -> deleteServerItem(node, view) }
+        )
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
 
@@ -59,9 +63,14 @@ class LoginActivity : AppCompatActivity() {
         initCurrentServer()
     }
 
-    override fun onResume() {
-        super.onResume()
-        viewModel
+    private fun selectServerItem(server: ServerEntity, view: View) {
+        Log.i(javaClass.simpleName, "selectServerItem(): $server")
+
+    }
+
+    private fun deleteServerItem(server: ServerEntity, view: View) {
+        Log.i(javaClass.simpleName, "deleteServerItem(): $server")
+
     }
 
     private fun initCurrentServer() {
