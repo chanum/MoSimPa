@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mapx.kosten.mosimpa.R
 import com.mapx.kosten.mosimpa.presentation.activities.main.MainActivity
@@ -24,7 +26,8 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var serverNameTxt: EditText
     private lateinit var serverIpTxt: EditText
     private lateinit var optionsTxt: TextView
-    private lateinit var serversList: RecyclerView
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: ServersAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,13 +40,28 @@ class LoginActivity : AppCompatActivity() {
         serverIpTxt = findViewById(R.id.et_login_ip)
         loginBtn = findViewById(R.id.button_login)
         optionsTxt = findViewById(R.id.tv_login_options)
-        serversList = findViewById(R.id.rv_login_servers)
+        recyclerView = findViewById(R.id.rv_login_servers)
 
         loginBtn.setOnClickListener{
             if (saveServer()) { goToMain() }
         }
 
+        adapter = ServersAdapter{ node, view ->
+            //goToDetailView(node, view)
+        }
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = adapter
+
+        viewModel.servers.observe(this, Observer {
+            if (it != null) { adapter.setServers(it) }
+        })
+
         initCurrentServer()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel
     }
 
     private fun initCurrentServer() {
