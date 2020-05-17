@@ -40,8 +40,7 @@ class LoginActivity : AppCompatActivity() {
         serversList = findViewById(R.id.rv_login_servers)
 
         loginBtn.setOnClickListener{
-           //  viewModel.setBrokerIp(serverIpTxt.text.toString())
-            goToMain()
+            if (saveServer()) { goToMain() }
         }
 
         initCurrentServer()
@@ -51,6 +50,14 @@ class LoginActivity : AppCompatActivity() {
         val currentServer = viewModel.getCurrentServer()
         serverNameTxt.setText(currentServer.name)
         serverIpTxt.setText(currentServer.ip)
+    }
+
+    private fun saveServer(): Boolean {
+        // TODO check entries
+        val name = serverNameTxt.text.toString().trim()
+        val ip = serverIpTxt.text.toString().trim()
+        viewModel.saveServer(name, ip)
+        return true
     }
 
     private fun goToMain() {

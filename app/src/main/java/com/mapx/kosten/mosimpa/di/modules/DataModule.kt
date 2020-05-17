@@ -5,9 +5,11 @@ import androidx.room.Room
 import com.mapx.kosten.mosimpa.data.db.MosimpaDatabase
 import com.mapx.kosten.mosimpa.data.repositories.InternmentsRepositoryImpl
 import com.mapx.kosten.mosimpa.data.repositories.SensorsRepositoryImpl
+import com.mapx.kosten.mosimpa.data.repositories.ServersRepositoryImpl
 import com.mapx.kosten.mosimpa.data.repositories.SettingsRepositoryImpl
 import com.mapx.kosten.mosimpa.domain.data.InternmentsRepository
 import com.mapx.kosten.mosimpa.domain.data.SensorsRepository
+import com.mapx.kosten.mosimpa.domain.data.ServersRepository
 import com.mapx.kosten.mosimpa.domain.data.SettingsRepository
 import dagger.Module
 import dagger.Provides
@@ -48,5 +50,13 @@ class DataModule {
         database: MosimpaDatabase
     ): InternmentsRepository {
         return InternmentsRepositoryImpl(database)
+    }
+
+    @Singleton
+    @Provides
+    fun provideServersRepository(
+        database: MosimpaDatabase
+    ): ServersRepository {
+        return ServersRepositoryImpl(database)
     }
 }

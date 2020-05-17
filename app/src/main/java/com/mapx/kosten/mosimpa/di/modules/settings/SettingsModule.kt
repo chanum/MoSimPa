@@ -1,8 +1,8 @@
 package com.mapx.kosten.mosimpa.di.modules.settings
 
 import com.mapx.kosten.mosimpa.domain.data.SettingsRepository
-import com.mapx.kosten.mosimpa.domain.interactors.settings.GetBrokerConfigUseCase
-import com.mapx.kosten.mosimpa.domain.interactors.settings.SetBrokerConfigUseCase
+import com.mapx.kosten.mosimpa.domain.interactors.server.GetBrokerConfigUseCase
+import com.mapx.kosten.mosimpa.domain.interactors.server.SetBrokerConfigUseCase
 import com.mapx.kosten.mosimpa.presentation.viewmodels.SettingsViewModelFactory
 import dagger.Module
 import dagger.Provides

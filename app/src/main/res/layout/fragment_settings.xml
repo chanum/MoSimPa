@@ -37,7 +37,7 @@
     <Button
         android:id="@+id/btn_settings_server_logout"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_centerHorizontal="true"
         android:drawableLeft="@drawable/ic_logout"
         android:drawablePadding="5dp"

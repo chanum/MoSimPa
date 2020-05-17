@@ -10,5 +10,5 @@ data class ServerDB(
     var id: Long = -1,
     var name: String = "",
     var ip: String = "",
-    var port: String = ""
+    var port: Int = -1
 )

@@ -1,4 +1,4 @@
-package com.mapx.kosten.mosimpa.domain.interactors.settings
+package com.mapx.kosten.mosimpa.domain.interactors.server
 
 import com.mapx.kosten.mosimpa.domain.data.SettingsRepository
 import com.mapx.kosten.mosimpa.domain.entites.ServerEntity
