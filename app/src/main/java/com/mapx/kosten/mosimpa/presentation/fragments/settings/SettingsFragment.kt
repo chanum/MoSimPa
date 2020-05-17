@@ -9,8 +9,9 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import com.mapx.kosten.mosimpa.R
-import com.mapx.kosten.mosimpa.domain.entites.ServerEntity
+import com.mapx.kosten.mosimpa.presentation.activities.main.MainActivity
 import com.mapx.kosten.mosimpa.presentation.common.App
 import com.mapx.kosten.mosimpa.presentation.viewmodels.SettingsViewModel
 import com.mapx.kosten.mosimpa.presentation.viewmodels.SettingsViewModelFactory
@@ -24,7 +25,7 @@ class SettingsFragment : Fragment() {
     private lateinit var rootLayout: ConstraintLayout
     private lateinit var brokerNameTxt: TextView
     private lateinit var brokerIpTxt: TextView
-    private lateinit var saveIpButton: Button
+    private lateinit var logoutButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,11 +54,13 @@ class SettingsFragment : Fragment() {
         rootLayout = view.findViewById(R.id.frameLayoutSettings)
         brokerNameTxt = view.findViewById(R.id.tv_server_item_name)
         brokerIpTxt = view.findViewById(R.id.tv_server_item_ip)
-        saveIpButton = view.findViewById(R.id.btn_settings_server_logout)
+        logoutButton = view.findViewById(R.id.btn_settings_server_logout)
 
-        val currentServer = viewModel.getCurrentServerInfo()
-        brokerNameTxt.setText(currentServer.name)
-        brokerIpTxt.setText(currentServer.ip)
+        logoutButton.setOnClickListener {
+            gotToLoginActivity(view)
+        }
+
+        initCurrentServer()
 
 //        saveIpButton.setOnClickListener{
 //            viewModel.saveServer(
@@ -74,6 +77,17 @@ class SettingsFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         (activity?.application as App).releaseSettingsComponent()
+    }
+
+    private fun initCurrentServer() {
+        val currentServer = viewModel.getCurrentServerInfo()
+        brokerNameTxt.setText(currentServer.name)
+        brokerIpTxt.setText(currentServer.ip)
+    }
+
+    private fun gotToLoginActivity(view: View) {
+        view.findNavController().navigate(R.id.loginActivity)
+        (activity as MainActivity).finish()
     }
 
     private fun showSnack() {

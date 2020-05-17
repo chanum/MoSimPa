@@ -39,12 +39,18 @@ class LoginActivity : AppCompatActivity() {
         optionsTxt = findViewById(R.id.tv_login_options)
         serversList = findViewById(R.id.rv_login_servers)
 
-        serverIpTxt.setText(viewModel.getBrokerIp())
-
         loginBtn.setOnClickListener{
-            viewModel.setBrokerIp(serverIpTxt.text.toString())
+           //  viewModel.setBrokerIp(serverIpTxt.text.toString())
             goToMain()
         }
+
+        initCurrentServer()
+    }
+
+    private fun initCurrentServer() {
+        val currentServer = viewModel.getCurrentServer()
+        serverNameTxt.setText(currentServer.name)
+        serverIpTxt.setText(currentServer.ip)
     }
 
     private fun goToMain() {
