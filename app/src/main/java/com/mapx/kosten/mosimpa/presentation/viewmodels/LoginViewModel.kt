@@ -25,7 +25,7 @@ class LoginViewModel(
         setBrokerConfigUseCase.invoke(server)
     }
 
-    fun saveServer(name: String, ip: String) {
+    fun saveServer(name: String, ip: String): Boolean {
         val server = ServerEntity(0, name, ip)
         // TODO: save in DB, replace if exists?
         viewModelScope.launch {
@@ -33,6 +33,8 @@ class LoginViewModel(
             // TODO: if save ok in DB then save in preferences
             setBrokerConfigUseCase.invoke(server)
         }
+        // TODO
+        return true
     }
 
     fun deleteServer(server: ServerEntity) {

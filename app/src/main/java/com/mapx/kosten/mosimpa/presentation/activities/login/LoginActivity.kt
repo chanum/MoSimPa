@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -93,10 +94,33 @@ class LoginActivity : AppCompatActivity() {
     private fun saveServer(): Boolean {
         // TODO check entries
         val name = serverNameTxt.text.toString().trim()
+        if (name.isEmpty()) {
+            showToast(MESSAGE_EMPTY_NAME)
+            return false
+        }
         val ip = serverIpTxt.text.toString().trim()
-        viewModel.saveServer(name, ip)
+        if (ip.isEmpty()) {
+            showToast(MESSAGE_EMPTY_IP)
+            return false
+        }
+
+        if (!viewModel.saveServer(name, ip)) {
+            showToast(MESSAGE_NAME_EXITS)
+            return false
+        }
         return true
     }
+
+    private fun showToast(messageId: Int) {
+        val msg = when(messageId) {
+            MESSAGE_EMPTY_NAME -> resources.getString(R.string.login_message_empty_name)
+            MESSAGE_EMPTY_IP -> resources.getString(R.string.login_message_empty_ip)
+            MESSAGE_NAME_EXITS -> resources.getString(R.string.login_message_name_exits)
+            else -> ""
+        }
+        Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
+    }
+
 
     private fun goToMain() {
         val intent = MainActivity.getStartIntent(this)
@@ -107,5 +131,11 @@ class LoginActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         (application as App).releaseLoginComponent()
+    }
+
+    companion object {
+        private const val MESSAGE_EMPTY_NAME = 1
+        private const val MESSAGE_EMPTY_IP = 2
+        private const val MESSAGE_NAME_EXITS = 3
     }
 }

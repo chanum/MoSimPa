@@ -96,7 +96,7 @@ class SettingsFragment : Fragment() {
         Toast.makeText(
             this.context,
             resources.getString(R.string.settings_ip_saved),
-            Toast.LENGTH_SHORT
+            Toast.LENGTH_LONG
         ).show()
     }
 

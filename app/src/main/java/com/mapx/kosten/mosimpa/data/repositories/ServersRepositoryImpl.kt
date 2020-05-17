@@ -24,6 +24,10 @@ class ServersRepositoryImpl(
     }
 
     override suspend fun saveServer(server: ServerEntity): Long {
+        val srv = dao.getServerByName(server.name)
+        if (srv != null) {
+            dao.deleteById(srv.id)
+        }
         return dao.insert(mapperEntityToData.mapFrom(server))
     }
 

@@ -18,4 +18,7 @@ interface ServersDao {
 
     @Query("DELETE FROM " + SERVERS_TABLE + " WHERE name=:name")
     suspend fun deleteByName(name: String)
+
+    @Query("SELECT * FROM " + SERVERS_TABLE + " WHERE name=:name LIMIT 1")
+    suspend fun getServerByName(name: String): ServerDB?
 }
