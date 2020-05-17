@@ -1,4 +1,4 @@
-package com.mapx.kosten.mosimpa.presentation
+package com.mapx.kosten.mosimpa.presentation.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

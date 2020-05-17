@@ -8,12 +8,15 @@ import com.mapx.kosten.mosimpa.di.modules.DataModule
 import com.mapx.kosten.mosimpa.di.modules.NetworkModule
 import com.mapx.kosten.mosimpa.di.modules.internments.InternmentsModule
 import com.mapx.kosten.mosimpa.di.modules.internments.InternmentsSubComponent
+import com.mapx.kosten.mosimpa.di.modules.login.LoginModule
+import com.mapx.kosten.mosimpa.di.modules.login.LoginSubComponent
 import com.mapx.kosten.mosimpa.di.modules.settings.SettingsModule
 import com.mapx.kosten.mosimpa.di.modules.settings.SettingsSubComponent
 
 class App: Application() {
 
     lateinit var mainComponent: MainComponent
+    private var loginSubComponent: LoginSubComponent? = null
     private var internmentsSubComponent: InternmentsSubComponent? = null
     private var settingsSubComponent: SettingsSubComponent? = null
 
@@ -28,6 +31,16 @@ class App: Application() {
             .networkModule(NetworkModule())
             .dataModule(DataModule())
             .build()
+    }
+
+    // Login
+    fun createLoginComponent(): LoginSubComponent {
+        loginSubComponent = mainComponent.plus(LoginModule())
+        return loginSubComponent!!
+    }
+
+    fun releaseLoginComponent() {
+        loginSubComponent = null
     }
 
     // Internments
