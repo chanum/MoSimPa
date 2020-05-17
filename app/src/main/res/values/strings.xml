@@ -51,10 +51,14 @@
     <string name="connection_error_message">Error Conexión</string>
 
     <!-- Settings -->
-    <string name="settings_title_broker_ip">Broker IP</string>
-    <string name="settings_hint_broker_ip">192.168.0.83</string>
+    <string name="settings_title_server_name">Nombre Servidor</string>
+    <string name="settings_hint_server_name">Guardia Hospital</string>
+    <string name="settings_title_server_ip">Servidor IP</string>
+    <string name="settings_hint_server_ip">192.168.0.83</string>
     <string name="settings_ip_saved">Broker ip guardada</string>
     <string name="settings_ip_save_btn">Guardar</string>
+    <string name="settings_server_logout">Cambiar</string>
+    <string name="settings_server_title">Servidor Actual</string>
 
     <!-- Sensor Item -->
     <string name="sensor_item_title">Pulsaciones</string>
@@ -62,6 +66,10 @@
 
     <!-- Sensors Fragment -->
     <string name="sensors_progress">No hay sensores disponibles</string>
+
+    <!-- Server Item -->
+    <string name="server_item_name">Nombre: %1$s</string>
+    <string name="server_item_ip">IP: %1$s</string>
 
     <!-- Info Fragment -->
     <string name="info_app_version">"App Version: %1$s"</string>

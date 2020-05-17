@@ -17,6 +17,14 @@ open class BasePreferencesImpl constructor(
         }
     }
 
+    protected fun putLong(key: String, value: Long) {
+        preferences.edit().putLong(key, value).apply()
+    }
+
+    protected fun getLong(key: String): Long? {
+        return preferences.getLong(key, -1)
+    }
+
     protected fun putString(key: String, value: String?) {
         preferences.edit().putString(key, value).apply()
     }

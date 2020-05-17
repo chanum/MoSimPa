@@ -1,6 +1,7 @@
 package com.mapx.kosten.mosimpa.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
+import com.mapx.kosten.mosimpa.domain.entites.ServerEntity
 import com.mapx.kosten.mosimpa.domain.interactors.settings.GetBrokerConfigUseCase
 import com.mapx.kosten.mosimpa.domain.interactors.settings.SetBrokerConfigUseCase
 import com.mapx.kosten.mosimpa.presentation.common.SingleLiveEvent
@@ -12,11 +13,11 @@ class SettingsViewModel (
 
     var errorState: SingleLiveEvent<Throwable?> = SingleLiveEvent()
 
-    fun getBrokerIp(): String {
+    fun getCurrentServerInfo(): ServerEntity {
         return getBrokerConfigUseCase.invoke()
     }
 
-    fun setBrokerIp(ip: String) {
-        setBrokerConfigUseCase.invoke(ip)
+    fun saveServer(server: ServerEntity) {
+        setBrokerConfigUseCase.invoke(server)
     }
 }

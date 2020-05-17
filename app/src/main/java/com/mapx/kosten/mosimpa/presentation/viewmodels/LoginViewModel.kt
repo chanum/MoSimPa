@@ -10,10 +10,10 @@ class LoginViewModel(
 ): ViewModel() {
 
     fun getBrokerIp(): String {
-        return getBrokerConfigUseCase.invoke()
+        return getBrokerConfigUseCase.invoke().ip
     }
 
     fun setBrokerIp(ip: String) {
-        setBrokerConfigUseCase.invoke(ip)
+        // setBrokerConfigUseCase.invoke(ip)
     }
 }
