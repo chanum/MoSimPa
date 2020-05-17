@@ -15,6 +15,7 @@ import com.mapx.kosten.mosimpa.presentation.activities.main.MainActivity
 import com.mapx.kosten.mosimpa.presentation.common.App
 import com.mapx.kosten.mosimpa.presentation.viewmodels.SettingsViewModel
 import com.mapx.kosten.mosimpa.presentation.viewmodels.SettingsViewModelFactory
+import kotlinx.android.synthetic.main.layout_server_item.*
 import javax.inject.Inject
 
 class SettingsFragment : Fragment() {
@@ -83,6 +84,7 @@ class SettingsFragment : Fragment() {
         val currentServer = viewModel.getCurrentServerInfo()
         brokerNameTxt.setText(currentServer.name)
         brokerIpTxt.setText(currentServer.ip)
+        iv_server_item_delete.visibility = View.GONE
     }
 
     private fun gotToLoginActivity(view: View) {

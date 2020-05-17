@@ -57,7 +57,13 @@ class LoginActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
 
         viewModel.servers.observe(this, Observer {
-            if (it != null) { adapter.setServers(it) }
+            optionsTxt.visibility = View.GONE
+            if (it != null) {
+                if (it.isNotEmpty()) {
+                    optionsTxt.visibility = View.VISIBLE
+                }
+                adapter.setServers(it)
+            }
         })
 
         initCurrentServer()
@@ -65,18 +71,23 @@ class LoginActivity : AppCompatActivity() {
 
     private fun selectServerItem(server: ServerEntity, view: View) {
         Log.i(javaClass.simpleName, "selectServerItem(): $server")
-
+        setViewValues(server.name, server.ip)
+        viewModel.saveCurrentServer(server)
     }
 
     private fun deleteServerItem(server: ServerEntity, view: View) {
         Log.i(javaClass.simpleName, "deleteServerItem(): $server")
-
+        viewModel.deleteServer(server)
     }
 
     private fun initCurrentServer() {
         val currentServer = viewModel.getCurrentServer()
-        serverNameTxt.setText(currentServer.name)
-        serverIpTxt.setText(currentServer.ip)
+        setViewValues(currentServer.name, currentServer.ip)
+    }
+
+    private fun setViewValues(name: String, ip: String) {
+        serverNameTxt.setText(name)
+        serverIpTxt.setText(ip)
     }
 
     private fun saveServer(): Boolean {

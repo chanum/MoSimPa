@@ -7,4 +7,5 @@ import com.mapx.kosten.mosimpa.domain.entites.ServerEntity
 interface ServersRepository {
     fun getAll(): LiveData<List<ServerEntity>>
     suspend fun saveServer(server: ServerEntity): Long
+    suspend fun deleteServer(server: ServerEntity)
 }

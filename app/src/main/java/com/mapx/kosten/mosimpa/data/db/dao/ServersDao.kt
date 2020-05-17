@@ -12,4 +12,10 @@ interface ServersDao {
 
     @Query("SELECT * FROM " + SERVERS_TABLE)
     fun getAll(): LiveData<List<ServerDB>>
+
+    @Query("DELETE FROM " + SERVERS_TABLE + " WHERE id=:id")
+    suspend fun deleteById(id: Long)
+
+    @Query("DELETE FROM " + SERVERS_TABLE + " WHERE name=:name")
+    suspend fun deleteByName(name: String)
 }

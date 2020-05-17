@@ -27,4 +27,8 @@ class ServersRepositoryImpl(
         return dao.insert(mapperEntityToData.mapFrom(server))
     }
 
+    override suspend fun deleteServer(server: ServerEntity) {
+        return dao.deleteById(mapperEntityToData.mapFrom(server).id)
+    }
+
 }

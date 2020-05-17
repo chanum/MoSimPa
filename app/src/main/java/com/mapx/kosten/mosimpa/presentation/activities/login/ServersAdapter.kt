@@ -45,7 +45,7 @@ class ServersAdapter constructor(
             tv_server_item_name.text = server.name
             tv_server_item_ip.text = server.ip
 
-            tv_server_item_name.setOnClickListener { selectedItem(server, itemView) }
+            setOnClickListener { selectedItem(server, itemView) }
             iv_server_item_delete.setOnClickListener { deletedItem(server, itemView) }
         }
     }
