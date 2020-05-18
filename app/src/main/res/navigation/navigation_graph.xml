@@ -45,26 +45,21 @@
         android:label="@string/nav_label_settings"
         tools:layout="@layout/fragment_settings" >
         <action
-            android:id="@+id/action_settings_dest_to_settingsPatientFragment"
-            app:destination="@id/settingsPatient_dest"
+            android:id="@+id/action_settings_dest_to_loginActivity"
+            app:destination="@id/loginActivity"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
-        android:id="@+id/settingsPatient_dest"
-        android:name="com.mapx.kosten.mosimpa.presentation.fragments.settingsPatient.SettingsPatientFragment"
-        android:label="@string/nav_label_settings_patient"
-        tools:layout="@layout/fragment_settings_patient" >
-        <argument
-            android:name="patientId"
-            app:argType="long"
-            android:defaultValue="-1L" />
-    </fragment>
-    <fragment
         android:id="@+id/info_dest"
         android:name="com.mapx.kosten.mosimpa.presentation.fragments.info.InfoFragment"
         android:label="@string/nav_label_info"
         tools:layout="@layout/fragment_info" />
+    <activity
+        android:id="@+id/loginActivity"
+        android:name="com.mapx.kosten.mosimpa.presentation.activities.login.LoginActivity"
+        android:label="activity_login"
+        tools:layout="@layout/activity_login" />
 </navigation>

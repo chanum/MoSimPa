@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">MoSimPa</string>
+    <string name="content_description_icon">mosimpa icono</string>
 
     <!-- Bottom navigation -->
     <string name="bottom_menu_main">Pacientes</string>
@@ -13,6 +14,15 @@
     <string name="nav_label_settings_patient">Editar</string>
     <string name="nav_label_sensors">Monitor</string>
     <string name="nav_label_info">Información</string>
+
+    <!-- Login Activity -->
+    <string name="login_button">Entrar</string>
+    <string name="login_option_list">Otras opciones</string>
+    <string name="login_hint_name">Nombre</string>
+    <string name="login_hint_ip">Dirección IP</string>
+    <string name="login_message_empty_name">Nombre Inválido</string>
+    <string name="login_message_empty_ip">IP Inválida</string>
+    <string name="login_message_name_exits">Server ya existe</string>
 
     <!-- Internment Adapter -->
     <string name="internment_item_patient_name">%1$s %2$s</string>
@@ -44,10 +54,14 @@
     <string name="connection_error_message">Error Conexión</string>
 
     <!-- Settings -->
-    <string name="settings_title_broker_ip">Broker IP</string>
-    <string name="settings_hint_broker_ip">192.168.0.83</string>
+    <string name="settings_title_server_name">Nombre Servidor</string>
+    <string name="settings_hint_server_name">Guardia Hospital</string>
+    <string name="settings_title_server_ip">Servidor IP</string>
+    <string name="settings_hint_server_ip">192.168.0.83</string>
     <string name="settings_ip_saved">Broker ip guardada</string>
     <string name="settings_ip_save_btn">Guardar</string>
+    <string name="settings_server_logout">Cambiar</string>
+    <string name="settings_server_title">Servidor Actual</string>
 
     <!-- Sensor Item -->
     <string name="sensor_item_title">Pulsaciones</string>
@@ -55,6 +69,10 @@
 
     <!-- Sensors Fragment -->
     <string name="sensors_progress">No hay sensores disponibles</string>
+
+    <!-- Server Item -->
+    <string name="server_item_name">Nombre: %1$s</string>
+    <string name="server_item_ip">IP: %1$s</string>
 
     <!-- Info Fragment -->
     <string name="info_app_version">"App Version: %1$s"</string>

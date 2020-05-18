@@ -8,7 +8,7 @@ import com.mapx.kosten.mosimpa.data.db.MosimpaDatabase
 import com.mapx.kosten.mosimpa.data.db.dao.*
 import com.mapx.kosten.mosimpa.data.entities.*
 import com.mapx.kosten.mosimpa.data.mappers.*
-import com.mapx.kosten.mosimpa.data.preferences.BrokerIpPreferenceImpl
+import com.mapx.kosten.mosimpa.data.preferences.BrokerPreferenceImpl
 import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.DEFAULT_MAC_ADDRESS
 import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.MQTT_CONNECTION_OK
 import com.mapx.kosten.mosimpa.domain.common.Constants.Companion.SENSOR_BLOOD_ID
@@ -190,6 +190,7 @@ class SensorsRepositoryImpl(
                 )
                 val internment = InternmentDB(
                     id = it.internment_id,
+                    server_id = BrokerPreferenceImpl(context).getBrokerId(),
                     device = it.device,
                     patient = it.patient,
                     location = it.location,
@@ -200,7 +201,6 @@ class SensorsRepositoryImpl(
             }
         }
     }
-
 
     private fun saveIntermentToDb(internment: InternmentDB) {
         CoroutineScope(Dispatchers.IO).launch {
@@ -351,7 +351,7 @@ class SensorsRepositoryImpl(
     /* ---------------------------------------------------------------------------------------*/
     // TODO settingsRepository?
     private fun getBrokerIp(): String {
-        return BrokerIpPreferenceImpl(context).getBrokerIP()
+        return BrokerPreferenceImpl(context).getBrokerIP()
     }
 
     /* ---------------------------------------------------------------------------------------*/

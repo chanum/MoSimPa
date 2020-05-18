@@ -6,53 +6,58 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/tv_settings_server_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/settings_server_title"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout"
+    <include
+        android:id="@+id/currentServerLayout"
+        layout="@layout/layout_server_item"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/btn_settings_server_save"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/btn_settings_server_logout"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_settings_server_ip"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/settings_title_broker_ip"
-            android:inputType="text"
-            android:maxLength="15" />
-    </com.google.android.material.textfield.TextInputLayout>
+        app:layout_constraintTop_toBottomOf="@+id/tv_settings_server_title" />
 
     <Button
-        android:id="@+id/btn_settings_server_save"
+        android:id="@+id/btn_settings_server_logout"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_height="0dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:text="@string/settings_ip_save_btn"
-        app:layout_constraintBottom_toBottomOf="@+id/textInputLayout"
+        android:drawableLeft="@drawable/ic_logout"
+        android:drawablePadding="5dp"
+        android:text="@string/settings_server_logout"
+        app:layout_constraintBottom_toBottomOf="@+id/currentServerLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/textInputLayout"
-        app:layout_constraintTop_toTopOf="@+id/textInputLayout" />
-
+        app:layout_constraintStart_toEndOf="@+id/currentServerLayout"
+        app:layout_constraintTop_toTopOf="@+id/currentServerLayout" />
 
     <View
         android:id="@+id/view"
         android:layout_width="0dp"
         android:layout_height="4dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
         android:background="#c0c0c0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
-
+        app:layout_constraintTop_toBottomOf="@+id/currentServerLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

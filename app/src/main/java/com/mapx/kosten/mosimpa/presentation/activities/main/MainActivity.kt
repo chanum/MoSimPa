@@ -1,5 +1,7 @@
-package com.mapx.kosten.mosimpa.presentation
+package com.mapx.kosten.mosimpa.presentation.activities.main
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -51,6 +53,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSupportNavigateUp(): Boolean {
         return findNavController(R.id.nav_host_main).navigateUp()
+    }
+
+    companion object {
+        fun getStartIntent(context: Context): Intent {
+            return Intent(context, MainActivity::class.java)
+        }
     }
 
 }
