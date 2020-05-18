@@ -190,6 +190,7 @@ class SensorsRepositoryImpl(
                 )
                 val internment = InternmentDB(
                     id = it.internment_id,
+                    server_id = BrokerPreferenceImpl(context).getBrokerId(),
                     device = it.device,
                     patient = it.patient,
                     location = it.location,
@@ -200,7 +201,6 @@ class SensorsRepositoryImpl(
             }
         }
     }
-
 
     private fun saveIntermentToDb(internment: InternmentDB) {
         CoroutineScope(Dispatchers.IO).launch {
