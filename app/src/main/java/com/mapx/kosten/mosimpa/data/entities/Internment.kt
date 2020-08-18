@@ -6,7 +6,7 @@ import com.mapx.kosten.mosimpa.domain.entites.PatientEntity
 
 data class Internment(
     var internment_id: Long = -1,
-    var alarms: AlarmsEntity,
+    var alarms: AlarmsEntity?,
     var device: String = "",
     var location: LocationEntity,
     var patient: PatientEntity

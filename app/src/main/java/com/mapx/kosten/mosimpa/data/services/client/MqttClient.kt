@@ -57,7 +57,7 @@ class MqttClient(
                 }
 
                 override fun deliveryComplete(token: IMqttDeliveryToken) {
-
+                    Log.d(TAG, "deliveryComplete.")
                 }
             })
 
