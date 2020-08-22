@@ -1,8 +1,6 @@
 package com.mapx.kosten.mosimpa.data.repositories
 
 import android.content.Context
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
 import com.mapx.kosten.mosimpa.data.services.client.MqttClient
 import com.mapx.kosten.mosimpa.data.db.MosimpaDatabase
 import com.mapx.kosten.mosimpa.data.db.dao.*
@@ -21,6 +19,8 @@ import com.mapx.kosten.mosimpa.domain.data.SensorsRepository
 import com.mapx.kosten.mosimpa.domain.entites.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.eclipse.paho.client.mqttv3.MqttMessage
@@ -68,26 +68,26 @@ class SensorsRepositoryImpl(
     }
 
     /* ---------------------------------------------------------------------------------------*/
-    override fun getO2Data(): LiveData<SensorO2Entity> {
-        return Transformations.map(sensorO2Dao.getData()) {
+    override fun getO2Data(): Flow<SensorO2Entity?> {
+        return sensorO2Dao.getData().map {
             it?.let { mapperO2DBtoEntity.mapFrom(it) }
         }
     }
 
-    override fun getBloodData(): LiveData<SensorBloodEntity> {
-        return Transformations.map(sensorBloodDao.getData()) {
+    override fun getBloodData(): Flow<SensorBloodEntity?> {
+        return sensorBloodDao.getData().map {
             it?.let { mapperBloodDBtoEntity.mapFrom(it) }
         }
     }
 
-    override fun getHeartData(): LiveData<SensorHeartEntity> {
-        return Transformations.map(sensorHeartDao.getData()) {
+    override fun getHeartData(): Flow<SensorHeartEntity?> {
+        return sensorHeartDao.getData().map {
             it?.let { mapperHeartDBtoEntity.mapFrom(it) }
         }
     }
 
-    override fun getTempData(): LiveData<SensorTempEntity> {
-        return Transformations.map(sensorTempDao.getData()) {
+    override fun getTempData(): Flow<SensorTempEntity?> {
+        return sensorTempDao.getData().map {
             it?.let { mapperTempDBtoEntity.mapFrom(it) }
         }
     }

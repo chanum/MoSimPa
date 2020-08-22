@@ -2,6 +2,7 @@ package com.mapx.kosten.mosimpa.presentation.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.mapx.kosten.mosimpa.domain.entites.ServerEntity
 import com.mapx.kosten.mosimpa.domain.interactors.server.*
@@ -15,7 +16,7 @@ class LoginViewModel(
     private val setBrokerConfigUseCase: SetBrokerConfigUseCase
 ): ViewModel() {
 
-    var servers: LiveData<List<ServerEntity>> = getServersUseCase.invoke()
+    var servers: LiveData<List<ServerEntity>> = getServersUseCase.invoke().asLiveData()
 
     fun getCurrentServer(): ServerEntity {
         return getBrokerConfigUseCase.invoke()

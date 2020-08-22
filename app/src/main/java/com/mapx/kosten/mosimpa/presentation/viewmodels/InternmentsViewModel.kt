@@ -24,13 +24,13 @@ class InternmentsViewModel(
 
     private val mapperEntityToView = InternmentEntityToViewMapper()
     var internments: LiveData<List<InternmentView>> =
-        Transformations.map( getInternmentsUseCase.invoke()) {
+        Transformations.map( getInternmentsUseCase.invoke().asLiveData()) {
             list -> list.map { mapperEntityToView.mapFrom(it) }
         }
-    var sensorO2Value: LiveData<SensorO2Entity> = getO2DataUseCase.invoke()
-    var sensorBloodValue: LiveData<SensorBloodEntity> = getBloodDataUseCase.invoke()
-    var sensorHeartValue: LiveData<SensorHeartEntity> = getHeartDataUseCase.invoke()
-    var sensorTempValue: LiveData<SensorTempEntity> = getTempDataUseCase.invoke()
+    var sensorO2Value: LiveData<SensorO2Entity?> = getO2DataUseCase.invoke().asLiveData()
+    var sensorBloodValue: LiveData<SensorBloodEntity?> = getBloodDataUseCase.invoke().asLiveData()
+    var sensorHeartValue: LiveData<SensorHeartEntity?> = getHeartDataUseCase.invoke().asLiveData()
+    var sensorTempValue: LiveData<SensorTempEntity?> = getTempDataUseCase.invoke().asLiveData()
 
     val snackBar = MutableLiveData<String?>()
 

@@ -1,9 +1,9 @@
 package com.mapx.kosten.mosimpa.domain.data
 
-import androidx.lifecycle.LiveData
 import com.mapx.kosten.mosimpa.domain.entites.InternmentEntity
+import kotlinx.coroutines.flow.Flow
 
 interface InternmentsRepository {
-    fun getAll(): LiveData<List<InternmentEntity>>
+    fun getAll(): Flow<List<InternmentEntity>>
     suspend fun getDeviceIdById(id: Long): String
 }

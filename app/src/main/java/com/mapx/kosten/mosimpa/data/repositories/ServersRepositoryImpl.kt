@@ -1,13 +1,13 @@
 package com.mapx.kosten.mosimpa.data.repositories
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
 import com.mapx.kosten.mosimpa.data.db.MosimpaDatabase
 import com.mapx.kosten.mosimpa.data.db.dao.ServersDao
 import com.mapx.kosten.mosimpa.data.mappers.ServerDataToEntityMapper
 import com.mapx.kosten.mosimpa.data.mappers.ServerEntityToDataMapper
 import com.mapx.kosten.mosimpa.domain.data.ServersRepository
 import com.mapx.kosten.mosimpa.domain.entites.ServerEntity
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class ServersRepositoryImpl(
     database: MosimpaDatabase
@@ -17,8 +17,8 @@ class ServersRepositoryImpl(
     private val mapperEntityToData = ServerEntityToDataMapper()
     private val mapperDataToEntity = ServerDataToEntityMapper()
 
-    override fun getAll(): LiveData<List<ServerEntity>> {
-        return Transformations.map(dao.getAll()) {
+    override fun getAll(): Flow<List<ServerEntity>> {
+        return dao.getAll().map {
             it.map { mapperDataToEntity.mapFrom(it) }
         }
     }
