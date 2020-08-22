@@ -2,6 +2,8 @@
 
 Monitoreo Simplificado de Pacientes en situación de internación masiva - MoSimPa (https://mosimpa.gitlab.io/)
 
+App permite conectarse Broker MQTT y recibir los signos vitales de pacientes internados.
+
 [Infobae Articulo](https://www.infobae.com/coronavirus/2020/05/14/el-ingenioso-desarrollo-argentino-para-evitar-que-medicos-y-enfermeros-se-contagien-de-coronavirus-y-supervisen-pacientes-a-distancia/)
 
 # Architecture
