@@ -1,9 +1,9 @@
 package com.mapx.kosten.mosimpa.domain.interactors.sensor
 
-import com.mapx.kosten.mosimpa.domain.data.SensorsRepository
+import com.mapx.kosten.mosimpa.domain.data.InternmentsRepository
 
 class ConnectClientMqttUseCase(
-    private val sensorsRepository: SensorsRepository
+    private val internmentsRepository: InternmentsRepository
 ) {
-    suspend fun invoke(mac: String) = sensorsRepository.connectMqtt(mac)
+    suspend fun invoke(mac: String) = internmentsRepository.connectMqtt(mac)
 }

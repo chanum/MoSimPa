@@ -1,10 +1,10 @@
 package com.mapx.kosten.mosimpa.domain.interactors.sensor
 
-import com.mapx.kosten.mosimpa.domain.data.SensorsRepository
+import com.mapx.kosten.mosimpa.domain.data.InternmentsRepository
 import com.mapx.kosten.mosimpa.domain.entites.InternmentEntity
 
 class UnSubscribeIdUseCase(
-    private val sensorsRepository: SensorsRepository
+    private val internmentsRepository: InternmentsRepository
 ) {
-    suspend fun invoke(internment: InternmentEntity) = sensorsRepository.unSubscribeId(internment)
+    suspend fun invoke(internment: InternmentEntity) = internmentsRepository.unSubscribeId(internment)
 }

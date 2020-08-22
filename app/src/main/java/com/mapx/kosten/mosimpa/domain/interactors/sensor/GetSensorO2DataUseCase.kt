@@ -1,9 +1,9 @@
 package com.mapx.kosten.mosimpa.domain.interactors.sensor
 
-import com.mapx.kosten.mosimpa.domain.data.SensorsRepository
+import com.mapx.kosten.mosimpa.domain.data.InternmentsRepository
 
 class GetSensorO2DataUseCase (
-    private val sensorsRepository: SensorsRepository
+    private val internmentsRepository: InternmentsRepository
 ) {
-    fun invoke() = sensorsRepository.getO2Data()
+    fun invoke() = internmentsRepository.getO2Data()
 }

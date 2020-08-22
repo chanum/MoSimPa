@@ -5,5 +5,5 @@ import com.mapx.kosten.mosimpa.domain.data.InternmentsRepository
 class GetInternmentsUseCase (
     private val internmentsRepository: InternmentsRepository
 ) {
-    fun invoke() = internmentsRepository.getAll()
+    fun invoke() = internmentsRepository.getInternments()
 }

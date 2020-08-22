@@ -1,9 +1,9 @@
 package com.mapx.kosten.mosimpa.domain.interactors.device
 
-import com.mapx.kosten.mosimpa.domain.data.SensorsRepository
+import com.mapx.kosten.mosimpa.domain.data.InternmentsRepository
 
 class GetActivePatientsUseCase (
-    private val sensorsRepository: SensorsRepository
+    private val internmentsRepository: InternmentsRepository
 ) {
     // suspend fun invoke() = sensorsRepository.getActivePatients()
 }

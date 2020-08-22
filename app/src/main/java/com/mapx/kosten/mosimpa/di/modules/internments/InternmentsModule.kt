@@ -1,7 +1,6 @@
 package com.mapx.kosten.mosimpa.di.modules.internments
 
 import com.mapx.kosten.mosimpa.domain.data.InternmentsRepository
-import com.mapx.kosten.mosimpa.domain.data.SensorsRepository
 import com.mapx.kosten.mosimpa.domain.interactors.internments.GetInternmentsUseCase
 import com.mapx.kosten.mosimpa.domain.interactors.sensor.*
 import com.mapx.kosten.mosimpa.presentation.viewmodels.InternmentsViewModelFactory
@@ -12,9 +11,9 @@ import dagger.Provides
 class InternmentsModule {
 
     @Provides
-    fun provideConnectClientMqttUseCase(sensorsRepository: SensorsRepository): ConnectClientMqttUseCase {
+    fun provideConnectClientMqttUseCase(internmentsRepository: InternmentsRepository): ConnectClientMqttUseCase {
         return ConnectClientMqttUseCase(
-            sensorsRepository
+            internmentsRepository
         )
     }
 
@@ -26,44 +25,44 @@ class InternmentsModule {
     }
 
     @Provides
-    fun provideUpdateInternmentsUseCase(sensorsRepository: SensorsRepository): UpdateInternmentsUseCase {
+    fun provideUpdateInternmentsUseCase(internmentsRepository: InternmentsRepository): UpdateInternmentsUseCase {
         return UpdateInternmentsUseCase(
-            sensorsRepository
+            internmentsRepository
         )
     }
 
     @Provides
-    fun provideSubscribeIdUseCase(sensorsRepository: SensorsRepository): SubscribeIdUseCase {
+    fun provideSubscribeIdUseCase(internmentsRepository: InternmentsRepository): SubscribeIdUseCase {
         return SubscribeIdUseCase(
-            sensorsRepository
+            internmentsRepository
         )
     }
 
     @Provides
-    fun provideGetSensorO2DataUseCase(sensorsRepository: SensorsRepository): GetSensorO2DataUseCase {
+    fun provideGetSensorO2DataUseCase(internmentsRepository: InternmentsRepository): GetSensorO2DataUseCase {
         return GetSensorO2DataUseCase(
-            sensorsRepository
+            internmentsRepository
         )
     }
 
     @Provides
-    fun provideGetSensorBloodDataUseCase(sensorsRepository: SensorsRepository): GetSensorBloodDataUseCase {
+    fun provideGetSensorBloodDataUseCase(internmentsRepository: InternmentsRepository): GetSensorBloodDataUseCase {
         return GetSensorBloodDataUseCase(
-            sensorsRepository
+            internmentsRepository
         )
     }
 
     @Provides
-    fun provideGetSensorHeartDataUseCase(sensorsRepository: SensorsRepository): GetSensorHeartDataUseCase {
+    fun provideGetSensorHeartDataUseCase(internmentsRepository: InternmentsRepository): GetSensorHeartDataUseCase {
         return GetSensorHeartDataUseCase(
-            sensorsRepository
+            internmentsRepository
         )
     }
 
     @Provides
-    fun provideGetSensorTempDataUseCase(sensorsRepository: SensorsRepository): GetSensorTempDataUseCase {
+    fun provideGetSensorTempDataUseCase(internmentsRepository: InternmentsRepository): GetSensorTempDataUseCase {
         return GetSensorTempDataUseCase(
-            sensorsRepository
+            internmentsRepository
         )
     }
 
