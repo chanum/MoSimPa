@@ -10,7 +10,7 @@ Esta aplicación permite conectarse a un Broker MQTT y recibir los signos vitale
 
 # Architecture
 
-MoSimPa Android App  was designed with clean architecture implemented the S.O.L.I.D. principles.
+MoSimPa Android App  was designed with clean architecture and MVVM implemented the S.O.L.I.D. principles.
 
 ## Layers
 - Data
