@@ -20,19 +20,23 @@ class InternmentsViewModel(
     private val getTempDataUseCase: GetSensorTempDataUseCase
 ): ViewModel() {
 
-    private var currentInternment = InternmentEntity()
-
     private val mapperEntityToView = InternmentEntityToViewMapper()
-    var internments: LiveData<List<InternmentView>> =
-        Transformations.map( getInternmentsUseCase.invoke().asLiveData()) {
-            list -> list.map { mapperEntityToView.mapFrom(it) }
-        }
-    var sensorO2Value: LiveData<SensorO2Entity?> = getO2DataUseCase.invoke().asLiveData()
-    var sensorBloodValue: LiveData<SensorBloodEntity?> = getBloodDataUseCase.invoke().asLiveData()
-    var sensorHeartValue: LiveData<SensorHeartEntity?> = getHeartDataUseCase.invoke().asLiveData()
-    var sensorTempValue: LiveData<SensorTempEntity?> = getTempDataUseCase.invoke().asLiveData()
-
+    var internments: LiveData<List<InternmentView>>
+    var sensorO2Value: LiveData<SensorO2Entity?>
+    var sensorBloodValue: LiveData<SensorBloodEntity?>
+    var sensorHeartValue: LiveData<SensorHeartEntity?>
+    var sensorTempValue: LiveData<SensorTempEntity?>
     val snackBar = MutableLiveData<String?>()
+
+    init {
+        internments = Transformations.map(getInternmentsUseCase.invoke().asLiveData()) {
+                    list -> list.map { mapperEntityToView.mapFrom(it) }
+            }
+        sensorO2Value = getO2DataUseCase.invoke().asLiveData()
+        sensorBloodValue = getBloodDataUseCase.invoke().asLiveData()
+        sensorHeartValue = getHeartDataUseCase.invoke().asLiveData()
+        sensorTempValue = getTempDataUseCase.invoke().asLiveData()
+    }
 
     fun connectAndSubscribeToAll(mac: String) {
         viewModelScope.launch {
@@ -50,8 +54,7 @@ class InternmentsViewModel(
 
     override fun onCleared() {
         super.onCleared()
-        currentInternment = InternmentEntity()
-        subscribeIdUseCase.invoke(currentInternment)
+        subscribeIdUseCase.invoke(InternmentEntity())
     }
 
 }
