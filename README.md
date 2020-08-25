@@ -24,7 +24,7 @@ MoSimPa Android App  was designed with clean architecture and MVVM implemented t
 - Navigation Component
 - Room
 - Dagger2
-- Corutines
+- Coroutines
 - Lifecycle
 - GSON
 - Paho MQTT Client
